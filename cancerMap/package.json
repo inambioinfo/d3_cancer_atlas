@@ -1,0 +1,16 @@
+{
+  "name" : "cancerMap",
+  "version" : "0.0.1",
+  "description": "Interactive Uncertainty Map",
+  "author" : "Phil Gough, <phillip.gough@qut.edu.au>",
+  "contributors" : [],
+  "license": "MIT",
+  "repository": {
+    "type": "git"
+  },
+  "dependencies": {
+    "d3": "~4.0",
+    "ractive": "~0.7.3"
+  }
+}
+
