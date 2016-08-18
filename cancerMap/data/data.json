@@ -1,0 +1,23 @@
+// list of areas to tbe included in the visualisation
+selectedFeatures = 
+[
+	"Paroo (S)",
+	"Bulloo (S)",
+	"Quilpie (S)",
+	"Murweh (S)",
+	"Tambo (S)",
+	"Blackall (S)",
+	"Isisford (S)",
+	"Barcoo (S)",
+	"Diamantina (S)",
+	"Boulia (S)",
+	"Winton (S)",
+	"Cloncurry (S)",
+	"McKinlay (S)",
+	"Richmond (S)",
+	"Flinders (S)",
+	"Aramac (S)",
+	"Barcaldine (S)",
+	"Ilfracombe (S)",
+	"Longreach (S)"
+]

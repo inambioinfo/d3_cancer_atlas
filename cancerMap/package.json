@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "d3": "~4.0",
-    "ractive": "~0.7.3"
+    "ractive": "~0.7.3",
+    "topojson": "~1.6"
   }
 }
 
