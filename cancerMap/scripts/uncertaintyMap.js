@@ -62,7 +62,7 @@ var uncertaintyLimits = {
 
 var regionColours = d3.scaleOrdinal()
     .domain([1, 4])
-    .range(["mediumseagreen","steelblue", "darkorange", "brown"]);
+    .range(["steelblue", "mediumseagreen", "darkorange", "brown"]);
     // .range(["green", "blue", "orange", "red"])
     // .round(true);
 
@@ -76,14 +76,17 @@ var regionColours = d3.scaleOrdinal()
 
 
 
-// load some data
+//****************************************//
+//	Load and parse the uncertainty data   //
+//****************************************//
+
 d3.json("data/qld_slas.json", function(error, regions) 
 {
 	if (error) return (console.log(error));
 	
-	var r = regions;
+	// var r = regions;
 	// add a new set of objects to draw on the map
-	r.objects.selected_slas = {"type": "GeometryCollection", "geometries":[]};
+	regions.objects.selected_slas = {"type": "GeometryCollection", "geometries":[]};
 
 	// s = regions;
 	// for each feature that we selected to show...
@@ -91,19 +94,19 @@ d3.json("data/qld_slas.json", function(error, regions)
 	{
 		// console.log("checking for " + selectedFeatures[i])
 		// check the list of features...
-		for (var j = 0; j < r.objects.qld_slas.geometries.length; j++)
+		for (var j = 0; j < regions.objects.qld_slas.geometries.length; j++)
 		{
 			// and if we have the right one...
-			if (selectedFeatures[i] === r.objects.qld_slas.geometries[j].id)
+			if (selectedFeatures[i] === regions.objects.qld_slas.geometries[j].id)
 			{
 				// console.log("found matching area!");
 				// push it onto the list of regions we want to show
-				r.objects.selected_slas.geometries = r.objects.qld_slas.geometries[j];
-				r.objects.selected_slas.geometries.id = i;
+				regions.objects.selected_slas.geometries = regions.objects.qld_slas.geometries[j];
+				regions.objects.selected_slas.geometries.id = i;
 
 				// draw this region to the page.
 				mapCanvas.insert("path", "mapRegion")
-					.datum(topojson.feature(r, r.objects.selected_slas.geometries))
+					.datum(topojson.feature(regions, regions.objects.selected_slas.geometries))
 					.attr("class", "mapRegion")
 					.attr("d", path);
 			}
