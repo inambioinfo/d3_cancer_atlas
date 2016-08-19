@@ -58,21 +58,9 @@ var uncertaintyLimits = {
 	"upper" : 400
 };
 
-
-
 var regionColours = d3.scaleOrdinal()
     .domain([1, 4])
     .range(["steelblue", "mediumseagreen", "darkorange", "brown"]);
-    // .range(["green", "blue", "orange", "red"])
-    // .round(true);
-
-// var regionGroup = d3.scaleBand()
-// 	.domain([45,400])
-// 	.range([1, 4])
-// 	.range(true)
-// 	.round(true);
-
-
 
 
 
@@ -84,7 +72,6 @@ d3.json("data/qld_slas.json", function(error, regions)
 {
 	if (error) return (console.log(error));
 	
-	// var r = regions;
 	// add a new set of objects to draw on the map
 	regions.objects.selected_slas = {"type": "GeometryCollection", "geometries":[]};
 
@@ -114,35 +101,25 @@ d3.json("data/qld_slas.json", function(error, regions)
 	}
 	d3.select(".vis").style("border", "1px #222 solid");
 	d3.selectAll(".mapRegion")
-		// .on("mouseover", function(d){
-		// 	d3.select(this).style("z-index", 9001);
-		// 	console.log("Hovering over " + selectedFeatures[d.id] + ": " + d.id);
-		// })
-		// Move the path we are hovering over to the front.
+		// Move the region we are hovering over to the front
 		.on("mouseover", function(d) {
 			svg.selectAll("path").sort(function (a, b) { // select the parent and sort the path's
 				if (a.id != d.id) return -1;               // a is not the hovered element, send "a" to the back
 				else return 1;                             // a is the hovered element, bring "a" to the front
 			});
 		})
-		// .on("mouseleave", function(d) {
-		// 	d3.select(this).style("z-index", 0);
-		// 	console.log("exit");
-		// })
+		// click to show a box with info
 		.on("click", function(d) {
-			boxUpdate(d.id);
+			updateFeedback(d.id);
 		});
+
+		// change the colours of the regions
 		d3.selectAll("path")
 		.style("fill", function(d) {
-			// console.log(d);
 			region = getName(d.id);
-			// console.log(parsed_data[region]);
 			uncertainty = getUncertainty(parsed_data[region].high_uncertainty, parsed_data[region].low_uncertainty);
-			// console.log(uncertainty.urgency)
 			return regionColours(uncertainty.urgency);
 		})
-
-
 });
 
 
@@ -151,10 +128,23 @@ d3.json("data/qld_slas.json", function(error, regions)
 //	Custom functions   //
 //*********************//
 
+
+
+//
+//	Get various values:
+//		getName
+//		getUncertainty
+//		getUrgency
+//
+
+
+
+// get the name of a region based on its index, stored in the id of the path data
 var getName = function(index) {
 	return selectedFeatures[index];
 }
 
+// calculate the uncertainty values of a region
 var getUncertainty = function(upper, lower) {
 	var mean = (upper + lower)/2;
 	var confidence = upper - lower;
@@ -166,6 +156,7 @@ var getUncertainty = function(upper, lower) {
 		}
 }
 
+// calculate the urgency value we are using to colour the region
 var getUrgency = function(confidence, mean) {
 	// how urgent is the action?
 	var urgency;
@@ -193,10 +184,18 @@ var getUrgency = function(confidence, mean) {
 			urgency = 4
 		}	
 	}
-	// console.log(urgency);
 	return urgency;
 }
 
-var boxUpdate = function(index) {
+
+
+//
+//	Update displays etc:
+//		updateFeedback
+//
+
+
+// update the feedback on a region when clicked
+var updateFeedback = function(index) {
 	console.log("clicked " + selectedFeatures[index]);
 }
