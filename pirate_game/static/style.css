@@ -1,0 +1,132 @@
+* {
+	padding: 0px;
+	margin: 0px;
+}
+
+
+body {
+	max-width: 1250px;
+	margin: 0 auto;
+	font-size: 16pt;
+	background-color: black;
+}
+
+
+
+/*
+
+	resource allocation page styling
+
+*/
+
+
+#resource-container {
+    display: flex;
+    justify-content: space-around;
+    align-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+	background: #ddd;
+	padding: 1vh 1vw;
+	align-items: center;
+}
+
+
+
+article.flag {
+	/*background-color: red;*/
+	width: 20%;
+	margin: 1vh 0vw;
+	height: 20vh;
+	padding: 1vh 1vw;
+
+}
+
+article.ship {
+	background-color: purple;
+	width: 20%;
+	margin-top: 1vh;
+	height: 20vh;
+	padding: 1vh 1vw;
+
+}
+
+article.allocation {
+	background-color: lightblue;
+	width: 25%;
+	margin-top: 1vh;
+	height: 20vh;
+	padding: 1vh 1vw;
+}
+
+article.risk-box {
+	background-color: yellow;
+	width: 20%;
+	margin-top: 1vh;
+	height: 20vh;
+	padding: 1vh 1vw;
+}
+
+section.value {
+	float: left;
+	width: 85%;
+	background-color: lightgreen;
+}
+
+section.add {
+	float: right;
+	width: 10%;
+	background-color: white;
+	text-align: center;
+}
+section.reduce {
+	float: right;
+	width: 10%;
+	background-color: pink;
+	text-align: center;
+}
+
+article.row-1 {
+	order: 1;
+}
+
+article.row-2 {
+	order: 2;
+}
+
+article.row-3 {
+	order: 3;
+}
+
+article.row-4 {
+	order:4;
+}
+
+
+
+/* Flag backgrounds in column 1 */
+article.British {
+	background-image: url(images/flags/british.png);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+}
+
+article.Dutch {
+	background-image: url(images/flags/dutch.png);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+}
+article.French {
+	background-image: url(images/flags/french.png);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+}
+article.Spanish {
+	background-image: url(images/flags/spanish.png);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+}

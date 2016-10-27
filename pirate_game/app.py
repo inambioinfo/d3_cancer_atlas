@@ -107,10 +107,10 @@ def risk():
 		ships.append(ship)
 
 		# print these to the console
-		print " "
-		print "Ship " + str(j+1)
-		for key in ship:
-			print key +': '+ str(ship[key])
+		# print " "
+		# print "Ship " + str(j+1)
+		# for key in ship:
+		# 	print key +': '+ str(ship[key])
 
 
 	return render_template('risk.html', ships = ships, gameMode = game_mode)

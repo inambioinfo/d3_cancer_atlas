@@ -1,38 +1,88 @@
 <!doctype html>
 <html>
-   <body>
-   
-      
-         <h1>Ships</h1>
-         <h2>Game Mode: {{gameMode}}</h2>
-         {% for ship in ships %}
+   <head>
+      <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.8/d3.min.js"></script>
+</head>
+<body>
+   <header id="resource-container">
+      {% for ship in ships %}
+      <article class="flag row-{{ ship.number + 1 }} {{ ship.nationality }}"></article>
+      <article class="ship row-{{ ship.number + 1 }} {{ ship.type }}"></article>
+      {% endfor %}
+      <article class="allocation row-1">
+         <section class="allocation-box value">
+            <span class="allocation-feedback " id="allocation-row-1">0</span> Doubloons
+         </section>
+         <section class="allocation-box add" id="add-1">
+            +
+         </section>
+         <section class="allocation-box reduce" id="reduce-1">-
+         </section>
+      </article>
+      <article class="allocation row-2">
+         <section class="allocation-box value">
+            <span class="allocation-feedback" id="allocation-row-2">0</span> Doubloons
+         </section>
+         <section class="allocation-box add" id="add-2">
+            +
+         </section>
+         <section class="allocation-box reduce" id="reduce-2">-
+         </section>
+      </article>
+      <article class="allocation row-3">
+         <section class="allocation-box value">
+            <span class="allocation-feedback " id="allocation-row-3">0</span> Doubloons
+         </section>
+         <section class="allocation-box add" id="add-3">
+            +
+         </section>
+         <section class="allocation-box reduce" id="reduce-3">-
+         </section>
+      </article>
+
+      <article class="allocation row-4">
+         <section class="allocation-info">
+            <p>
+               You have <span id="allocation-info-span">0</span> Doubloons remaining.
+            </p>
+         </section>
+      </article>
+
+      {% for ship in ships %}
+         <article class="risk-box row-{{ ship.number + 1 }}">
             <h2>Ship {{ ship.number + 1 }}</h2>
 
             {% if gameMode == 0.0 %}
-               <p> We will attack a {{ ship.nationality }} {{ ship.type }}. </p>
                <p>
-                  Your chance of success is between {{ ship.min }} and {{ ship.max }}.
+                  <b>Risk</b>: {{ ship.min * 100 }}% and {{ ship.max * 100}}%.
                </p>
                <p>
-                  If you beat it, you earn {{ ship.reward }} doubloons.
+                  <b>Reward</b>: {{ ship.reward }} doubloons.
                </p>
                 {% elif gameMode == 1.0 %}
                <p>
-                  Your chance of success is {{ ship.median }}, give or take {{ ship.plus_minus }}.
+                  <b>Risk</b>: {{ ship.median * 100}}%, give or take {{ ship.plus_minus * 100 }}.
                </p>
                <p>
-                  If you win, you earn {{ship.reaward}} doubloons.
+                  <b>Reward</b>: {{ship.reaward}} doubloons.
                </p>
                {% else %}
                   <p>
-                     Your chance of victory is from {{ship.lower_semantic_risk}} to {{ship.upper_semantic_risk}}.
+                     <b>Risk</b>: from {{ship.lower_semantic_risk}} to {{ship.upper_semantic_risk}}.
                   </p>
                   <p>
-                     Winning will earn ye {{ship.reward}} doubloons.
+                     <b>Reward</b>: {{ship.reward}} doubloons.
                   </p>
             {% endif %}
-            <p> then </p>
-         {% endfor %}
-         <p>... if yer luck is good, we will have a fine booty to, erm, share.</p>
-   </body>
+         </article>
+      {% endfor %}
+   
+
+   </header>
+   <footer class="allocation-footer">
+      
+   </footer>
+   <script type="text/javascript" src="{{ url_for('static', filename='js/resource-allocation.js') }}"></script>
+</body>
 </html>
