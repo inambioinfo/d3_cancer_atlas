@@ -10,8 +10,12 @@
   },
   "dependencies": {
     "d3": "~4.0",
-    "ractive": "~0.7.3",
-    "topojson": "~1.6"
+    // "ractive": "~0.7.3",
+    // "topojson": "~1.6",
+    // "leaflet": "~1.0.1",
+    "express": "~4.14",
+    "ejs": "~2.5.2"
+
   }
 }
 

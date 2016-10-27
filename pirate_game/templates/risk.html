@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+   <body>
+   
+      
+         <h1>Ships</h1>
+         <h2>Game Mode: {{gameMode}}</h2>
+         {% for ship in ships %}
+            <h2>Ship {{ ship.number + 1 }}</h2>
+
+            {% if gameMode == 0.0 %}
+               <p> We will attack a {{ ship.nationality }} {{ ship.type }}. </p>
+               <p>
+                  Your chance of success is between {{ ship.min }} and {{ ship.max }}.
+               </p>
+               <p>
+                  If you beat it, you earn {{ ship.reward }} doubloons.
+               </p>
+                {% elif gameMode == 1.0 %}
+               <p>
+                  Your chance of success is {{ ship.median }}, give or take {{ ship.plus_minus }}.
+               </p>
+               <p>
+                  If you win, you earn {{ship.reaward}} doubloons.
+               </p>
+               {% else %}
+                  <p>
+                     Your chance of victory is from {{ship.lower_semantic_risk}} to {{ship.upper_semantic_risk}}.
+                  </p>
+                  <p>
+                     Winning will earn ye {{ship.reward}} doubloons.
+                  </p>
+            {% endif %}
+            <p> then </p>
+         {% endfor %}
+         <p>... if yer luck is good, we will have a fine booty to, erm, share.</p>
+   </body>
+</html>
