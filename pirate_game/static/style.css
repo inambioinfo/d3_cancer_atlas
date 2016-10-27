@@ -9,6 +9,12 @@ body {
 	margin: 0 auto;
 	font-size: 16pt;
 	background-color: black;
+	font-family: 'Roboto', sans-serif;
+
+}
+
+h1 {
+	font-family: 'Pirata One', cursive;
 }
 
 
@@ -43,7 +49,7 @@ article.flag {
 }
 
 article.ship {
-	background-color: purple;
+	/*background-color: purple;*/
 	width: 20%;
 	margin-top: 1vh;
 	height: 20vh;
@@ -130,3 +136,47 @@ article.Spanish {
 	background-position: center;
 	background-size: contain;
 }
+
+article.flag h2 {
+    text-align: center;
+    font-size: 2vh;
+    padding-top: 20vh;
+}
+
+
+/* Ship column */
+
+article.Sloop {
+	background-image: url(images/ships/sloop.svg);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+}
+
+article.Schooner {
+	background-image: url(images/ships/schooner.svg);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+}
+
+article.Cutter {
+	background-image: url(images/ships/cutter.svg);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+}
+
+article.Frigate {
+	background-image: url(images/ships/frigate.svg);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+}
+
+article.ship h2 {
+	text-align: center;
+    padding-top: 15vh;
+    font-size: 3vh;
+}
+
