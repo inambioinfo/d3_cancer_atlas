@@ -3,12 +3,20 @@
 	margin: 0px;
 }
 
+html {
+	background-image: url(images/background/diagonal_waves.png);
+}
+
 
 body {
 	max-width: 1250px;
 	margin: 0 auto;
 	font-size: 16pt;
-	background-color: black;
+	background-color: white;
+	border: #00447e 3px solid;
+	border-top: none;
+	border-bottom: none;
+	height: 100vh;
 	font-family: 'Roboto', sans-serif;
 
 }
@@ -16,6 +24,39 @@ body {
 h1 {
 	font-family: 'Pirata One', cursive;
 }
+
+
+a {
+	text-decoration: none;
+	color: #4D90D7;
+
+}
+
+
+a:hover {
+	text-decoration: 
+}
+
+
+
+/*
+
+	index page styling
+
+*/
+
+
+
+
+
+/*
+
+	map page styling
+
+*/
+
+
+
 
 
 
@@ -32,7 +73,7 @@ h1 {
     align-content: space-between;
     flex-direction: row;
     flex-wrap: wrap;
-	background: #ddd;
+	background: white;
 	padding: 1vh 1vw;
 	align-items: center;
 }

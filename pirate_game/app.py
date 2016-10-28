@@ -1,12 +1,26 @@
-from flask import Flask, render_template
+#  import for flask
+from flask import Flask, render_template, request, session, redirect, url_for
 app = Flask(__name__)
 
-@app.route('/risk')
-def risk():
-	import random as r
-	from math import floor
+
+#  import for generating session key
+from os import urandom
+app.secret_key = urandom(24)
+
+#  import for ship-building funcitons
+import random as r
+from math import floor
+
+# 
+# 
+# 	Function to build the ships to play the game.  The ships are generated on the index page, so the player must not skip this step!
+# 
+# 
+
+def build_ships():
+	
 	ships = []
-	game_mode = floor(r.random() * 2.9999999999)
+
 
 	for j in range(3):
 
@@ -21,6 +35,9 @@ def risk():
 			rands.append(round(r.random(),2))
 
 		# push the middle value to the 'target' variable of the ship
+
+		# Make it the same as the minimum value, just incase it's the same as either the max or min value
+		ship['target'] = min(rands)
 		for k in range(3):
 			if rands[k] != min(rands) and rands[k] != max(rands):
 				ship['target'] = rands[k]
@@ -113,7 +130,127 @@ def risk():
 		# 	print key +': '+ str(ship[key])
 
 
-	return render_template('risk.html', ships = ships, gameMode = game_mode)
+	return ships
+
+# 
+# 	Function to determine the game mode presented to the player
+# 
+def game_mode():
+	game_mode = floor(r.random() * 3)
+	if game_mode > 2:
+		game_mode = 2
+	return game_mode
+
+# 
+# 	Function to determine the player's dice rolls
+# 
+def player_rolls(num_rolls):
+	rolls = []
+	for i in range(num_rolls):
+		rolls.append(r.random())
+	return rolls
+
+
+# 
+# 	Function to determine if the player wins
+# 
+def calculate_victories(rolls):
+	# for i, roll in enumerate(rolls):
+		# if roll > session['ships'][i]['target']:
+			# session['ships'][i]['victory'] = True
+		# else:
+			# session['ships'][i]['victory'] = False
+	for i, ship in enumerate(session['ships']):
+		# print ship['target']
+		if rolls[i] >= ship['target']:
+			ship['victory'] = 1
+			session['ships_data']['total_reward'] += ship['reward']
+		else:
+			ship['victory'] = 0	
+
+
+def ships_data():
+	ships_data = {}
+	ships_data['resources_allocated'] = 0
+	ships_data['total_reward'] = 0
+	return ships_data
+
+# 
+# 
+# 	Functions to return pages
+# 
+# 
+
+
+
+# 
+# 	index/landing page
+# 
+@app.route('/')
+def index():
+	session['ships'] = build_ships()
+	session['game_mode'] = game_mode()
+	session['ships_data'] = ships_data()
+	return render_template('index.html', ships = session['ships'], gameMode = session['game_mode'])
+
+# 
+# 	Map page
+# 
+@app.route('/map')
+def map():
+	if session.has_key('ships'):
+		return render_template('map.html', ships = session['ships'], gameMode = session['game_mode'], ships_data = session['ships_data'])
+	else :
+		return redirect(url_for('index'))
+
+# 
+# 	Resource allocation page
+# 
+@app.route('/risk')
+def risk():
+	if session.has_key('ships'):
+		return render_template('risk.html', ships = session['ships'], gameMode = session['game_mode'])
+	else :
+		return redirect(url_for('index'))
+
+# 
+# 	Map battle page
+# 
+@app.route('/map-battle', methods=['GET'])
+def map_battle():
+	if session.has_key('ships'):
+		# for ship in session['ships']:
+			# ship['resources_allocated'] = 1
+			# player_rolls = player_rolls()
+		session['ships_data']['resources_allocated'] = 1
+		# investments = request.args.to_dict()
+		calculate_victories(player_rolls(3))
+
+		# print investments
+		return render_template('map.html', ships = session['ships'], ships_data = session['ships_data'])
+	else :
+		return redirect(url_for('index'))
+
+
+
+
+# 
+# 	result page
+# 
+@app.route('/result', methods=['GET'])
+def result():
+	if session.has_key('ships'):
+		reward = request.args.get('r')
+		return reward
+		# return render_template("game-over.html" reward=reward)
+	else:
+		return redirect(url_for('index'))
+
+@app.route('/try_again')
+def try_again():
+	return redirect(url_for('index'))
+
+
 
 if __name__ == '__main__':
    app.run(debug = True)

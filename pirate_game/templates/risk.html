@@ -1,12 +1,15 @@
 <!doctype html>
 <html>
-   <head>
-      <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-      <link href="https://fonts.googleapis.com/css?family=Pirata+One|Roboto" rel="stylesheet">
+<head>
+   <meta charset="utf-8">
+   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+   <link href="https://fonts.googleapis.com/css?family=Pirata+One|Roboto" rel="stylesheet">
    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.8/d3.min.js"></script>
+   <title>Cancer Council Queensland - Manage your risk</title>
 </head>
 <body>
-   <header id="resource-container">
+   <header></header>
+   <article id="resource-container">
       {% for ship in ships %}
       <article class="flag row-{{ ship.number + 1 }} {{ ship.nationality }}">
          <h2>{{ ship.nationality }}</h2>
@@ -60,7 +63,7 @@
 
             {% if gameMode == 0.0 %}
                <p>
-                  <b>Risk</b>: {{ ship.min * 100 }}% and {{ ship.max * 100}}%.
+                  <b>Risk</b>: Between {{ ship.min * 100 }}% and {{ ship.max * 100}}%.
                </p>
                <p>
                   <b>Reward</b>: {{ ship.reward }} doubloons.
@@ -84,9 +87,8 @@
       {% endfor %}
    
 
-   </header>
+   </article>
    <footer class="allocation-footer">
-      
    </footer>
    <script type="text/javascript" src="{{ url_for('static', filename='js/resource-allocation.js') }}"></script>
 </body>
