@@ -3,13 +3,60 @@
 	margin: 0px;
 }
 
+html {
+	background-image: url(images/background/diagonal_waves.png);
+}
+
 
 body {
 	max-width: 1250px;
 	margin: 0 auto;
 	font-size: 16pt;
-	background-color: black;
+	background-color: white;
+	border: #00447e 3px solid;
+	border-top: none;
+	border-bottom: none;
+	height: 100vh;
+	font-family: 'Roboto', sans-serif;
+
 }
+
+h1 {
+	font-family: 'Pirata One', cursive;
+}
+
+
+a {
+	text-decoration: none;
+	color: #4D90D7;
+
+}
+
+
+a:hover {
+	text-decoration: 
+}
+
+
+
+/*
+
+	index page styling
+
+*/
+
+
+
+
+
+/*
+
+	map page styling
+
+*/
+
+
+
 
 
 
@@ -26,7 +73,7 @@ body {
     align-content: space-between;
     flex-direction: row;
     flex-wrap: wrap;
-	background: #ddd;
+	background: white;
 	padding: 1vh 1vw;
 	align-items: center;
 }
@@ -43,7 +90,7 @@ article.flag {
 }
 
 article.ship {
-	background-color: purple;
+	/*background-color: purple;*/
 	width: 20%;
 	margin-top: 1vh;
 	height: 20vh;
@@ -130,3 +177,47 @@ article.Spanish {
 	background-position: center;
 	background-size: contain;
 }
+
+article.flag h2 {
+    text-align: center;
+    font-size: 2vh;
+    padding-top: 20vh;
+}
+
+
+/* Ship column */
+
+article.Sloop {
+	background-image: url(images/ships/sloop.svg);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+}
+
+article.Schooner {
+	background-image: url(images/ships/schooner.svg);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+}
+
+article.Cutter {
+	background-image: url(images/ships/cutter.svg);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+}
+
+article.Frigate {
+	background-image: url(images/ships/frigate.svg);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+}
+
+article.ship h2 {
+	text-align: center;
+    padding-top: 15vh;
+    font-size: 3vh;
+}
+

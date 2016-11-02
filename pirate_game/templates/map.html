@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Cancer Council Queensland - Maps</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+	<link href="https://fonts.googleapis.com/css?family=Pirata+One|Roboto" rel="stylesheet">
+</head>
+<body>
+	<header></header>
+	<article>
+		<h2>Here's the map</h2>
+
+		{% if ships_data.resources_allocated < 1	 %}
+			{% for ship in ships %}
+				<aside class="map-ship">
+					<ul>
+					{% if gameMode == 0.0 %}
+						<li>
+							Ship {{ ship.number + 1}}
+						</li>
+						<li>
+							<b>Risk</b>: Between {{ ship.min * 100 }}% and {{ ship.max * 100}}%.
+						</li>
+						<li>
+							<b>Reward</b>: {{ ship.reward }} doubloons.
+						</li>
+					{% elif gameMode == 1.0 %}
+						<li>
+							<b>Risk</b>: {{ ship.median * 100}}%, give or take {{ ship.plus_minus * 100 }}.
+						</li>
+						<li>
+							<b>Reward</b>: {{ship.reward}} doubloons.
+						</li>
+					{% else %}
+						<li>
+						 	<b>Risk</b>: from {{ship.lower_semantic_risk}} to {{ship.upper_semantic_risk}}.
+						</li>
+						<li>
+							<b>Reward</b>: {{ship.reward}} doubloons.
+						</li>
+					{% endif %}
+					</ul>
+				</aside>
+			{% endfor %}
+				<footer><a href="/risk">Let's see how risky it is!</a></footer>
+		{% else %}
+			{% for ship in ships %}
+				<aside class="map-ship">
+					<h3>
+						Ship {{ ship.number + 1}}
+					</h3>	
+					<p>
+						{% if ship.victory > 0 %}
+						We intercepted the {{ ship.nationality }} {{ ship.type }} and retrieved {{ ship.reward }}
+						{% else %}
+						You let the {{ ship.nationality }} {{ ship.type }} get away!
+						{% endif %}
+					</p>
+				</aside>
+			{% endfor %}
+			<article>
+				{% if ships_data.total_reward > 30 %}
+					<h3>We made a profit of {{ ships_data.total_reward - 30 }} Doubloons</h3>
+				{% else %}
+					<h3>You didn't even our money back! You lost us {{ 30 - ships_data.total_reward }}</h3>
+				{% endif %}
+			</article>
+			<footer>
+				<footer><a href="/">Try again?</a></footer>
+			</footer>
+		{% endif %}
+	</article>
+</body>
+</html>

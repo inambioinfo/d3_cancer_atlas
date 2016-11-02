@@ -4,6 +4,6 @@ How to run development version:
 
 1. make sure flask is installed 
 
-2. > export FLASK_APP=app.py
+2. $ export FLASK_APP=app.py
 
-3. > python -m flask run
+3. $ python -m flask run
