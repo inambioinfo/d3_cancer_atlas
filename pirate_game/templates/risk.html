@@ -147,6 +147,17 @@
       colorScale.domain(dom);
       
 
+      var textScale = d3.scaleQuantize();
+      textScale.domain([15, 30, 45, 55, 70, 85, 100]);
+               .range([
+                  "Well below average",
+                  "Below average",
+                  "Slightly below average",
+                  "Average",
+                  "Slightly above average",
+                  "Above average"
+               ]);
+
       var setColours = function(d, invested) {
 
          if ({{gameMode}} == 0) {
@@ -196,9 +207,20 @@
          else {
             {% for ship in ships %}            
                if ({{ ship.number + 1}} == d) {
+                  // update text
+                  d3.select("article.row-{{ ship.number + 1 }} span.semantic-risk-upper").text(function() {
+                     return textScale({{ ship.max  * 100 }} - invested[d-1]);
+                  });
+                  // update colour
                   d3.select("article.row-{{ ship.number + 1 }} span.semantic-risk-upper").style("color", function() {
                      return colorScale({{ ship.max  * 100 }} - invested[d-1]);
                   });
+
+                  // update text
+                  d3.select("article.row-{{ ship.number + 1 }} span.semantic-risk-lower").text(function() {
+                     return textScale({{ ship.min  * 100 }} - invested[d-1]);
+                  });
+                  // update colour
                   d3.select("article.row-{{ ship.number + 1 }} span.semantic-risk-lower").style("color", function() {
                      return colorScale({{ ship.min  * 100 }} - invested[d-1]);
                   });
