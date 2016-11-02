@@ -147,15 +147,16 @@
       colorScale.domain(dom);
       
 
-      var textScale = d3.scaleQuantize();
-      textScale.domain([15, 30, 45, 55, 70, 85, 100]);
+      var textScale = d3.scaleThreshold()
+      textScale.domain([15, 30, 45, 55, 70, 85, 101])
                .range([
                   "Well below average",
                   "Below average",
                   "Slightly below average",
                   "Average",
                   "Slightly above average",
-                  "Above average"
+                  "Above average",
+                  "Well above average"
                ]);
 
       var setColours = function(d, invested) {
@@ -165,19 +166,19 @@
                if ({{ ship.number + 1 }} == d) {
                   // update value
                   d3.select("article.row-{{ ship.number + 1}} span.lower-risk-span").text(function() {
-                     return {{ (ship.min * 100)|int }}-invested[d-1] +"% "
+                     return Math.max(0, {{ (ship.min * 100)|int }}-invested[d-1]) +"% "
                   });
                   // change colour
                   d3.select("article.row-{{ ship.number + 1 }} span.lower-risk-span").style("color", function() {
-                     return colorScale({{ ship.min * 100 }} - invested[d-1]);
+                     return colorScale(Math.max(0, {{ ship.min * 100 }} - invested[d-1]));
                   });
                   
                   d3.select("article.row-{{ ship.number + 1 }} span.upper-risk-span").text(function() {
-                     return {{ ship.max * 100 }} - invested[d-1] + "% ";
+                     return Math.max(0, {{ ship.max * 100 }} - invested[d-1]) + "% ";
                   });
                   // update color
                   d3.select("article.row-{{ ship.number + 1 }} span.upper-risk-span").style("color", function() {
-                     return colorScale({{ ship.max * 100 }} - invested[d-1]);
+                     return colorScale(Math.max(0, {{ ship.max * 100 }} - invested[d-1]));
                   });
                }
 
@@ -188,11 +189,11 @@
                if ({{ ship.number + 1}} == d) {
                   // update text
                   d3.select("article.row-{{ ship.number + 1 }} span.median").text(function() {
-                     return {{ ship.median  * 100 }} - invested[d-1] + "% ";
+                     return Math.max(0, {{ ship.median  * 100 }} - invested[d-1]) + "%";
                   });
                   // change colour
                   d3.select("article.row-{{ ship.number + 1 }} span.median").style("color", function() {
-                     return colorScale({{ ship.median  * 100 }} - invested[d-1]);
+                     return colorScale(Math.max(0, {{ ship.median  * 100 }} - invested[d-1]));
                   });
 
                   // update text is not necessary
@@ -201,7 +202,6 @@
                      return colorScale({{ (ship.plus_minus / 0.5) * 100 }});
                   });
                }
-
             {% endfor %}
          }
          else {
