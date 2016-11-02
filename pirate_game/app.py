@@ -36,7 +36,7 @@ def build_ships():
 
 		# push the middle value to the 'target' variable of the ship
 
-		# Make it the same as the minimum value, just incase it's the same as either the max or min value
+		# Start with it being the same as the minimum value, just incase it's the same as either the max or min value
 		ship['target'] = min(rands)
 		for k in range(3):
 			if rands[k] != min(rands) and rands[k] != max(rands):
@@ -62,7 +62,7 @@ def build_ships():
 		# ships.append(ship)
 
 		# randomly pick reward for defeating the ship, and assign nationality based on this
-		ship['reward'] = round(r.random()*40 + 10)
+		ship['reward'] = int(round(r.random()*40 + 10))
 		if ship['reward'] <= 20:
 			ship['nationality'] = "British"
 		elif ship['reward'] <= 30:
@@ -144,17 +144,17 @@ def game_mode():
 # 
 # 	Function to determine the player's dice rolls
 # 
-def player_rolls(num_rolls):
-	rolls = []
-	for i in range(num_rolls):
-		rolls.append(r.random())
-	return rolls
+# def player_rolls(num_rolls):
+# 	rolls = []
+# 	for i in range(num_rolls):
+# 		rolls.append(r.random())
+# 	return rolls
 
 
-# 
+# # 
 # 	Function to determine if the player wins
 # 
-def calculate_victories(rolls):
+def calculate_victories():
 	# for i, roll in enumerate(rolls):
 		# if roll > session['ships'][i]['target']:
 			# session['ships'][i]['victory'] = True
@@ -162,11 +162,15 @@ def calculate_victories(rolls):
 			# session['ships'][i]['victory'] = False
 	for i, ship in enumerate(session['ships']):
 		# print ship['target']
-		if rolls[i] >= ship['target']:
+		roll = round(r.random(),2)
+		ship['player_roll'] = roll
+		if roll >= ship['target']:
+		# if rolls[i] >= ship['target']:
 			ship['victory'] = 1
 			session['ships_data']['total_reward'] += ship['reward']
 		else:
 			ship['victory'] = 0	
+
 
 
 def ships_data():
@@ -219,12 +223,10 @@ def risk():
 @app.route('/map-battle', methods=['GET'])
 def map_battle():
 	if session.has_key('ships'):
-		# for ship in session['ships']:
-			# ship['resources_allocated'] = 1
-			# player_rolls = player_rolls()
-		session['ships_data']['resources_allocated'] = 1
-		# investments = request.args.to_dict()
-		calculate_victories(player_rolls(3))
+		#  if we don't do this, they can mash refresh until they win!
+		if session['ships_data']['resources_allocated'] == 0:
+			session['ships_data']['resources_allocated'] = 1
+			calculate_victories()
 
 		# print investments
 		return render_template('map.html', ships = session['ships'], ships_data = session['ships_data'])

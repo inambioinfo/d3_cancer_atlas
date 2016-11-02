@@ -12,9 +12,10 @@ d3.select("#allocation-info-span").text(totalDoubloons);
 for (var i = 0; i < investedDoubloons.length; i++) {
 	var id = "#allocation-row-" + (i+1);
 	d3.select(id).text(function(d) {return d;});
+
 	id = "#reduce-" + (i+1);
 	d3.select(id).on("click", function(d) {
-		console.log("down: ", d);
+		setColours(d, investedDoubloons);
 		if (investedDoubloons[d-1] > 0) {
 			investedDoubloons[d-1] -= 1;
 			totalDoubloons += 1;
@@ -39,6 +40,7 @@ for (var i = 0; i < investedDoubloons.length; i++) {
 
 	id = "#add-" + (i+1);
 	d3.select(id).on("click", function(d) {
+		setColours(d, investedDoubloons);
 		if (totalDoubloons > 0) {
 			investedDoubloons[d-1] += 1;
 			totalDoubloons -= 1;
@@ -52,7 +54,7 @@ for (var i = 0; i < investedDoubloons.length; i++) {
 				for (var i = 0; i < investedDoubloons.length; i++){
 					str += ship_names[i] + investedDoubloons[i] + ",";
 				}
-				console.log(str);
+				// console.log(str);
 				return str;
 			})
 
@@ -62,13 +64,17 @@ for (var i = 0; i < investedDoubloons.length; i++) {
 }
 
 
-d3.select(".allocation-footer").append("a")
+d3.select(".next-state-footer").append("a")
 	.attr("href", function() {
 		var str = "/map-battle?"
 		for (var i = 0; i < investedDoubloons.length; i++){
 			str += ship_names[i] + investedDoubloons[i] + ",";
 		}
-		console.log(str);
+		// console.log(str);
 		return str;
 	})
+	.attr("class", "next-state-button")
 	.html("Let's go!");
+
+
+

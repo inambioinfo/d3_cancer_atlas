@@ -17,8 +17,10 @@ body {
 	border-top: none;
 	border-bottom: none;
 	height: 100vh;
-	font-family: 'Roboto', sans-serif;
-
+	/*font-family: 'Roboto', sans-serif;*/
+	font-family: "HelveticaNeue-Light", "HelveticaNeue-Roman", "HelveticaNeue", Arial, sans-serif;
+	min-width: 640px;
+	padding: 25px 0px;
 }
 
 h1 {
@@ -38,6 +40,35 @@ a:hover {
 }
 
 
+a.next-state-button {
+	color: white;
+	display: block;
+	width: 100%;
+}
+
+
+footer.next-state-footer {
+	width: 50%;
+	margin-left: 25%;
+	background-color: #00447e;
+	text-align: center;
+	height: 4em;
+	line-height: 4em;
+
+}
+
+ul {
+	margin-top: 3vh;
+}
+
+li {
+	margin-top: 1em;
+}
+
+span {
+	font-weight: bold;
+}
+
 
 /*
 
@@ -56,7 +87,131 @@ a:hover {
 */
 
 
+article.map-container {
+	background-image: url(images/map/textured_paper/textured_paper.png); /* placeholder image for now */
+	position: relative;
+	background-repeat: repeat;
+	width: 95%;
+	height: 70vh;
+	margin: 0 auto;
 
+}
+
+article.map-container ul {
+	position: relative;
+	font-size: 12pt;
+}
+
+article.map-container li {
+	display: block;
+	list-style: none;
+	position: absolute;
+}
+
+article.map-container li.ship-icon {
+    width: 21%;
+    height: 2em;
+    margin-top: .75em;
+}
+
+
+article.map-container li.flag-icon {
+    width: 21%;
+    height: 1em;
+    top: 1.2em;
+} 
+
+article.map-container li.map-risk {
+	left: 15%;
+	visibility: hidden;
+}
+
+
+article.map-container ul:hover > li.map-risk {
+	visibility: visible;
+}
+
+
+article.map-container li.map-rolls {
+	left: 15%;
+	top: 2.4em;
+	visibility: hidden;
+}
+
+
+article.map-container ul:hover > li.map-rolls {
+	visibility: visible;
+}
+
+
+aside.ship-position-0 {
+	margin-left: 60%;
+}
+
+aside.ship-position-1 {
+	margin-left: 60%;
+	margin-top: 14em;
+}
+aside.ship-position-2 {
+	margin-top: 23em;
+	margin-left: 40%;
+}
+
+
+li.British {
+	background-image: url(images/flags/british.png);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+}
+
+li.Dutch {
+	background-image: url(images/flags/dutch.png);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+}
+li.French {
+	background-image: url(images/flags/french.png);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+}
+li.Spanish {
+	background-image: url(images/flags/spanish.png);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+}
+
+
+li.Sloop {
+	background-image: url(images/ships/sloop.svg);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+}
+
+li.Schooner {
+	background-image: url(images/ships/schooner.svg);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+}
+
+li.Cutter {
+	background-image: url(images/ships/cutter.svg);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+}
+
+li.Frigate {
+	background-image: url(images/ships/frigate.svg);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+}
 
 
 
@@ -99,16 +254,19 @@ article.ship {
 }
 
 article.allocation {
-	background-color: lightblue;
+	background-color: white;
+	/*border: .5vw solid #FFCF00;*/
 	width: 25%;
 	margin-top: 1vh;
-	height: 20vh;
-	padding: 1vh 1vw;
+	height: 10vh;
+    padding: 6vh 1vw;
+
 }
 
 article.risk-box {
-	background-color: yellow;
-	width: 20%;
+	background-color: #00447e;
+	/*border: .5vw solid #FFCF00;*/
+	width: 18%;
 	margin-top: 1vh;
 	height: 20vh;
 	padding: 1vh 1vw;
@@ -116,21 +274,48 @@ article.risk-box {
 
 section.value {
 	float: left;
-	width: 85%;
-	background-color: lightgreen;
+	width: 70%;
+	/*background-color: lightgreen;*/
+	border: 1px solid #00447e;
+	line-height: 4em;
+	margin-right: 5%;
+	padding-left: 5%;
 }
 
 section.add {
+
 	float: right;
-	width: 10%;
-	background-color: white;
+	width: 15%;
+	/*background-color: white;*/
 	text-align: center;
+	line-height: 2em;
+	/* don't let the user select the + since it's super annoying when you're clicking on it */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+
+    border: 1px solid #00447e;
+
 }
 section.reduce {
 	float: right;
-	width: 10%;
-	background-color: pink;
+	width: 15%;
+	/*background-color: pink;*/
 	text-align: center;
+	line-height: 2em;
+	/* don't let the user select the - */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    border: 1px solid #00447e;
 }
 
 article.row-1 {
@@ -146,8 +331,20 @@ article.row-3 {
 }
 
 article.row-4 {
-	order:4;
+    order: 4;
+    height: 2em;
+    width: 50%;
+    text-align: center;
+    line-height: 2em;
+    padding: 1vh;
 }
+
+
+
+section.allocation-box {
+	color: #00447e;
+}
+
 
 
 
@@ -220,4 +417,7 @@ article.ship h2 {
     padding-top: 15vh;
     font-size: 3vh;
 }
+
+
+
 
