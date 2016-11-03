@@ -19,7 +19,7 @@ body {
 	height: 100vh;
 	/*font-family: 'Roboto', sans-serif;*/
 	font-family: "HelveticaNeue-Light", "HelveticaNeue-Roman", "HelveticaNeue", Arial, sans-serif;
-	min-width: 640px;
+	min-width: 720px;
 	padding: 25px 0px;
 }
 
@@ -109,26 +109,34 @@ article.map-container li {
 }
 
 article.map-container li.ship-icon {
-    width: 21%;
-    height: 2em;
-    margin-top: .75em;
+	width: 6.5vw;
+	height: 6vh;
+	margin-top: -0.7vh
 }
 
 
 article.map-container li.flag-icon {
-    width: 21%;
-    height: 1em;
-    top: 1.2em;
+	width: 6.5vw;
+	height: 2vh;
+	top: 1.7vh;
 } 
 
 article.map-container li.map-risk {
-	left: 15%;
-	visibility: hidden;
+	text-align: right;
+	visibility: hidden; 
+    right: 8vw;
+    width: 100%;
+    top: -3vh;
+    z-index: 2;
 }
+
 
 
 article.map-container ul:hover > li.map-risk {
 	visibility: visible;
+	background-color: white;
+	border: .1px solid #FFCF00;
+	padding: 1.1em 1.1em;
 }
 
 
@@ -143,18 +151,23 @@ article.map-container ul:hover > li.map-rolls {
 	visibility: visible;
 }
 
+article.result {
+	position: absolute;
+	bottom: .5em;
+	right: 1em;
+}
 
 aside.ship-position-0 {
-	margin-left: 60%;
+	margin-left: 85%;
 }
 
 aside.ship-position-1 {
-	margin-left: 60%;
-	margin-top: 14em;
+	margin-left: 85%;
+	margin-top: 25vh;
 }
 aside.ship-position-2 {
-	margin-top: 23em;
-	margin-left: 40%;
+	margin-top: 50vh;
+	margin-left: 85%;
 }
 
 
@@ -223,11 +236,11 @@ li.Frigate {
 
 
 #resource-container {
-    display: flex;
-    justify-content: space-around;
-    align-content: space-between;
-    flex-direction: row;
-    flex-wrap: wrap;
+	display: flex;
+	justify-content: space-around;
+	align-content: space-between;
+	flex-direction: row;
+	flex-wrap: wrap;
 	background: white;
 	padding: 1vh 1vw;
 	align-items: center;
@@ -259,7 +272,7 @@ article.allocation {
 	width: 25%;
 	margin-top: 1vh;
 	height: 10vh;
-    padding: 6vh 1vw;
+	padding: 6vh 1vw;
 
 }
 
@@ -291,15 +304,15 @@ section.add {
 	text-align: center;
 	line-height: 2em;
 	/* don't let the user select the + since it's super annoying when you're clicking on it */
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 
 
-    border: 1px solid #00447e;
+	border: 1px solid #00447e;
 
 }
 section.reduce {
@@ -309,14 +322,14 @@ section.reduce {
 	text-align: center;
 	line-height: 2em;
 	/* don't let the user select the - */
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 
-    border: 1px solid #00447e;
+	border: 1px solid #00447e;
 }
 
 article.row-1 {
@@ -332,12 +345,12 @@ article.row-3 {
 }
 
 article.row-4 {
-    order: 4;
-    height: 2em;
-    width: 50%;
-    text-align: center;
-    line-height: 2em;
-    padding: 1vh;
+	order: 4;
+	height: 2em;
+	width: 50%;
+	text-align: center;
+	line-height: 2em;
+	padding: 1vh;
 }
 
 
@@ -377,9 +390,9 @@ article.Spanish {
 }
 
 article.flag h2 {
-    text-align: center;
-    font-size: 2vh;
-    padding-top: 20vh;
+	text-align: center;
+	font-size: 2vh;
+	padding-top: 20vh;
 }
 
 
@@ -415,8 +428,8 @@ article.Frigate {
 
 article.ship h2 {
 	text-align: center;
-    padding-top: 15vh;
-    font-size: 3vh;
+	padding-top: 15vh;
+	font-size: 3vh;
 }
 
 

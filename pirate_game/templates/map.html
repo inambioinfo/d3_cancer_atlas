@@ -9,23 +9,19 @@
 <body>
 	<header></header>
 	<article class="map-container">
-		<h2>Here's the map</h2>
 
+	
+		<h2>Here's the map</h2>
+		
 		{% if ships_data.resources_allocated < 1	 %}
 			{% for ship in ships %}
 				<aside class="map-ship ship-position-{{ ship.number }}">
 					<ul>
 						<li class="flag-icon {{ ship.nationality }} ">
-							<!-- <img src="{{ url_for('static', filename='images/flags/'+ship.nationality+'.png') }}"> -->
 						</li>
 						<li class="ship-icon {{ ship.type }}">
-							<!-- <img src="images/ships/{{ ship.type }}.svg"> -->
-							<!-- <img src="{{ url_for('static', filename='images/ships/'+ship.type+'.svg') }}"> -->
 						</li>
 					{% if gameMode == 0.0 %}
-<!-- 						<li>
-							Ship {{ ship.number + 1}}
-						</li> -->
 						<li class="map-risk">
 							<b>Risk</b>: Between {{ (ship.min * 100)|int }}% and {{ (ship.max * 100)|int }}%.<br>
 							<b>Reward</b>: {{ ship.reward }} doubloons.
@@ -50,60 +46,57 @@
 		</footer>
 
 		{% else %}
-			<!-- {% for ship in ships %}
-				<aside class="map-ship">
-					<h3>
-						Ship {{ ship.number + 1}}
-					</h3>	
-					<p>
-						{% if ship.victory > 0 %}
-						We intercepted the {{ ship.nationality }} {{ ship.type }} and retrieved {{ ship.reward }}
-						{% else %}
-						You let the {{ ship.nationality }} {{ ship.type }} get away!
-						{% endif %}
-					</p>
-				</aside>
-			{% endfor %} -->
-
 			{% for ship in ships %}
 				<aside class="map-ship ship-position-{{ ship.number }}">
 					<ul>
-						<li class="flag-icon {{ ship.nationality }} ">
-							<!-- <img src="{{ url_for('static', filename='images/flags/'+ship.nationality+'.png') }}"> -->
-						</li>
+						<li class="flag-icon {{ ship.nationality }} ">						</li>
 						<li class="ship-icon {{ ship.type }}">
-							<!-- <img src="images/ships/{{ ship.type }}.svg"> -->
-							<!-- <img src="{{ url_for('static', filename='images/ships/'+ship.type+'.svg') }}"> -->
+
 						</li>
 					{% if gameMode == 0.0 %}
-						<!-- <li>
-							Ship {{ ship.number + 1}}
-						</li> -->
 						<li class="map-risk">
-							<b>Risk</b>: Between {{ (ship.min * 100)|int }}% and {{ (ship.max * 100)|int }}%.<br>
-							<b>Reward</b>: {{ ship.reward }} doubloons.
-						</li>
-						<li class="map-rolls">
-							<b>Enemy vessel roll:</b> {{ (100*ship.target)|int }} <br>
-							<b>Your vessel roll:</b> {{ (100*ship.player_roll)|int }}
+							<p>
+								<b>Risk</b>: Between {{ (ship.min * 100)|int }}% and {{ (ship.max * 100)|int }}%.
+							</p>
+							<p>
+								<b>Reward</b>: {{ ship.reward }} doubloons.
+							</p>
+							<p>
+								<b>Enemy vessel roll:</b> {{ (100*ship.target)|int }} 
+							</p>
+							<p>
+								<b>Your vessel roll:</b> {{ (100*ship.player_roll)|int }}
+							</p>
 						</li>
 					{% elif gameMode == 1.0 %}
 						<li class="map-risk">
-							<b>Risk</b>: {{ (ship.median * 100)|int }}%, give or take {{ (ship.plus_minus * 100)|int }}.<br>
-							<b>Reward</b>: {{ship.reward}} doubloons.
-						</li>
-						<li class="map-rolls">
-							<b>Enemy vessel roll:</b> {{ (100*ship.target)|int }} <br>
-							<b>Your vessel roll:</b> {{ (100*ship.player_roll)|int }}
+							<p>
+								<b>Risk</b>: {{ (ship.median * 100)|int }}%, give or take {{ (ship.plus_minus * 100)|int }}.
+							</p>>
+							<p>
+								<b>Reward</b>: {{ship.reward}} doubloons.
+							</p>
+							<p>
+								<b>Enemy vessel roll:</b> {{ (100*ship.target)|int }}
+							</p>
+							<p>
+								Your vessel roll:</b> {{ (100*ship.player_roll)|int }}
+							</p>
 						</li>
 					{% else %}
 						<li class="map-risk">
-						 	<b>Risk</b>: from {{ship.lower_semantic_risk}} to {{ship.upper_semantic_risk}}.<br>
-							<b>Reward</b>: {{ship.reward}} doubloons.
-						</li>
-						<li class="map-rolls">
-							<b>Enemy vessel roll:</b> {{ (100*ship.target)|int }} <br>
-							<b>Your vessel roll:</b> {{ (100*ship.player_roll)|int }}
+						 	<p>
+						 		<b>Risk</b>: from {{ship.lower_semantic_risk}} to {{ship.upper_semantic_risk}}.
+						 	</p>
+						 	<p>
+								<b>Reward</b>: {{ship.reward}} doubloons.<br>
+							</p>
+							<p>
+								<b>Enemy vessel roll:</b> {{ (100*ship.target)|int }} 
+							</p>
+							<p>
+								<b>Your vessel roll:</b> {{ (100*ship.player_roll)|int }}
+							</p>
 						</li>
 					{% endif %}
 					</ul>
@@ -120,7 +113,7 @@
 			</article>
 		</article>
 		<footer class="next-state-footer">
-			<a href="/" class="next-state-button">Try again?</a>
+			<a href="/try_again" class="next-state-button">Try again?</a>
 		</footer>
 		
 	{% endif %}

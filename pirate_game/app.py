@@ -223,11 +223,15 @@ def risk():
 @app.route('/map-battle', methods=['GET'])
 def map_battle():
 	if session.has_key('ships'):
-		print session['ships_data']['resources_allocated']
+		print session['ships_data']
 		#  if we don't do this, they can mash refresh until they win!
-		if session['ships_data']['resources_allocated'] == 0:
+		# if not session['ships_data']['resources_allocated']:
+			# session['ships_data']['resources_allocated'] = True
+
+			# print session['ships_data']['resources_allocated']
+		if not session.has_key('resources_are_allocated'):
 			session['ships_data']['resources_allocated'] = 1
-			print session['ships_data']['resources_allocated']
+			session['resources_are_allocated'] = True
 			calculate_victories()
 
 		# print investments
@@ -252,6 +256,7 @@ def result():
 
 @app.route('/try_again')
 def try_again():
+	del session['resources_are_allocated']
 	return redirect(url_for('index'))
 
 
