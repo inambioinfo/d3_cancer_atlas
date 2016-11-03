@@ -4,15 +4,15 @@
 	<meta charset="utf-8">
 	<title>Cancer Council Queensland - Maps</title>
 	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-	<link href="https://fonts.googleapis.com/css?family=Pirata+One|Roboto" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Pirata+One" rel="stylesheet">
 </head>
 <body>
-	<header></header>
 	<article class="map-container">
+		<!-- <h2 class="map-header">Here's the map</h2> -->
 
-	
-		<h2>Here's the map</h2>
-		
+		<!-- <img src="{{ url_for('static', filename='images/artwork/map.jpg') }}" class="map-img" alt="a pirate map with three ships approaching">
+		 -->
+		<aside class="map-img"></aside>
 		{% if ships_data.resources_allocated < 1	 %}
 			{% for ship in ships %}
 				<aside class="map-ship ship-position-{{ ship.number }}">
