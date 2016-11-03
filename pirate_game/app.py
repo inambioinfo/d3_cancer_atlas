@@ -223,9 +223,11 @@ def risk():
 @app.route('/map-battle', methods=['GET'])
 def map_battle():
 	if session.has_key('ships'):
+		print session['ships_data']['resources_allocated']
 		#  if we don't do this, they can mash refresh until they win!
 		if session['ships_data']['resources_allocated'] == 0:
 			session['ships_data']['resources_allocated'] = 1
+			print session['ships_data']['resources_allocated']
 			calculate_victories()
 
 		# print investments
