@@ -19,11 +19,11 @@ body {
 	height: 100vh;
 	/*font-family: 'Roboto', sans-serif;*/
 	font-family: "HelveticaNeue-Light", "HelveticaNeue-Roman", "HelveticaNeue", Arial, sans-serif;
-	min-width: 640px;
+	min-width: 720px;
 	padding: 25px 0px;
 }
 
-h1 {
+h1, h2, h3{
 	font-family: 'Pirata One', cursive;
 }
 
@@ -54,7 +54,7 @@ footer.next-state-footer {
 	text-align: center;
 	height: 4em;
 	line-height: 4em;
-
+	z-index: 2;
 }
 
 ul {
@@ -86,16 +86,19 @@ span {
 
 */
 
+h2.map-header {
+	width: 100%;
+	text-align: center;
+}
+
 
 article.map-container {
-	background-image: url(images/map/textured_paper/textured_paper.png); /* placeholder image for now */
 	position: relative;
-	background-repeat: repeat;
-	width: 95%;
-	height: 70vh;
+	height: 75vh;
 	margin: 0 auto;
-
 }
+
+
 
 article.map-container ul {
 	position: relative;
@@ -109,26 +112,45 @@ article.map-container li {
 }
 
 article.map-container li.ship-icon {
-    width: 21%;
-    height: 2em;
-    margin-top: .75em;
+	width: 6.5vw;
+	height: 6vh;
+	margin-top: -0.7vh
 }
 
 
 article.map-container li.flag-icon {
-    width: 21%;
-    height: 1em;
-    top: 1.2em;
+	width: 6.5vw;
+	height: 2vh;
+	top: 1.7vh;
 } 
 
 article.map-container li.map-risk {
-	left: 15%;
-	visibility: hidden;
+	text-align: right;
+	visibility: hidden; 
+    right: 8vw;
+    width: 100%;
+    top: -3vh;
+    z-index: 2;
 }
 
+article.map-container aside.map-img {
+	background-image: url(images/artwork/map.jpg); /* placeholder image for now */
+	position: relative;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100vh;
+	margin: 0 auto;
+	background-size: contain;
+	background-position: center top;
+	min-width: 720px;
+	max-width: 1250px;
+}
 
 article.map-container ul:hover > li.map-risk {
 	visibility: visible;
+	background-color: white;
+	border: .1px solid #FFCF00;
+	padding: 1.1em 1.1em;
 }
 
 
@@ -143,18 +165,30 @@ article.map-container ul:hover > li.map-rolls {
 	visibility: visible;
 }
 
+article.result {
+	position: absolute;
+	bottom: .5em;
+	right: 1em;
+}
 
 aside.ship-position-0 {
-	margin-left: 60%;
+    position: absolute;
+    top: 7%;
+    left: 76%;
+    z-index: 2;
 }
 
 aside.ship-position-1 {
-	margin-left: 60%;
-	margin-top: 14em;
+	position: absolute;
+	top: 29%;
+	left: 78%;
+	z-index: 2;
 }
 aside.ship-position-2 {
-	margin-top: 23em;
-	margin-left: 40%;
+    position: absolute;
+    top: 56%;
+    left: 78%;
+    z-index: 2;
 }
 
 
@@ -223,11 +257,11 @@ li.Frigate {
 
 
 #resource-container {
-    display: flex;
-    justify-content: space-around;
-    align-content: space-between;
-    flex-direction: row;
-    flex-wrap: wrap;
+	display: flex;
+	justify-content: space-around;
+	align-content: space-between;
+	flex-direction: row;
+	flex-wrap: wrap;
 	background: white;
 	padding: 1vh 1vw;
 	align-items: center;
@@ -259,7 +293,7 @@ article.allocation {
 	width: 25%;
 	margin-top: 1vh;
 	height: 10vh;
-    padding: 6vh 1vw;
+	padding: 6vh 1vw;
 
 }
 
@@ -291,15 +325,15 @@ section.add {
 	text-align: center;
 	line-height: 2em;
 	/* don't let the user select the + since it's super annoying when you're clicking on it */
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 
 
-    border: 1px solid #00447e;
+	border: 1px solid #00447e;
 
 }
 section.reduce {
@@ -309,14 +343,14 @@ section.reduce {
 	text-align: center;
 	line-height: 2em;
 	/* don't let the user select the - */
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 
-    border: 1px solid #00447e;
+	border: 1px solid #00447e;
 }
 
 article.row-1 {
@@ -332,12 +366,12 @@ article.row-3 {
 }
 
 article.row-4 {
-    order: 4;
-    height: 2em;
-    width: 50%;
-    text-align: center;
-    line-height: 2em;
-    padding: 1vh;
+	order: 4;
+	height: 2em;
+	width: 50%;
+	text-align: center;
+	line-height: 2em;
+	padding: 1vh;
 }
 
 
@@ -377,9 +411,9 @@ article.Spanish {
 }
 
 article.flag h2 {
-    text-align: center;
-    font-size: 2vh;
-    padding-top: 20vh;
+	text-align: center;
+	font-size: 2vh;
+	padding-top: 20vh;
 }
 
 
@@ -415,8 +449,8 @@ article.Frigate {
 
 article.ship h2 {
 	text-align: center;
-    padding-top: 15vh;
-    font-size: 3vh;
+	padding-top: 15vh;
+	font-size: 3vh;
 }
 
 
