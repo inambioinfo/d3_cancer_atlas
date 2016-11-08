@@ -17,13 +17,9 @@
 			{% for ship in ships %}
 				<aside class="map-ship ship-position-{{ ship.number }}">
 					<ul>
-						<li>
-							<articleclass="flag-icon {{ ship.nationality }} ">
-							</article>
+						<li class="flag-icon {{ ship.nationality }} ">
 						</li>
-						<li>
-							<article class="ship-icon {{ ship.type }}">
-							</article>
+						<li class="ship-icon {{ ship.type }}">
 						</li>
 					{% if gameMode == 0.0 %}
 						<li class="map-risk">
@@ -53,12 +49,9 @@
 			{% for ship in ships %}
 				<aside class="map-ship ship-position-{{ ship.number }}">
 					<ul>
-						<li> 
-							<article class="flag-icon {{ ship.nationality }} "></article>
-						</li>
-						<li>
-							<article class="ship-icon {{ ship.type }}">
-							</article>
+						<li class="flag-icon {{ ship.nationality }} ">						</li>
+						<li class="ship-icon {{ ship.type }}">
+
 						</li>
 					{% if gameMode == 0.0 %}
 						<li class="map-risk">

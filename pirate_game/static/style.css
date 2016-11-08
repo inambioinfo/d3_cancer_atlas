@@ -19,7 +19,7 @@ body {
 	height: 100vh;
 	/*font-family: 'Roboto', sans-serif;*/
 	font-family: "HelveticaNeue-Light", "HelveticaNeue-Roman", "HelveticaNeue", Arial, sans-serif;
-	min-width: 720px;
+	/*min-width: 720px;*/
 	padding: 25px 0px;
 }
 
@@ -142,7 +142,7 @@ article.map-container aside.map-img {
 	margin: 0 auto;
 	background-size: contain;
 	background-position: center top;
-	min-width: 720px;
+	/*min-width: 720px;*/
 	max-width: 1250px;
 }
 
@@ -171,26 +171,6 @@ article.result {
 	right: 1em;
 }
 
-aside.ship-position-0 {
-    position: absolute;
-    top: 7%;
-    left: 76%;
-    z-index: 2;
-}
-
-aside.ship-position-1 {
-	position: absolute;
-	top: 29%;
-	left: 78%;
-	z-index: 2;
-}
-aside.ship-position-2 {
-    position: absolute;
-    top: 56%;
-    left: 78%;
-    z-index: 2;
-}
-/*
 
 li.British {
 	background-image: url(images/flags/british.png);
@@ -245,7 +225,146 @@ li.Frigate {
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: contain;
-}*/
+}
+
+
+/* Responsive section for map */
+
+/* mobile */
+article.map-container {
+	width: 480px;
+	margin: 0 auto;
+}
+
+aside.ship-position-0 {
+	position: absolute;
+	top: -20px;
+	left: 410px;
+	z-index: 2;
+}
+
+aside.ship-position-1 {
+	position: absolute;
+	top: 50px;
+	left: 425px;
+	z-index: 2;
+}
+aside.ship-position-2 {
+	position: absolute;
+	top: 150px;
+	left: 425px;
+	z-index: 2;
+}	
+
+/* over 640 */
+/*@media screen and (min-width: 640px) {
+	article.map-container {
+		width: 640px;
+		margin: 0 auto;
+	}
+	aside.ship-position-0 {
+		position: absolute;
+		top: 0%;
+		left: 0%;
+		z-index: 2;
+	}
+
+	aside.ship-position-1 {
+		position: absolute;
+		top: 0%;
+		left: 0%;
+		z-index: 2;
+	}
+	aside.ship-position-2 {
+		position: absolute;
+		top: 0%;
+		left: 0%;
+		z-index: 2;
+	}	
+}
+*/
+
+/* over 720 */
+@media screen and (min-width: 720px) {
+	article.map-container {
+		width: 720px;
+		margin: 0 auto;
+	}
+	aside.ship-position-0 {
+		position: absolute;
+		top: 0px;
+		left: 620px;
+		z-index: 2;
+	}
+
+	aside.ship-position-1 {
+		position: absolute;
+		top: 100px;
+		left: 640px;
+		z-index: 2;
+	}
+	aside.ship-position-2 {
+		position: absolute;
+		top: 250px;
+		left: 640px;
+		z-index: 2;
+	}	
+}
+
+
+/* over 960 */
+@media screen and (min-width: 960px) {
+	article.map-container {
+		width: 960px;
+		margin: 0 auto;
+	}
+	aside.ship-position-0 {
+		position: absolute;
+		top: 0px;
+		left: 820px;
+		z-index: 2;
+	}
+
+	aside.ship-position-1 {
+		position: absolute;
+		top: 160px;
+		left: 850px;
+		z-index: 2;
+	}
+	aside.ship-position-2 {
+		position: absolute;
+		top: 360px;
+		left: 850px;
+		z-index: 2;
+	}	
+}
+
+/* over 1250 - max width of <body> */
+@media screen and (min-width: 1250px) {
+	article.map-container {
+		width: 1250px;
+		margin: 0 auto;
+	}
+	aside.ship-position-0 {
+		position: absolute;
+		top: 20px;
+		left: 1060px;
+		z-index: 2;
+	}
+
+	aside.ship-position-1 {
+		position: absolute;
+		top: 220px;
+		left: 1100px;
+		z-index: 2;
+	}
+	aside.ship-position-2 {
+		position: absolute;
+		top: 480px;
+		left: 1100px;
+		z-index: 2;
+	}	
+}
 
 
 
