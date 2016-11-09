@@ -94,6 +94,7 @@ p {
 h2.map-header {
 	width: 100%;
 	text-align: center;
+	z-index: 4;
 }
 
 
@@ -137,7 +138,7 @@ article.map-container li.map-risk {
 	width: 160px;
 	right: -30px;
 	top: -20px;
-    z-index: 3;
+    z-index: 5;
 }
 
 article.map-container aside.map-img {
@@ -623,8 +624,8 @@ article.Spanish {
 
 article.flag h2 {
 	text-align: center;
-	font-size: 2vh;
-	padding-top: 20vh;
+	font-size: 1.5em;
+	padding-top: 20.25vh;
 }
 
 

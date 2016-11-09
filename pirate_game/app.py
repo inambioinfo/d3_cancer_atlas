@@ -120,14 +120,8 @@ def build_ships():
 		else:
 			ship['median_semantic_risk'] = "Well above average"
 
-
+		# add each ship to the list of ships
 		ships.append(ship)
-
-		# print these to the console
-		# print " "
-		# print "Ship " + str(j+1)
-		# for key in ship:
-		# 	print key +': '+ str(ship[key])
 
 
 	return ships
@@ -142,37 +136,23 @@ def game_mode():
 	return game_mode
 
 # 
-# 	Function to determine the player's dice rolls
-# 
-# def player_rolls(num_rolls):
-# 	rolls = []
-# 	for i in range(num_rolls):
-# 		rolls.append(r.random())
-# 	return rolls
-
-
-# # 
 # 	Function to determine if the player wins
 # 
 def calculate_victories():
-	# for i, roll in enumerate(rolls):
-		# if roll > session['ships'][i]['target']:
-			# session['ships'][i]['victory'] = True
-		# else:
-			# session['ships'][i]['victory'] = False
+
 	for i, ship in enumerate(session['ships']):
-		# print ship['target']
 		roll = round(r.random(),2)
 		ship['player_roll'] = roll
 		if roll >= ship['target']:
-		# if rolls[i] >= ship['target']:
 			ship['victory'] = 1
 			session['ships_data']['total_reward'] += ship['reward']
 		else:
 			ship['victory'] = 0	
 
 
-
+# 
+# 	Function to create some data to hold the ships
+# 
 def ships_data():
 	ships_data = {}
 	ships_data['resources_allocated'] = 0
@@ -225,14 +205,12 @@ def map_battle():
 	if session.has_key('ships'):
 		print session['ships_data']
 		#  if we don't do this, they can mash refresh until they win!
-		# if not session['ships_data']['resources_allocated']:
-			# session['ships_data']['resources_allocated'] = True
-
-			# print session['ships_data']['resources_allocated']
 		if not session.has_key('resources_are_allocated'):
 			session['ships_data']['resources_allocated'] = 1
 			session['resources_are_allocated'] = True
 			calculate_victories()
+
+			# this is where we should dump the data to the server, I guess...
 
 		# print investments
 		return render_template('map.html', ships = session['ships'], ships_data = session['ships_data'])
@@ -242,20 +220,24 @@ def map_battle():
 
 
 
-# 
-# 	result page
-# 
-@app.route('/result', methods=['GET'])
-def result():
-	if session.has_key('ships'):
-		reward = request.args.get('r')
-		return reward
-		# return render_template("game-over.html" reward=reward)
-	else:
-		return redirect(url_for('index'))
+# # 
+# # 	result page - do I still need this one?
+# # 
+# @app.route('/result', methods=['GET'])
+# def result():
+# 	if session.has_key('ships'):
+# 		reward = request.args.get('r')
+# 		return reward
+# 	else:
+# 		return redirect(url_for('index'))
 
+
+# 
+# 	Play another round
+# 
 @app.route('/try_again')
 def try_again():
+	# clear the flag that says that the player has assigned resources to each ship
 	del session['resources_are_allocated']
 	return redirect(url_for('index'))
 
