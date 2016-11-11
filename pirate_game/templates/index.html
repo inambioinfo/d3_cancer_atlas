@@ -4,18 +4,24 @@
 	<meta charset="utf-8">
 	<title>Cancer Council Queensland - Pirate Game Home</title>
 	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-	<link href="https://fonts.googleapis.com/css?family=Pirata+One|Roboto" rel="stylesheet">
-</head>
+	<link href="https://fonts.googleapis.com/css?family=Eczar|Pirata+One" rel="stylesheet">
 <body>
 	<header></header>
-	<article>
-		<h2>Welcome!</h2>
-		<aside class="welcome-pirate">
+	<article class="welcome">
+		<h1>Welcome, shipmate!</h1>
+		<aside class="captain-welcome">
 			<p>
-				Here we explain what's going on, matey!
+				I'm Captain MathBeard. I've got some good news for you, especially since my last quartermaster decided run off with a mermaid. 
+			</p>
+			<h3>
+				Congratulations on your promotion to quartermaster! 
+			</h3>
+			<p>
+				I have some news from our spies. Cast your good eye over this here map...
 			</p>		
 		</aside>
+		<aside id="captain-welcome-img"></aside>
 	</article>
-	<footer class="next-state-footer"><a href="/map" class="next-state-button">Check out the map</footer>
+	<footer class="next-state-footer" id="welcome-footer"><a href="/map" class="next-state-button">Check out the map</footer>
 </body>
 </html>
