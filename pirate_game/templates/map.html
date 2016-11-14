@@ -8,7 +8,7 @@
 </head>
 <body>
 	<article class="map-container">
-		<!-- <h2 class="map-header">Here's the map</h2> -->
+		<h2 class="map-header">Null Island</h2>
 
 		<!-- <img src="{{ url_for('static', filename='images/artwork/map.jpg') }}" class="map-img" alt="a pirate map with three ships approaching">
 		 -->
@@ -40,9 +40,18 @@
 					</ul>
 				</aside>
 			{% endfor %}
+			<aside class="captain-map">
+				<img src="{{ url_for('static', filename='images/artwork/captain_small.png') }}" alt="Picture of the Captain">
+				<section class="captain-dialogue">
+					<h4>Look lively there!</h4>
+					<p>There be three ships approaching Null Island, carrying treasure which me might be able to... liberate.</p>
+					<p>Each one carries a different amount of treasure, and a different level of risk</p>
+					<p>I'll give you 30 doubloons to pay for extra ammunition and supplies. Yer job is to decide which ship gets the extra attention.</p>
+				</section>
+			</aside>
 		</article>
 		<footer class="next-state-footer">
-			<a href="/risk" class="next-state-button">Let's see how risky it is!</a>
+			<a href="/risk" class="next-state-button">Aye, Captain!</a>
 		</footer>
 
 		{% else %}

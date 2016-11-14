@@ -19,11 +19,11 @@ body {
 	height: 100vh;
 	/*font-family: 'Roboto', sans-serif;*/
 	font-family: "HelveticaNeue-Light", "HelveticaNeue-Roman", "HelveticaNeue", Arial, sans-serif;
-	min-width: 720px;
+	/*min-width: 720px;*/
 	padding: 25px 0px;
 }
 
-h1, h2, h3{
+h1, h2, h3, h4{
 	font-family: 'Pirata One', cursive;
 }
 
@@ -70,6 +70,11 @@ span {
 }
 
 
+p {
+	line-height: 1.25em;
+	padding-top: .5em;
+}
+
 /*
 
 	index page styling
@@ -89,6 +94,7 @@ span {
 h2.map-header {
 	width: 100%;
 	text-align: center;
+	z-index: 4;
 }
 
 
@@ -96,41 +102,43 @@ article.map-container {
 	position: relative;
 	height: 75vh;
 	margin: 0 auto;
+	font-size: 12pt;
 }
 
 
 
 article.map-container ul {
 	position: relative;
-	font-size: 12pt;
 }
 
 article.map-container li {
 	display: block;
 	list-style: none;
 	position: absolute;
+	z-index: 2
 }
 
 article.map-container li.ship-icon {
-	width: 6.5vw;
-	height: 6vh;
-	margin-top: -0.7vh
+	width: 120px;
+	height: 75px;
+	margin-top: -20px;
 }
 
 
 article.map-container li.flag-icon {
-	width: 6.5vw;
-	height: 2vh;
-	top: 1.7vh;
+	width: 125px;
+	height: 20px;
+	top: 16px;
+	background-position: top center;
 } 
 
 article.map-container li.map-risk {
 	text-align: right;
 	visibility: hidden; 
-    right: 8vw;
-    width: 100%;
-    top: -3vh;
-    z-index: 2;
+	width: 160px;
+	right: -30px;
+	top: -20px;
+    z-index: 5;
 }
 
 article.map-container aside.map-img {
@@ -138,11 +146,11 @@ article.map-container aside.map-img {
 	position: relative;
 	background-repeat: no-repeat;
 	width: 100%;
-	height: 100vh;
+	height: inherit;
 	margin: 0 auto;
-	background-size: contain;
+	background-size: cover;
 	background-position: center top;
-	min-width: 720px;
+	/*min-width: 720px;*/
 	max-width: 1250px;
 }
 
@@ -169,26 +177,6 @@ article.result {
 	position: absolute;
 	bottom: .5em;
 	right: 1em;
-}
-
-aside.ship-position-0 {
-    position: absolute;
-    top: 7%;
-    left: 76%;
-    z-index: 2;
-}
-
-aside.ship-position-1 {
-	position: absolute;
-	top: 29%;
-	left: 78%;
-	z-index: 2;
-}
-aside.ship-position-2 {
-    position: absolute;
-    top: 56%;
-    left: 78%;
-    z-index: 2;
 }
 
 
@@ -248,10 +236,234 @@ li.Frigate {
 }
 
 
+/* Responsive section for correctly scaling the map */
+
+/* mobile */
+article.map-container {
+	width: 480px;
+	height: 265px;
+	margin: 0 auto;
+}
+
+aside.ship-position-0 {
+	position: absolute;
+	top: -20px;
+	left: 360px;
+	z-index: 2;
+}
+
+aside.ship-position-1 {
+	position: absolute;
+	top: 50px;
+	left: 385px;
+	z-index: 2;
+}
+aside.ship-position-2 {
+	position: absolute;
+	top: 150px;
+	left: 385px;
+	z-index: 2;
+}	
+
+/* Header */
+h2.map-header {
+	position: absolute;
+	z-index: 3;
+	font-size: 1.75em;
+	top: 65px;
+	left: -45px;
+	color: maroon;
+	text-decoration: underline;
+}
+
+/* Captain Text */
+
+article.map-container aside.captain-map {
+	position: relative;
+	top: -185px;
+}
+
+article.map-container aside.captain-map img {
+	position: absolute;
+	height: 150px;
+	top: 40px;
+	z-index: 4
+}
+
+article.map-container section.captain-dialogue {
+	position: absolute;
+	width: 88%;
+	background: white;
+	border: 1px solid #FFCF00;
+	padding: .25em .25em;
+	left: 30px;
+	z-index: 5;
+	top: -72px;
+	visibility: hidden;
+	opacity: 0; 
+}
+
+article.map-container aside.captain-map:hover section.captain-dialogue {
+	visibility: visible;
+	opacity: 1;
+	transition: all .1s ease-in;
+}
+
+
+/* over 720 */
+@media screen and (min-width: 720px) {
+	article.map-container {
+		width: 720px;
+		height: 400px;
+	}
+	aside.ship-position-0 {
+		top: 0px;
+		left: 600px;
+	}
+
+	aside.ship-position-1 {
+		top: 100px;
+		left: 610px;
+	}
+	aside.ship-position-2 {
+		top: 250px;
+		left: 610px;
+	}	
+
+	/* Header */
+	h2.map-header {
+		font-size: 2.25em;
+		top: 101px;
+		left: -80px;
+	}
+
+	/* Captain Text */
+
+	article.map-container aside.captain-map {
+		top: -185px;
+	}
+
+	article.map-container aside.captain-map img {
+		height: 150px;
+		top: 40px;
+		z-index: 4
+	}
+
+	article.map-container section.captain-dialogue {
+		width: 88%;
+		left: 45px;
+		top: -102px;
+	}
+}
+
+
+/* over 960 */
+@media screen and (min-width: 960px) {
+	article.map-container {
+		width: 960px;
+		height: 530px;
+	}
+	aside.ship-position-0 {
+		top: 0px;
+		left: 820px;
+	}
+
+	aside.ship-position-1 {
+		top: 160px;
+		left: 850px;
+	}
+	aside.ship-position-2 {
+		top: 360px;
+		left: 850px;
+	}	
+
+
+	/* Header */
+	h2.map-header {
+		z-index: 3;
+		font-size: 2.5em;
+		top: 145px;
+		left: -110px;
+	}
+
+	/* Captain Text */
+
+	article.map-container aside.captain-map {
+		top: -185px;
+	}
+
+	article.map-container aside.captain-map img {
+		height: 150px;
+		top: 40px;
+		z-index: 4
+	}
+
+	article.map-container section.captain-dialogue {
+		width: 58%;
+		left: 105px;
+		top: -70px;
+	}
+
+}
+
+/* over 1250 - max width of <body> */
+@media screen and (min-width: 1250px) {
+	article.map-container {
+		width: 1250px;
+		height: 690px;
+	}
+	aside.ship-position-0 {
+		top: 20px;
+		left: 1060px;
+	}
+
+	aside.ship-position-1 {
+		top: 220px;
+		left: 1100px;
+	}
+	aside.ship-position-2 {
+		top: 480px;
+		left: 1100px;
+	}	
+
+	/* Header */
+	h2.map-header {
+		font-size: 3em;
+		top: 190px;
+		left: -110px;
+	}
+
+	/* Captain Text */
+
+	article.map-container aside.captain-map {
+		top: -185px;
+	}
+
+	article.map-container aside.captain-map img {
+		height: 150px;
+		top: 40px;
+	}
+
+	article.map-container section.captain-dialogue {
+		width: 40%;
+		left: 120px;
+		top: -120px;
+	}
+}
+
+article.map-container h4 {
+	font-size: 1.3em;
+}
+
+
+
+
+
+
 
 /*
 
-	resource allocation page styling
+	resource allocation page styles
 
 */
 
@@ -412,8 +624,8 @@ article.Spanish {
 
 article.flag h2 {
 	text-align: center;
-	font-size: 2vh;
-	padding-top: 20vh;
+	font-size: 1.5em;
+	padding-top: 20.25vh;
 }
 
 
