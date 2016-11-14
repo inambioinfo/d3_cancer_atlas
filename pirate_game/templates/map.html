@@ -120,14 +120,14 @@
 				<img src="{{ url_for('static', filename='images/artwork/captain-happy-small.png') }}" alt="Captain congratulating you">
 				<section class="captain-dialogue">
 					<h4>Good job, Matey!</h4>
-					<p>We made a profit of {{ (ships_data.total_reward - 30)|int }} Doubloons</p>
+					<p>We made a profit of <span class="victory-value-span">{{ (ships_data.total_reward - 30)|int }}</span> Doubloons</p>
 					<p>Seems like you've made the right choices.</p>
-					<p>Just hope yer luck don't be running out too soon.</p>
+					<p>I've bought you a bottle of rum with yer share... now where did I put it?</p>
 				{% else %}
 				<img src="{{ url_for('static', filename='images/artwork/captain-cranky-small.png') }}" alt="Captain congratulating you">
 				<section class="captain-dialogue">
 					<h4>Arrrrr, there you are!</h4>
-					<p>You didn't even our money back! You lost us {{ (30 - ships_data.total_reward)|int }} Doubloons.</p>
+					<p>You didn't even get our money back! You lost us <span class="fail-value-span">{{ (30 - ships_data.total_reward)|int }}</span> Doubloons.</p>
 					<p>I think you need to take a long walk and re-think yer strategy</p>
 					<p>I have just the plank for ye.</p>
 				{% endif %}

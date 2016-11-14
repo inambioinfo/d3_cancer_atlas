@@ -129,9 +129,29 @@ article.welcome h3 {
 	background-repeat: no-repeat;
 }
 
-#welcome-footer {
-	/*clear: both;*/
+
+
+@media screen and (max-width: 720px) {
+	article.welcome h1 {
+		order: 2;
+		width: 70%;
+		line-height: 1em;
+		padding-bottom: 1em;
+	}
+
+	#captain-welcome-img {
+		order: 1;
+		margin: 0 2.5%;
+	}
+
+	article.welcome h3 {
+		line-height: 1em;
+	}
+
+
 }
+
+
 
 /*
 
@@ -345,19 +365,30 @@ article.map-container section.captain-dialogue {
 	width: 88%;
 	background: white;
 	border: 1px solid #FFCF00;
-	padding: .25em .25em;
+	padding: .75em .75em;
 	left: 30px;
 	z-index: 5;
 	top: -20px;
-	visibility: hidden;
-	opacity: 0; 
+	/*visibility: hidden;*/
+	opacity: .25; 
 }
 
+
 article.map-container aside.captain-map:hover section.captain-dialogue {
-	visibility: visible;
+	/*visibility: visible;*/
 	opacity: 1;
 	transition: all .1s ease-in;
 }
+
+
+article.map-container section.captain-dialogue span.victory-value-span {
+	color: darkgreen;
+}
+
+article.map-container section.captain-dialogue span.fail-value-span {
+	color: red;
+}
+
 
 
 /* over 720 */
