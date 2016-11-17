@@ -120,6 +120,8 @@ def build_ships():
 		else:
 			ship['median_semantic_risk'] = "Well above average"
 
+
+		#  in case we need to remind that there is 30 doubloons to spend
 		# add each ship to the list of ships
 		ships.append(ship)
 
@@ -145,19 +147,12 @@ def calculate_victories():
 		ship['player_roll'] = roll
 		if roll >= ship['target']:
 			ship['victory'] = 1
+			ship['outcome'] = 'victory'
 			session['ships_data']['total_reward'] += ship['reward']
 		else:
 			ship['victory'] = 0	
+			ship['outcome'] = 'defeat'
 
-
-# 
-# 	Function to create some data to hold the ships
-# 
-def ships_data():
-	ships_data = {}
-	ships_data['resources_allocated'] = 0
-	ships_data['total_reward'] = 0
-	return ships_data
 
 # 
 # 
@@ -174,7 +169,11 @@ def ships_data():
 def index():
 	session['ships'] = build_ships()
 	session['game_mode'] = game_mode()
-	session['ships_data'] = ships_data()
+	session['ships_data'] = {}
+	session['ships_data']['resources_allocated'] = 0
+	session['ships_data']['total_reward'] = 0
+	session['ships_data']['reminder'] = 0
+
 	return render_template('index.html', ships = session['ships'], gameMode = session['game_mode'])
 
 # 
@@ -193,9 +192,18 @@ def map():
 @app.route('/risk')
 def risk():
 	if session.has_key('ships'):
-		return render_template('risk.html', ships = session['ships'], gameMode = session['game_mode'])
+		return render_template('risk.html', ships = session['ships'], gameMode = session['game_mode'], ships_data = session['ships_data'], reminder = False)
 	else :
 		return redirect(url_for('index'))
+
+
+@app.route('/risk_reminder')
+def risk_reminder():
+	if session.has_key('ships'):
+		return render_template('risk.html', ships = session['ships'], gameMode = session['game_mode'], ships_data = session['ships_data'], reminder = True)
+	else :
+		return redirect(url_for('index'))
+
 
 # 
 # 	Map battle page
@@ -203,33 +211,27 @@ def risk():
 @app.route('/map-battle', methods=['GET'])
 def map_battle():
 	if session.has_key('ships'):
-		print session['ships_data']
-		#  if we don't do this, they can mash refresh until they win!
-		if not session.has_key('resources_are_allocated'):
-			session['ships_data']['resources_allocated'] = 1
-			session['resources_are_allocated'] = True
-			calculate_victories()
+
+		# check and see if they've spent all their money
+		has_spent_all_money = request.args.get('sum') == '30'
+		# print has_spent_all_money
+		if has_spent_all_money:
+			#  if we don't do this next bit, they can mash refresh until they win!
+			if not session.has_key('resources_are_allocated'):
+				session['ships_data']['resources_allocated'] = 1
+				session['resources_are_allocated'] = True
+				calculate_victories()
 
 			# this is where we should dump the data to the server, I guess...
 
-		# print investments
-		return render_template('map.html', ships = session['ships'], ships_data = session['ships_data'])
+			# print investments
+			return render_template('map.html', ships = session['ships'], ships_data = session['ships_data'])
+		else:
+			# print "remember to spend all your money"
+			return redirect(url_for('risk_reminder'))
 	else :
 		return redirect(url_for('index'))
 
-
-
-
-# # 
-# # 	result page - do I still need this one?
-# # 
-# @app.route('/result', methods=['GET'])
-# def result():
-# 	if session.has_key('ships'):
-# 		reward = request.args.get('r')
-# 		return reward
-# 	else:
-# 		return redirect(url_for('index'))
 
 
 # 
@@ -237,11 +239,22 @@ def map_battle():
 # 
 @app.route('/try_again')
 def try_again():
-	# clear the flag that says that the player has assigned resources to each ship
-	del session['resources_are_allocated']
+	if session.has_key('ships'):
+		# clear the flag that says that the player has assigned resources to each ship
+		del session['resources_are_allocated']
 	return redirect(url_for('index'))
 
 
 
 if __name__ == '__main__':
-   app.run(host='0.0.0.0')
+   app.run(debug = True)
+
+
+
+
+# import os
+# from project import main
+
+# if __name__ == '__main__':
+#     port = int(os.environ.get('PORT', 5000))
+#     main.app.run(host='0.0.0.0', port=port)

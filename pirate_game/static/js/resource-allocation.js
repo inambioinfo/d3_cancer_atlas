@@ -6,6 +6,8 @@ var ship_names = ["ship_1=", "ship_2=", "ship_3="];
 
 var linkRows = [1, 1, 1, 2, 2, 2, 3, 3, 3];
 
+
+
 d3.selectAll(".allocation-feedback").data(investedDoubloons);
 d3.selectAll(".allocation-box").data(linkRows);
 d3.select("#allocation-info-span").text(totalDoubloons);
@@ -22,13 +24,15 @@ for (var i = 0; i < investedDoubloons.length; i++) {
 			d3.select("#allocation-row-" + (d)).text(investedDoubloons[d-1]);
 			d3.select("#allocation-info-span").text(totalDoubloons);
 
-			d3.select(".allocation-footer > a")
+			d3.select(".next-state-button")
 			.attr("href", function() {
-				var str = "/map-battle?"
+				var str = "/map-battle?";
+				var sum = 0;
 				for (var i = 0; i < investedDoubloons.length; i++){
-					str += ship_names[i] + investedDoubloons[i] + ",";
+					str += ship_names[i] + investedDoubloons[i] + "&";
+					sum += investedDoubloons[i];
 				}
-				console.log(str);
+				str += "sum=" + sum;
 				return str;
 			})
 
@@ -48,13 +52,15 @@ for (var i = 0; i < investedDoubloons.length; i++) {
 			d3.select("#allocation-info-span").text(totalDoubloons);
 
 
-			d3.select(".allocation-footer > a")
+			d3.select(".next-state-button")
 			.attr("href", function() {
-				var str = "/map-battle?"
+				var str = "/map-battle?";
+				var sum = 0;
 				for (var i = 0; i < investedDoubloons.length; i++){
-					str += ship_names[i] + investedDoubloons[i] + ",";
+					str += ship_names[i] + investedDoubloons[i] + "&";
+					sum += investedDoubloons[i];
 				}
-				// console.log(str);
+				str += "sum=" + sum;
 				return str;
 			})
 
@@ -66,15 +72,17 @@ for (var i = 0; i < investedDoubloons.length; i++) {
 
 d3.select(".next-state-footer").append("a")
 	.attr("href", function() {
-		var str = "/map-battle?"
+		var str = "/map-battle?";
+		var sum = 0;
 		for (var i = 0; i < investedDoubloons.length; i++){
-			str += ship_names[i] + investedDoubloons[i] + ",";
+			str += ship_names[i] + investedDoubloons[i] + "&";
+			sum += investedDoubloons[i];
 		}
-		// console.log(str);
+		str += "sum=" + sum;
 		return str;
 	})
 	.attr("class", "next-state-button")
-	.html("Let's go!");
+	.html("Anchors aweigh");
 
 
 

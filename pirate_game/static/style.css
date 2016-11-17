@@ -24,9 +24,12 @@ body {
 }
 
 h1, h2, h3, h4{
-	font-family: 'Pirata One', cursive;
+	font-family: 'Eczar', serif;
 }
 
+h1 {
+	font-size: 3em;
+}
 
 a {
 	text-decoration: none;
@@ -36,7 +39,7 @@ a {
 
 
 a:hover {
-	text-decoration: 
+	text-decoration: none;
 }
 
 
@@ -75,13 +78,78 @@ p {
 	padding-top: .5em;
 }
 
+
+.reminder {
+	border: 2px solid red;
+	color: red;
+}
+
 /*
 
 	index page styling
 
 */
 
+article.welcome {
+	display: flex;
+	justify-content: space-around;
+	align-content: space-around;
+	flex-direction: row;
+	flex-wrap: wrap;
 
+}
+aside.captain-welcome {
+	border: 3px solid #FFCF00;
+	flex-grow: 3;
+	/*float: left;*/
+	padding: 1em;
+	margin: 2.5%;
+	order: 3;
+	width: 60%;
+}
+
+article.welcome h1 {
+	text-align: center;
+	width: 100%;
+	order: 1;
+}
+
+article.welcome h3 {
+	padding-top: 1em;
+}
+
+#captain-welcome-img {
+	float: left;
+	flex-grow: 1;
+	order: 2;
+	width: 20%;
+	background-image: url(images/artwork/captain-front-small.png);
+	background-size: contain;
+	background-position: right center;
+	background-repeat: no-repeat;
+}
+
+
+
+@media screen and (max-width: 720px) {
+	article.welcome h1 {
+		order: 2;
+		width: 70%;
+		line-height: 1em;
+		padding-bottom: 1em;
+	}
+
+	#captain-welcome-img {
+		order: 1;
+		margin: 0 2.5%;
+	}
+
+	article.welcome h3 {
+		line-height: 1em;
+	}
+
+
+}
 
 
 
@@ -173,11 +241,12 @@ article.map-container ul:hover > li.map-rolls {
 	visibility: visible;
 }
 
-article.result {
+section.result {
 	position: absolute;
 	bottom: .5em;
 	right: 1em;
 }
+
 
 
 li.British {
@@ -274,6 +343,7 @@ h2.map-header {
 	left: -45px;
 	color: maroon;
 	text-decoration: underline;
+	font-family: 'Pirata One', cursive;
 }
 
 /* Captain Text */
@@ -295,19 +365,30 @@ article.map-container section.captain-dialogue {
 	width: 88%;
 	background: white;
 	border: 1px solid #FFCF00;
-	padding: .25em .25em;
+	padding: .75em .75em;
 	left: 30px;
 	z-index: 5;
-	top: -72px;
-	visibility: hidden;
-	opacity: 0; 
+	top: -20px;
+	/*visibility: hidden;*/
+	opacity: .25; 
 }
 
+
 article.map-container aside.captain-map:hover section.captain-dialogue {
-	visibility: visible;
+	/*visibility: visible;*/
 	opacity: 1;
 	transition: all .1s ease-in;
 }
+
+
+article.map-container section.captain-dialogue span.victory-value-span {
+	color: darkgreen;
+}
+
+article.map-container section.captain-dialogue span.fail-value-span {
+	color: red;
+}
+
 
 
 /* over 720 */
@@ -456,8 +537,150 @@ article.map-container h4 {
 }
 
 
+article.map-container li.result-icon {
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 45px;
+	height: 45px;
+	position: relative;
+	left: 50px;
+	top: -4px;
+	opacity: 1;
+	animation-duration: 12s;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-out;
+}
+
+article.map-container li.defeat {
+	background-image: url(images/artwork/cross.png);
+	background-color: white;
+	background-position: 6px 5px;
+	background-size: 32px;
+	border-radius: 128px;
+}
+
+article.map-container li.victory {
+	background-image: url(images/artwork/check.png);
+	background-color: white;
+	background-position: 6px 5px;
+	background-size: 32px;
+	border-radius: 128px;
+}
+
+article.map-container aside.ship-position-0 li.result-icon {
+	animation-name: map-animation-0;
+
+}
+@keyframes map-animation-0 {
+	0% 		{opacity: 0;}
+	20%		{opacity: 0;}
+	40%		{opacity: 1;}
+	100%	{opacity: 1;}
+}
+
+article.map-container aside.ship-position-1 li.result-icon {
+	animation-name: map-animation-1;
+}
+
+@keyframes map-animation-1 {
+	0% 		{opacity: 0;}
+	50%		{opacity: 0;}
+	70%		{opacity: 1;}
+	100%	{opacity: 1;}
+}
+
+article.map-container aside.ship-position-2 li.result-icon {
+	animation-name: map-animation-2;
+}
+
+@keyframes map-animation-2 {
+	0% 		{opacity: 0;}
+	80%		{opacity: 0;}
+	100%	{opacity: 1;}
+}
 
 
+article.map-container li.battle-icon {
+	background-image: url(images/fight/swords.png);
+	background-size: contain;
+	background-repeat: no-repeat;
+	opacity: 0;
+	width: 65px;
+	height: 65px;
+	position: absolute;
+	left: 30px;
+	top: -20px;
+	opacity: 1;
+	animation-duration: 8s;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-out;
+}
+
+
+article.map-container aside.ship-position-0 li.battle-icon {
+	opacity: 0;
+	animation-name: battle-animation-0;
+	animation-duration: 12s;
+	animation-iteration-count: 1;
+}
+
+@keyframes battle-animation-0 {
+	0%		{opacity: 0;}
+	9%		{opacity: 0;}
+	10%		{opacity: 1;}
+	20%		{opacity: 1;}
+	40%		{opacity: 0;}
+	100%	{opacity: 0;}
+}
+article.map-container aside.ship-position-1 li.battle-icon {
+	opacity: 0;
+	animation-name: battle-animation-1;
+	animation-duration: 12s;
+	animation-iteration-count: 1;
+}
+
+@keyframes battle-animation-1 {
+	0%		{opacity: 0;}
+	39%		{opacity: 0;}
+	40%		{opacity: 1;}
+	50%		{opacity: 1;}
+	70%		{opacity: 0;}
+	100%	{opacity: 0;}
+}
+article.map-container aside.ship-position-2 li.battle-icon {
+	opacity: 0;
+	animation-name: battle-animation-2;
+	animation-duration: 12s;
+	animation-iteration-count: 1;
+}
+
+@keyframes battle-animation-2 {
+	0%		{opacity: 0;}
+	69%		{opacity: 0;}
+	70%		{opacity: 1}
+	80%		{opacity: 1;}
+	100%	{opacity: 0;}
+}
+
+aside.captain-result-animation {
+	opacity: 1;
+	animation-name: captain-animation;
+	animation-iteration-count: 1;
+	animation-duration: 12s
+}
+
+@keyframes captain-animation {
+	0%		{opacity: 0;}
+	80%		{opacity: 0;}
+	100%	{opacity: 1;}
+}
+
+#battle-footer {
+	opacity: 1;
+	animation-name: captain-animation;
+	animation-iteration-count: 1;
+	animation-duration: 13s;
+}
 
 
 
@@ -481,20 +704,20 @@ article.map-container h4 {
 
 
 
+
 article.flag {
 	/*background-color: red;*/
-	width: 20%;
+	width: 40%;
 	margin: 1vh 0vw;
-	height: 20vh;
+	height: 30vh;
 	padding: 1vh 1vw;
-
 }
 
 article.ship {
 	/*background-color: purple;*/
-	width: 20%;
+	width: 40%;
 	margin-top: 1vh;
-	height: 20vh;
+	height: 30vh;
 	padding: 1vh 1vw;
 
 }
@@ -502,7 +725,7 @@ article.ship {
 article.allocation {
 	background-color: white;
 	/*border: .5vw solid #FFCF00;*/
-	width: 25%;
+	width: 40%;
 	margin-top: 1vh;
 	height: 10vh;
 	padding: 6vh 1vw;
@@ -512,11 +735,16 @@ article.allocation {
 article.risk-box {
 	background-color: #00447e;
 	/*border: .5vw solid #FFCF00;*/
-	width: 18%;
+	width: 40%;
 	margin-top: 1vh;
-	height: 20vh;
+	height: 23vh;
 	padding: 1vh 1vw;
 	color: white;
+}
+
+article.risk-box span {
+	border-radius: 5px;
+	padding: 1px;
 }
 
 section.value {
@@ -579,11 +807,97 @@ article.row-3 {
 
 article.row-4 {
 	order: 4;
-	height: 2em;
+	/*height:2em;*/
 	width: 50%;
 	text-align: center;
+	/*line-height: 2em;*/
+	padding: 1em;
+	height: inherit;
+
+}
+article.flag h2 {
+	text-align: center;
+	font-size: 1.5em;
+	padding-top: 28vh;
+}
+
+
+
+article.ship h2 {
+	text-align: center;
+	padding-top: 28vh;
+	font-size: 1.5em;
+}
+
+
+
+
+@media screen and (min-width: 920px) {
+
+	article.flag {
+		width: 20%;
+		height: 20vh;
+	}
+
+
+	article.ship {
+		width: 20%;
+		height: 20vh;
+		padding: 3vh 1vw;
+
+	}
+
+
+	article.allocation {
+		width: 25%;
+	}
+
+	article.risk-box {
+		width: 18%;
+		height: 23vh;
+	}
+
+
+	article.row-1 {
+		order: 1;
+	}
+
+	article.row-2 {
+		order: 2;
+	}
+
+	article.row-3 {
+		order: 3;
+	}
+
+	article.row-4 {
+		order: 4;
+		/*height:2em;*/
+		width: 50%;
+		text-align: center;
+		/*line-height: 2em;*/
+		padding: 1em;
+		height: inherit;
+
+	}
+	
+	article.flag h2 {
+		text-align: center;
+		font-size: 1.5em;
+		padding-top: 20.25vh;
+	}
+
+	article.ship h2 {
+		text-align: center;
+		padding-top: 15vh;
+		font-size: 3vh;
+	}
+
+
+}
+article.row-4 p {
 	line-height: 2em;
-	padding: 1vh;
+	padding-top: 0;
 }
 
 
@@ -622,11 +936,6 @@ article.Spanish {
 	background-size: contain;
 }
 
-article.flag h2 {
-	text-align: center;
-	font-size: 1.5em;
-	padding-top: 20.25vh;
-}
 
 
 /* Ship column */
@@ -658,13 +967,6 @@ article.Frigate {
 	background-position: center;
 	background-size: contain;
 }
-
-article.ship h2 {
-	text-align: center;
-	padding-top: 15vh;
-	font-size: 3vh;
-}
-
 
 
 
