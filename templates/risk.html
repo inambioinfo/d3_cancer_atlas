@@ -1,0 +1,274 @@
+<!doctype html>
+<html>
+<head>
+   <meta charset="utf-8">
+   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+   <link href="https://fonts.googleapis.com/css?family=Eczar|Pirata+One" rel="stylesheet">
+   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.8/d3.min.js"></script>
+   <title>Cancer Council Queensland - Manage your risk</title>
+</head>
+<body>
+   <header></header>
+   <article id="resource-container">
+      {% for ship in ships %}
+      <article class="flag row-{{ ship.number + 1 }} {{ ship.nationality }}">
+         <h2>{{ ship.nationality }}</h2>
+      </article>
+      <article class="ship row-{{ ship.number + 1 }} {{ ship.type }}">
+         <h2>{{ ship.type }}</h2>
+      </article>
+      {% endfor %}
+      <article class="allocation row-1">
+         <section class="allocation-box value">
+            <span class="allocation-feedback " id="allocation-row-1">0</span> Doubloons
+         </section>
+         <section class="allocation-box add" id="add-1">
+            +
+         </section>
+         <section class="allocation-box reduce" id="reduce-1">-
+         </section>
+      </article>
+      <article class="allocation row-2">
+         <section class="allocation-box value">
+            <span class="allocation-feedback" id="allocation-row-2">0</span> Doubloons
+         </section>
+         <section class="allocation-box add" id="add-2">
+            +
+         </section>
+         <section class="allocation-box reduce" id="reduce-2">-
+         </section>
+      </article>
+      <article class="allocation row-3">
+         <section class="allocation-box value">
+            <span class="allocation-feedback " id="allocation-row-3">0</span> Doubloons
+         </section>
+         <section class="allocation-box add" id="add-3">
+            +
+         </section>
+         <section class="allocation-box reduce" id="reduce-3">-
+         </section>
+      </article>
+
+      <article class="allocation row-4">
+      {% if reminder %}
+         <section class="allocation-info reminder">
+            <p>
+               You have <span id="allocation-info-span">30</span> Doubloons remaining!
+            </p>
+         </section>
+      {% else %}
+         <section class="allocation-info no-reminder">
+            <p>
+               You have <span id="allocation-info-span">30</span> Doubloons remaining.
+            </p>
+         </section>
+      {% endif %}
+      </article>
+
+      {% for ship in ships %}
+         <article class="risk-box row-{{ ship.number + 1 }}">
+            <h2>Ship {{ ship.number + 1 }}</h2>
+
+            {% if gameMode == 0.0 %}
+               <p>
+                  <b>Risk</b>: Between <span class="lower-risk-span">{{ (ship.min * 100)|int }}% </span> and <span class="upper-risk-span">{{ (ship.max * 100)|int }}%</span>.
+               </p>
+               <p>
+                  <b>Reward</b>: {{ ship.reward }} doubloons.
+               </p>
+                {% elif gameMode == 1.0 %}
+               <p>
+                  <b>Risk</b>: <span class="median">{{ (ship.median * 100)|int }}%</span>, give or take <span class="give-take">{{ (ship.plus_minus * 100)|int }}.
+               </p>
+               <p>
+                  <b>Reward</b>: {{ship.reward}} doubloons.
+               </p>
+               {% else %}
+                  <p>
+                     <b>Risk</b>: from <span class="semantic-risk-lower">{{ship.lower_semantic_risk}}</span> to <span class="semantic-risk-upper">{{ship.upper_semantic_risk}}</span>.
+                  </p>
+                  <p>
+                     <b>Reward</b>: {{ship.reward}} doubloons.
+                  </p>
+            {% endif %}
+         </article>
+      {% endfor %}
+   
+
+   </article>
+   <footer class="next-state-footer">
+   </footer>
+   <script type="text/javascript" src="{{ url_for('static', filename='js/resource-allocation.js') }}"></script>
+   <script type="text/javascript">
+
+
+
+      console.log("Game Mode:", {{gameMode}}); 
+      
+      var colorScale = d3.scaleLinear();
+      colorScale.range([
+
+            '#006837',
+            '#1a9850',
+            '#66bd63',
+            '#a6d96a',
+            '#d9ef8b',
+            '#ffffbf',
+            '#fee08b',
+            '#fdae61',
+            '#f46d43',
+            '#d73027',
+            '#a50026'
+
+            // '#276419',
+            // '#4d9221',
+            // '#7fbc41',
+            // '#b8e186',
+            // '#e6f5d0',
+            // '#f7f7f7',
+            // '#fde0ef',
+            // '#f1b6da',
+            // '#de77ae',
+            // '#c51b7d',
+            // '#8e0152'
+
+
+
+         ]);
+
+      var dom = []
+      for (var i = 0; i < 10; i++) {
+         dom[i] = i * 9;
+      }
+      dom[10]=100;
+      colorScale.domain(dom);
+      
+
+      var textScale = d3.scaleThreshold()
+      textScale.domain([15, 30, 45, 55, 70, 85, 101])
+               .range([
+                  "Well below average",
+                  "Below average",
+                  "Slightly below average",
+                  "Average",
+                  "Slightly above average",
+                  "Above average",
+                  "Well above average"
+               ]);
+
+
+      var backgroundScale = d3.scaleLinear();
+      backgroundScale.range([
+         '#FFFFFF',
+         '#FFFFFF',
+         '#00447e',
+         '#00447e',
+         '#00447e',
+         '#00447e',
+         '#00447e',
+         '#00447e',
+         '#FFFFFF',
+         '#FFFFFF'
+      ]);
+      backgroundScale.domain([0, 15, 16, 30, 45, 55, 70, 84, 85, 101])
+
+      var setColours = function(d, invested) {
+
+         if ({{gameMode}} == 0) {
+            {% for ship in ships %}
+               if ({{ ship.number + 1 }} == d) {
+                  // update value
+                  d3.select("article.row-{{ ship.number + 1}} span.lower-risk-span").text(function() {
+                     return Math.max(0, {{ (ship.min * 100)|int }}-invested[d-1]) +"% "
+                  });
+                  // change colour
+                  d3.select("article.row-{{ ship.number + 1 }} span.lower-risk-span")
+                     .style("color", function() {
+                     return colorScale(Math.max(0, {{ ship.min * 100 }} - invested[d-1]));
+                  })
+                  .style("background", function() {
+                     return backgroundScale(Math.max(0, {{ ship.min * 100 }} - invested[d-1]));
+                  });
+                  
+                  d3.select("article.row-{{ ship.number + 1 }} span.upper-risk-span").text(function() {
+                     return Math.max(0, {{ ship.max * 100 }} - invested[d-1]) + "% ";
+                  });
+                  // update color
+                  d3.select("article.row-{{ ship.number + 1 }} span.upper-risk-span").style("color", function() {
+                     return colorScale(Math.max(0, {{ ship.max * 100 }} - invested[d-1]));
+                  })
+                  .style("background", function() {
+                     return backgroundScale(Math.max(0, {{ ship.max * 100 }} - invested[d-1]));
+                  });
+               }
+
+            {% endfor %}
+         }
+         else if ({{gameMode}} == 1.0) {
+            {% for ship in ships %}
+               if ({{ ship.number + 1}} == d) {
+                  // update text
+                  d3.select("article.row-{{ ship.number + 1 }} span.median").text(function() {
+                     return Math.max(0, {{ ship.median  * 100 }} - invested[d-1]) + "%";
+                  });
+                  // change colour
+                  d3.select("article.row-{{ ship.number + 1 }} span.median").style("color", function() {
+                     return colorScale(Math.max(0, {{ ship.median  * 100 }} - invested[d-1]));
+                  })
+                  .style("background", function() {
+                     return backgroundScale(Math.max(0, {{ ship.median  * 100 }} - invested[d-1]));
+                  });
+
+                  // update text is not necessary
+                  // change colour
+                  d3.select("article.row-{{ ship.number + 1 }} span.give-take").style("color", function() {
+                     return colorScale({{ (ship.plus_minus / 0.5) * 100 }});
+                  })
+                  .style("background", function() {
+                     return backgroundScale({{ (ship.plus_minus / 0.5) * 100 }});
+                  });
+               }
+            {% endfor %}
+         }
+         else {
+            {% for ship in ships %}            
+               if ({{ ship.number + 1}} == d) {
+                  // update text
+                  d3.select("article.row-{{ ship.number + 1 }} span.semantic-risk-upper").text(function() {
+                     return textScale({{ ship.max  * 100 }} - invested[d-1]);
+                  });
+                  // update colour
+                  d3.select("article.row-{{ ship.number + 1 }} span.semantic-risk-upper").style("color", function() {
+                     return colorScale({{ ship.max  * 100 }} - invested[d-1]);
+                  })
+                  .style("background", function() {
+                     return backgroundScale({{ ship.max  * 100 }} - invested[d-1]);
+                  });
+
+                  // update text
+                  d3.select("article.row-{{ ship.number + 1 }} span.semantic-risk-lower").text(function() {
+                     return textScale({{ ship.min  * 100 }} - invested[d-1]);
+                  });
+                  // update colour
+                  d3.select("article.row-{{ ship.number + 1 }} span.semantic-risk-lower").style("color", function() {
+                     return colorScale({{ ship.min  * 100 }} - invested[d-1]);
+                  })
+                  .style("background", function() {
+                     return backgroundScale({{ ship.min  * 100 }} - invested[d-1]);
+                  });
+               }
+            {% endfor %}
+         }
+
+
+      }
+
+
+      for (var i = 1; i < 4; i++) {
+         setColours(i, [0,0,0]);
+      }
+
+
+   </script>
+</body>
+</html>

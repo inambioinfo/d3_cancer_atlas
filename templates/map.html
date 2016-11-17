@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Cancer Council Queensland - Maps</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+	<link href="https://fonts.googleapis.com/css?family=Eczar|Pirata+One" rel="stylesheet">
+
+</head>
+<body>
+	<article class="map-container">
+		<h2 class="map-header">Null Island</h2>
+
+		<aside class="map-img"></aside>
+		{% if ships_data.resources_allocated < 1	 %}
+		<!-- If there's no resources allocated, we must be on the first map page -->
+			{% for ship in ships %}
+				<aside class="map-ship ship-position-{{ ship.number }}">
+					<ul>
+						<li class="flag-icon {{ ship.nationality }} ">
+						</li>
+						<li class="ship-icon {{ ship.type }}">
+						</li>
+					{% if gameMode == 0.0 %}
+						<li class="map-risk">
+							<b>Risk</b>: Between {{ (ship.min * 100)|int }}% and {{ (ship.max * 100)|int }}%.<br>
+							<b>Reward</b>: {{ ship.reward }} doubloons.
+						</li>
+					{% elif gameMode == 1.0 %}
+						<li class="map-risk">
+							<b>Risk</b>: {{ (ship.median * 100)|int }}%, give or take {{ (ship.plus_minus * 100)|int }}.<br>
+							<b>Reward</b>: {{ship.reward}} doubloons.
+						</li>
+					{% else %}
+						<li class="map-risk">
+						 	<b>Risk</b>: from {{ ship.lower_semantic_risk }} to {{ ship.upper_semantic_risk }}.<br>
+							<b>Reward</b>: {{ship.reward}} doubloons.
+						</li>
+					{% endif %}
+					</ul>
+				</aside>
+			{% endfor %}
+			<aside class="captain-map">
+				<img src="{{ url_for('static', filename='images/artwork/captain_small.png') }}" alt="Picture of the Captain">
+				<section class="captain-dialogue">
+					<h4>Look lively there!</h4>
+					<p>There be three ships approaching Null Island, carrying treasure which me might be able to... liberate.</p>
+					<p>Each one carries a different amount of treasure, and a different level of risk</p>
+					<p>I'll give you 30 doubloons to pay for extra ammunition and supplies. Yer job is to decide which ship gets the extra attention.</p>
+				</section>
+			</aside>
+		</article>
+		<footer class="next-state-footer">
+			<a href="/risk" class="next-state-button">Aye, Captain!</a>
+		</footer>
+
+
+		{% else %}
+		<!-- If the resources are allocated to each ship, ATTACK! -->
+			{% for ship in ships %}
+				<aside class="map-ship ship-position-{{ ship.number }}">
+					<ul>
+						<li class="flag-icon {{ ship.nationality }} "></li>
+						<li class="ship-icon {{ ship.type }}"></li>
+						<li class="battle-icon"></li>
+						<li class="result-icon {{ ship.outcome }}"></li>
+					{% if gameMode == 0.0 %}
+						<li class="map-risk">
+							<p>
+								<b>Risk</b>: Between {{ (ship.min * 100)|int }}% and {{ (ship.max * 100)|int }}%.
+							</p>
+							<p>
+								<b>Reward</b>: {{ ship.reward }} doubloons.
+							</p>
+							<p>
+								<b>Enemy vessel roll:</b> {{ (100*ship.target)|int }} 
+							</p>
+							<p>
+								<b>Your vessel roll:</b> {{ (100*ship.player_roll)|int }}
+							</p>
+						</li>
+					{% elif gameMode == 1.0 %}
+						<li class="map-risk">
+							<p>
+								<b>Risk</b>: {{ (ship.median * 100)|int }}%, give or take {{ (ship.plus_minus * 100)|int }}.
+							</p>>
+							<p>
+								<b>Reward</b>: {{ship.reward}} doubloons.
+							</p>
+							<p>
+								<b>Enemy vessel roll:</b> {{ (100*ship.target)|int }}
+							</p>
+							<p>
+								Your vessel roll:</b> {{ (100*ship.player_roll)|int }}
+							</p>
+						</li>
+					{% else %}
+						<li class="map-risk">
+						 	<p>
+						 		<b>Risk</b>: from {{ship.lower_semantic_risk}} to {{ship.upper_semantic_risk}}.
+						 	</p>
+						 	<p>
+								<b>Reward</b>: {{ship.reward}} doubloons.<br>
+							</p>
+							<p>
+								<b>Enemy vessel roll:</b> {{ (100*ship.target)|int }} 
+							</p>
+							<p>
+								<b>Your vessel roll:</b> {{ (100*ship.player_roll)|int }}
+							</p>
+						</li>
+					{% endif %}
+					</ul>
+				</aside>
+			{% endfor %}
+
+
+			<aside class="captain-map captain-result-animation">
+				{% if ships_data.total_reward > 30 %}
+				<img src="{{ url_for('static', filename='images/artwork/captain-happy-small.png') }}" alt="Captain congratulating you">
+				<section class="captain-dialogue">
+					<h4>Good job, Matey!</h4>
+					<p>We made a profit of <span class="victory-value-span">{{ (ships_data.total_reward - 30)|int }}</span> Doubloons</p>
+					<p>Seems like you've made the right choices.</p>
+					<p>I've bought you a bottle of rum with yer share... now where did I put it?</p>
+				{% else %}
+				<img src="{{ url_for('static', filename='images/artwork/captain-cranky-small.png') }}" alt="Captain congratulating you">
+				<section class="captain-dialogue">
+					<h4>Arrrrr, there you are!</h4>
+					<p>You didn't even get our money back! You lost us <span class="fail-value-span">{{ (30 - ships_data.total_reward)|int }}</span> Doubloons.</p>
+					<p>I think you need to take a long walk and re-think yer strategy</p>
+					<p>I have just the plank for ye.</p>
+				{% endif %}
+				</section>
+			</aside>
+		</article>
+		<footer class="next-state-footer" id="battle-footer">
+			<a href="/try_again" class="next-state-button">Try again?</a>
+		</footer>
+		
+	{% endif %}
+</body>
+</html>
