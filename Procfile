@@ -1,1 +1,2 @@
-web: python app.py runserver 0.0.0.0:5000
+web: export FLASK_APP=app.py
+web: python -m flask run --host='0.0.0.0'
