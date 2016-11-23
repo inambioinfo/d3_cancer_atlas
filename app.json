@@ -1,0 +1,13 @@
+{
+  "name": "pirate game demo",
+  "description": "A sample Flask app on Heroku",
+  "keywords": [
+    "flask",
+    "python",
+    "sample"
+  ],
+  "repository": "https://github.com/yefim/flask-heroku-sample",
+  "addons": [
+    ""
+  ]
+}
