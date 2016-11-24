@@ -120,7 +120,7 @@ def build_ships():
 		else:
 			ship['median_semantic_risk'] = "Well above average"
 
-
+		ship['allocated'] = 0	
 		#  in case we need to remind that there is 30 doubloons to spend
 		# add each ship to the list of ships
 		ships.append(ship)
@@ -140,12 +140,13 @@ def game_mode():
 # 
 # 	Function to determine if the player wins
 # 
-def calculate_victories():
+def calculate_victories(allocation):
 
 	for i, ship in enumerate(session['ships']):
 		roll = round(r.random(),2)
 		ship['player_roll'] = roll
-		if roll >= ship['target']:
+		ship['allocated'] = int(allocation[i])
+		if roll >= ship['target'] - int(allocation[i]):
 			ship['victory'] = 1
 			ship['outcome'] = 'victory'
 			session['ships_data']['total_reward'] += ship['reward']
@@ -220,7 +221,8 @@ def map_battle():
 			if not session.has_key('resources_are_allocated'):
 				session['ships_data']['resources_allocated'] = 1
 				session['resources_are_allocated'] = True
-				calculate_victories()
+				allocation = [request.args.get('ship_1'), request.args.get('ship_2'), request.args.get('ship_3')]
+				calculate_victories(allocation)
 
 			# this is where we should dump the data to the server, I guess...
 

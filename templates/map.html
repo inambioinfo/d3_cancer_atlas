@@ -103,7 +103,7 @@
 								<b>Reward</b>: {{ship.reward}} doubloons.<br>
 							</p>
 							<p>
-								<b>Enemy vessel roll:</b> {{ (100*ship.target)|int }} 
+								<b>Enemy vessel roll:</b> {{ ((100*ship.target) - ship.allocated)|int }} 
 							</p>
 							<p>
 								<b>Your vessel roll:</b> {{ (100*ship.player_roll)|int }}
