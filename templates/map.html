@@ -103,7 +103,11 @@
 								<b>Reward</b>: {{ship.reward}} doubloons.<br>
 							</p>
 							<p>
+								{% if  ((100*ship.target) - ship.allocated) > 0 %}
 								<b>Enemy vessel roll:</b> {{ ((100*ship.target) - ship.allocated)|int }} 
+								{% else %}
+								<b>Enemy vessel roll:</b> 0
+								{% endif %}
 							</p>
 							<p>
 								<b>Your vessel roll:</b> {{ (100*ship.player_roll)|int }}
