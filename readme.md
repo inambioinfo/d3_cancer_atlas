@@ -7,5 +7,3 @@ How to run development version:
 2. $ export FLASK_APP=app.py
 
 3. $ python -m flask run --host='0.0.0.0'
-
-4. (optional) $ lt -p 5000 -s cancerpirates
