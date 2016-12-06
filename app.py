@@ -33,18 +33,14 @@ def build_ships():
 		# we need a lower, target and max value for the risk, so grab 3 random numbers
 		for i in range(3):
 			rands.append(round(r.random(),2))
+			#The range could stand to be a bit narrower.
 
-		# push the middle value to the 'target' variable of the ship
-
-		# Start with it being the same as the minimum value, just incase it's the same as either the max or min value
-		ship['target'] = min(rands)
-		for k in range(3):
-			if rands[k] != min(rands) and rands[k] != max(rands):
-				ship['target'] = rands[k]
-				
+		rands.sort()
+	
 		# push min/max values of risk to the ship
-		ship['min'] = min(rands)
-		ship['max'] = max(rands)
+		ship['min'] = rands[0]
+		ship['target'] = rands[1]
+		ship['max'] = rands[2]
 
 		# push margin of error and median of min/max risk values to the ship
 		ship['plus_minus'] = round((ship['max'] - ship['min'])/2,2)
