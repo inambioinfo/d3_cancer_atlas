@@ -9,6 +9,8 @@ var linkRows = [1, 1, 1, 2, 2, 2, 3, 3, 3];
 var eventData = [];
 recordEvent("LOAD", true);
 
+var dataDumpURL = "/log_submit";
+
 function next() {
 		var str = "/map-battle?";
 		var sum = 0;
@@ -20,7 +22,15 @@ function next() {
 		str += "&time=" + Date.now();
 		
 		//Export click data here, the page may be left...
-		//eventData = [];//In case of mouseover without click
+		for (var i = 0; i < eventData.length; ++i) {
+			console.log(JSON.stringify(eventData[i]));
+			var req = new XMLHttpRequest();
+			req.open("POST", dataDumpURL, true);
+			req.setRequestHeader("Content-type", "application/json"); //This should be easily parsed.
+			req.send(JSON.stringify(eventData[i]));
+			//In case of mouseover without click, the page will still be loaded, but we have sent some of the data already...
+		}
+		eventData = [];
 		//Page change event will need handling at the server end.
 		
 		return str;

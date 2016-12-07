@@ -2,6 +2,25 @@
 from flask import Flask, render_template, request, session, redirect, url_for
 app = Flask(__name__)
 
+import json
+
+#Copy from StackOverflow-----------------------------
+from os import path
+import os
+
+extra_dirs = ['static',]
+extra_files = extra_dirs[:]
+for extra_dir in extra_dirs:
+    for dirname, dirs, files in os.walk(extra_dir):
+        for filename in files:
+            filename = path.join(dirname, filename)
+            if path.isfile(filename):
+                extra_files.append(filename)
+#app.run(extra_files=extra_files)
+#End copy-----------------------------------------------
+
+#import for database
+from db_interface import submit_event_to_db
 
 #  import for generating session key
 from os import urandom
@@ -217,10 +236,14 @@ def map_battle():
 			if not session.has_key('resources_are_allocated'):
 				session['ships_data']['resources_allocated'] = 1
 				session['resources_are_allocated'] = True
+				
+				submit_event_to_db("FINALISE", true, request.args.get('time'), app.secret_key)
+				
 				allocation = [request.args.get('ship_1'), request.args.get('ship_2'), request.args.get('ship_3')]
 				calculate_victories(allocation)
 
 			# this is where we should dump the data to the server, I guess...
+			#submit_event_to_db() #FIGHT
 
 			# print investments
 			return render_template('map.html', ships = session['ships'], ships_data = session['ships_data'])
@@ -243,10 +266,23 @@ def try_again():
 	return redirect(url_for('index'))
 
 
+#
+#	Recieve data
+#
+@app.route('/log_submit', methods=['POST'])
+def recieve_event_data():
+	if not session.has_key('resources_are_allocated'):
+		print request.is_json
+		result = request.get_json()
+		print "Result: ", result
+		submit_event_to_db(result.get("event"), result.get("success"), result.get("time"), app.secret_key)
+	else:
+		print "Someone hit BACK, this data is irrelevant..."
+	return ""
 
 if __name__ == '__main__':
-   app.run()
-
+	print(extra_files)
+	app.run(extra_files=extra_files)
 
 
 
