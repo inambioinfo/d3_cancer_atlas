@@ -206,7 +206,7 @@ article.map-container li.map-risk {
 	width: 160px;
 	right: -30px;
 	top: -20px;
-    z-index: 5;
+	z-index: 5;
 }
 
 article.map-container aside.map-img {
@@ -552,19 +552,26 @@ article.map-container li.result-icon {
 }
 
 article.map-container li.defeat {
-	background-image: url(images/artwork/cross.png);
-	background-color: white;
-	background-position: 6px 5px;
-	background-size: 32px;
-	border-radius: 128px;
+    background-image: url(images/artwork/cross.png);
+    /* background-color: white; */
+    background-position: center;
+    background-size: 32px;
+    border-radius: 128px;
+    z-index: 3;
+    top: -8px;
+    left: 42px;
 }
 
 article.map-container li.victory {
 	background-image: url(images/artwork/check.png);
-	background-color: white;
-	background-position: 6px 5px;
-	background-size: 32px;
-	border-radius: 128px;
+	/* background-color: white; */
+	background-position: center;
+	background-size: 28px;
+	/* border-radius: 128px; */
+	width: 40px;
+	height: 40px;
+	top: 16px;
+	z-index: 3;
 }
 
 article.map-container aside.ship-position-0 li.result-icon {
@@ -604,12 +611,12 @@ article.map-container li.battle-icon {
 	background-image: url(images/fight/swords.png);
 	background-size: contain;
 	background-repeat: no-repeat;
-	opacity: 0;
-	width: 65px;
-	height: 65px;
+	/*opacity: 0;*/
+	width: 85px;
+	height: 85px;
 	position: absolute;
-	left: 30px;
-	top: -20px;
+	left: 20px;
+	top: -30px;
 	opacity: 1;
 	animation-duration: 8s;
 	animation-iteration-count: 1;
@@ -685,12 +692,32 @@ aside.captain-result-animation {
 
 li.enemy-ship-roll {
 	font-size: 1.8em;
-	font-family: 'Eczar', serif
+	font-family: 'Eczar', serif;
+	font-weight: bold;
+	top: 4px;
+	left: 43px;
+	/* background: white; */
+	width: 40px;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	color: white;
+	text-shadow: black 1px 1px 3px;
 }
 
 li.player-ship-roll {
 	font-size: 1.8em;
-	font-family: 'Eczar', serif
+	font-family: 'Eczar', serif;
+	font-weight: bold;
+	top: -22px;
+	left: 44px;
+	/* background: white; */
+	width: 40px;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	color: white;
+	text-shadow: black 1px 1px 2px;
 }
 
 
@@ -913,6 +940,10 @@ article.row-4 p {
 
 
 section.allocation-box {
+	color: #00447e;
+}
+
+section.allocation-box-five {
 	color: #00447e;
 }
 

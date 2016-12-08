@@ -10,7 +10,7 @@ var makeTheAddReduceFiveRowsWork = [1, 1, 2, 2, 3, 3];
 
 d3.selectAll(".allocation-feedback").data(investedDoubloons);
 d3.selectAll(".allocation-box").data(linkRows);
-d3.selectAll(".five").data(makeTheAddReduceFiveRowsWork);
+d3.selectAll(".allocation-box-five").data(makeTheAddReduceFiveRowsWork);
 d3.select("#allocation-info-span").text(totalDoubloons);
 for (var i = 0; i < investedDoubloons.length; i++) {
 	var id = "#allocation-row-" + (i+1);
@@ -18,12 +18,10 @@ for (var i = 0; i < investedDoubloons.length; i++) {
 
 	id = "#reduce-" + (i+1);
 	d3.select(id).on("click", function(d) {
-		// setColours(d, investedDoubloons);
+		setColours(d, investedDoubloons);
 		if (investedDoubloons[d-1] > 0) {
 			investedDoubloons[d-1] -= 1;
 			totalDoubloons += 1;
-			console.log(totalDoubloons);
-			console.log(investedDoubloons)
 			d3.select("#allocation-row-" + (d)).text(investedDoubloons[d-1]);
 			d3.select("#allocation-info-span").text(totalDoubloons);
 
@@ -43,13 +41,10 @@ for (var i = 0; i < investedDoubloons.length; i++) {
 
 	id = "#reduce5-" + (i+1);
 	d3.select(id).on("click", function(d) {
-		console.log("clicked - 5:", i+1);
-		// setColours(d, investedDoubloons);
+		setColours(d, investedDoubloons);
 		if (investedDoubloons[d-1] > 4) {
 			investedDoubloons[d-1] -= 5;
 			totalDoubloons += 5;
-			console.log(totalDoubloons);
-			console.log(investedDoubloons)
 			d3.select("#allocation-row-" + (d)).text(investedDoubloons[d-1]);
 			d3.select("#allocation-info-span").text(totalDoubloons);
 
@@ -69,12 +64,10 @@ for (var i = 0; i < investedDoubloons.length; i++) {
 
 	id = "#add-" + (i+1);
 	d3.select(id).on("click", function(d) {
-		// setColours(d, investedDoubloons);
+		setColours(d, investedDoubloons);
 		if (totalDoubloons > 0) {
 			investedDoubloons[d-1] += 1;
 			totalDoubloons -= 1;
-			console.log(totalDoubloons);
-			console.log(investedDoubloons)
 			d3.select("#allocation-row-" + d).text(investedDoubloons[d-1]);
 			d3.select("#allocation-info-span").text(totalDoubloons);
 
@@ -94,15 +87,12 @@ for (var i = 0; i < investedDoubloons.length; i++) {
 
 	id = "#add5-" + (i+1);
 	d3.select(id).on("click", function(d) {
-		console.log("clicked + 5:", i+1);
-		// setColours(d, investedDoubloons);
+		setColours(d, investedDoubloons);
 		if (totalDoubloons > 4) {
 			console.log(d-1, investedDoubloons, investedDoubloons[d-1]);
 
 			investedDoubloons[d-1] += 5;
 			totalDoubloons -= 5;
-			console.log(totalDoubloons);
-			console.log(investedDoubloons)
 			d3.select("#allocation-row-" + d).text(investedDoubloons[d-1]);
 			d3.select("#allocation-info-span").text(totalDoubloons);
 
