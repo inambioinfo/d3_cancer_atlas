@@ -343,7 +343,7 @@ h2.map-header {
 	left: -45px;
 	color: maroon;
 	text-decoration: underline;
-	font-family: 'Pirata One', cursive;
+	/*font-family: 'Pirata One', cursive;*/
 }
 
 /* Captain Text */
@@ -683,6 +683,16 @@ aside.captain-result-animation {
 }
 
 
+li.enemy-ship-roll {
+	font-size: 1.8em;
+	font-family: 'Eczar', serif
+}
+
+li.player-ship-roll {
+	font-size: 1.8em;
+	font-family: 'Eczar', serif
+}
+
 
 /*
 
@@ -749,7 +759,7 @@ article.risk-box span {
 
 section.value {
 	float: left;
-	width: 70%;
+	width: 55%;
 	/*background-color: lightgreen;*/
 	border: 1px solid #00447e;
 	line-height: 4em;

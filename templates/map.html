@@ -64,6 +64,8 @@
 						<li class="ship-icon {{ ship.type }}"></li>
 						<li class="battle-icon"></li>
 						<li class="result-icon {{ ship.outcome }}"></li>
+						<li class="enemy-ship-roll" style="font-size: {{10 + (15*ship.target)}}px;"> {{ (100*ship.target)|int }}</li>
+						<li class="player-ship-roll" style="font-size: {{10 + (15*ship.player_roll)}}px;"> {{ (100*ship.player_roll)|int }}</li>
 					{% if gameMode == 0.0 %}
 						<li class="map-risk">
 							<p>
