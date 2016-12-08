@@ -606,7 +606,6 @@ article.map-container aside.ship-position-2 li.result-icon {
 	100%	{opacity: 1;}
 }
 
-
 article.map-container li.battle-icon {
 	background-image: url(images/fight/swords.png);
 	background-size: contain;
@@ -718,7 +717,49 @@ li.player-ship-roll {
 	text-align: center;
 	color: white;
 	text-shadow: black 1px 1px 2px;
+
 }
+article.map-container aside.ship-position-0 li.player-ship-roll {
+	opacity: 1;
+	animation-name: player-roll-animation-0;
+	animation-duration: 12s;
+	animation-iteration-count: 1;
+}
+
+@keyframes player-roll-animation-0 {
+	0%		{opacity: 0;}
+	14%		{opacity: 0;}
+	15%		{opacity: 1;}
+}
+
+article.map-container aside.ship-position-1 li.player-ship-roll {
+	opacity: 1;
+	animation-name: player-roll-animation-1;
+	animation-duration: 12s;
+	animation-iteration-count: 1;
+}
+
+@keyframes player-roll-animation-1 {
+	0%		{opacity: 0;}
+	44%		{opacity: 0;}
+	45%		{opacity: 1;}
+}
+
+
+article.map-container aside.ship-position-2 li.player-ship-roll {
+	opacity: 1;
+	animation-name: player-roll-animation-2;
+	animation-duration: 12s;
+	animation-iteration-count: 1;
+}
+
+@keyframes player-roll-animation-2 {
+	0%		{opacity: 0;}
+	74%		{opacity: 0;}
+	75%		{opacity: 1;}
+}
+
+
 
 
 /*
