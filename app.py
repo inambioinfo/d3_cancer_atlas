@@ -20,15 +20,19 @@ for extra_dir in extra_dirs:
 #End copy-----------------------------------------------
 
 #import for database
-from db_interface import submit_event_to_db
+from db_interface import submit_event_to_db, submit_game_to_db, submit_result_to_db
 
 #  import for generating session key
 from os import urandom
 app.secret_key = urandom(24)
 
+
 #  import for ship-building funcitons
 import random as r
 from math import floor
+
+#Session ID based on timing
+import time
 
 # 
 # 
@@ -183,6 +187,9 @@ def calculate_victories(allocation):
 # 
 @app.route('/')
 def index():
+	if not session.has_key('db_id'):
+		session['db_id'] = int(time.time()) #Let us hoe that we don't need more than one session per second...
+		session['game_number'] = 0
 	session['ships'] = build_ships()
 	session['game_mode'] = game_mode()
 	session['ships_data'] = {}
@@ -216,6 +223,7 @@ def risk():
 @app.route('/risk_reminder')
 def risk_reminder():
 	if session.has_key('ships'):
+		#RECORD: Note this has loaded in the DB
 		return render_template('risk.html', ships = session['ships'], gameMode = session['game_mode'], ships_data = session['ships_data'], reminder = True)
 	else :
 		return redirect(url_for('index'))
@@ -227,7 +235,6 @@ def risk_reminder():
 @app.route('/map-battle', methods=['GET'])
 def map_battle():
 	if session.has_key('ships'):
-
 		# check and see if they've spent all their money
 		has_spent_all_money = request.args.get('sum') == '30'
 		# print has_spent_all_money
@@ -237,13 +244,15 @@ def map_battle():
 				session['ships_data']['resources_allocated'] = 1
 				session['resources_are_allocated'] = True
 				
-				submit_event_to_db("FINALISE", true, request.args.get('time'), app.secret_key)
+				#This can fire multiple times if the page is refreshed... At this rate, it'll be easiest to add a session['gamestage']
+				submit_event_to_db("FINALISE", True, request.args.get('time'), session['db_id'])
 				
 				allocation = [request.args.get('ship_1'), request.args.get('ship_2'), request.args.get('ship_3')]
 				calculate_victories(allocation)
 
-			# this is where we should dump the data to the server, I guess...
-			#submit_event_to_db() #FIGHT
+				# this is where we should dump the data to the server, I guess...
+				#submit_event_to_db() #do we need a FIGHT event?
+				submit_result_to_db(session['ships'], session['game_number'], session['db_id'])
 
 			# print investments
 			return render_template('map.html', ships = session['ships'], ships_data = session['ships_data'])
@@ -263,6 +272,8 @@ def try_again():
 	if session.has_key('ships'):
 		# clear the flag that says that the player has assigned resources to each ship
 		del session['resources_are_allocated']
+		del session['risk_page_begun']
+		session['game_number'] += 1
 	return redirect(url_for('index'))
 
 
@@ -275,7 +286,10 @@ def recieve_event_data():
 		print request.is_json
 		result = request.get_json()
 		print "Result: ", result
-		submit_event_to_db(result.get("event"), result.get("success"), result.get("time"), app.secret_key)
+		submit_event_to_db(result.get("event"), result.get("success"), result.get("time"), session['db_id'])
+		if not (session.has_key('risk_page_begun')): #In case of BACK/FORWARD, ensure that this only executes once...
+			session['risk_page_begun'] = True
+			submit_game_to_db(session['ships'], session['game_mode'], session['game_number'], result.get('time'), session['db_id']) #Here, to note abandoned games.
 	else:
 		print "Someone hit BACK, this data is irrelevant..."
 	return ""
