@@ -11,8 +11,7 @@ coll_results = db.results
 #coll_sessions = db.sessions #NYI: Survey responses to be stored by session..
 
 def submit_event_to_db(type, success, time, session_key):
-	print "EVENT"
-	print type, success, time, session_key
+	print "EVENT:", type, success, time, session_key
 	result = coll_events.insert_one(
 			{"event":type, 
 			"success":success, 
@@ -27,11 +26,12 @@ def submit_game_to_db(ships, game_mode, game_number, time, session_key):
 			'game_number':game_number,
 			'session':session_key})
 
-def submit_result_to_db(ships, game_number, session_key):
+def submit_result_to_db(ships, game_number, time, session_key):
 	print "RESULT"
 	result = coll_results.insert_one(
 			{'results':summarize_ships_battles(ships),
 			'game_number':game_number, 
+			'time':time,
 			'session':session_key})
 	
 def summarize_ships_generated(ships):	

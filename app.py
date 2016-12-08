@@ -190,6 +190,7 @@ def index():
 	if not session.has_key('db_id'):
 		session['db_id'] = int(time.time()) #Let us hoe that we don't need more than one session per second...
 		session['game_number'] = 0
+		session['game_stage'] = 0
 	session['ships'] = build_ships()
 	session['game_mode'] = game_mode()
 	session['ships_data'] = {}
@@ -204,7 +205,8 @@ def index():
 # 
 @app.route('/map')
 def map():
-	if session.has_key('ships'):
+	if session.has_key('game_stage'):
+		session['game_stage'] = 10 #Increment in 10s, use intermediate values for reload resistance.
 		return render_template('map.html', ships = session['ships'], gameMode = session['game_mode'], ships_data = session['ships_data'])
 	else :
 		return redirect(url_for('index'))
@@ -214,7 +216,8 @@ def map():
 # 
 @app.route('/risk')
 def risk():
-	if session.has_key('ships'):
+	if session.has_key('game_stage'):
+		session['game_stage'] = 20
 		return render_template('risk.html', ships = session['ships'], gameMode = session['game_mode'], ships_data = session['ships_data'], reminder = False)
 	else :
 		return redirect(url_for('index'))
@@ -222,8 +225,8 @@ def risk():
 
 @app.route('/risk_reminder')
 def risk_reminder():
-	if session.has_key('ships'):
-		#RECORD: Note this has loaded in the DB
+	if session.has_key('game_stage'):
+		submit_event_to_db("REMINDER", True, request.args.get('time'), session['db_id'])
 		return render_template('risk.html', ships = session['ships'], gameMode = session['game_mode'], ships_data = session['ships_data'], reminder = True)
 	else :
 		return redirect(url_for('index'))
@@ -234,32 +237,30 @@ def risk_reminder():
 # 
 @app.route('/map-battle', methods=['GET'])
 def map_battle():
-	if session.has_key('ships'):
+	if session.has_key('game_stage'):
 		# check and see if they've spent all their money
 		has_spent_all_money = request.args.get('sum') == '30'
 		# print has_spent_all_money
 		if has_spent_all_money:
 			#  if we don't do this next bit, they can mash refresh until they win!
-			if not session.has_key('resources_are_allocated'):
-				session['ships_data']['resources_allocated'] = 1
-				session['resources_are_allocated'] = True
+			if (session['game_stage'] < 30):
+				session['game_stage'] = 30
 				
-				#This can fire multiple times if the page is refreshed... At this rate, it'll be easiest to add a session['gamestage']
-				submit_event_to_db("FINALISE", True, request.args.get('time'), session['db_id'])
+				session['ships_data']['resources_allocated'] = 1
 				
 				allocation = [request.args.get('ship_1'), request.args.get('ship_2'), request.args.get('ship_3')]
 				calculate_victories(allocation)
 
-				# this is where we should dump the data to the server, I guess...
-				#submit_event_to_db() #do we need a FIGHT event?
-				submit_result_to_db(session['ships'], session['game_number'], session['db_id'])
+				submit_event_to_db("FINALISE", True, request.args.get('time'), session['db_id'])
+				#Results are submitted away from generations, as the player may quit before getting a result.
+				submit_result_to_db(session['ships'], session['game_number'], request.args.get('time'), session['db_id'])
 
 			# print investments
 			return render_template('map.html', ships = session['ships'], ships_data = session['ships_data'])
 		else:
 			# print "remember to spend all your money"
-			return redirect(url_for('risk_reminder'))
-	else :
+			return redirect(url_for('risk_reminder') + '?time=' + request.args.get('time'))
+	else:
 		return redirect(url_for('index'))
 
 
@@ -269,11 +270,9 @@ def map_battle():
 # 
 @app.route('/try_again')
 def try_again():
-	if session.has_key('ships'):
-		# clear the flag that says that the player has assigned resources to each ship
-		del session['resources_are_allocated']
-		del session['risk_page_begun']
+	if session.has_key('game_stage') and session['game_stage'] == 30: #Don't let them reset their game too soon...
 		session['game_number'] += 1
+		session['game_stage'] = 0
 	return redirect(url_for('index'))
 
 
@@ -282,17 +281,18 @@ def try_again():
 #
 @app.route('/log_submit', methods=['POST'])
 def recieve_event_data():
-	if not session.has_key('resources_are_allocated'):
-		print request.is_json
-		result = request.get_json()
-		print "Result: ", result
-		submit_event_to_db(result.get("event"), result.get("success"), result.get("time"), session['db_id'])
-		if not (session.has_key('risk_page_begun')): #In case of BACK/FORWARD, ensure that this only executes once...
-			session['risk_page_begun'] = True
-			submit_game_to_db(session['ships'], session['game_mode'], session['game_number'], result.get('time'), session['db_id']) #Here, to note abandoned games.
-	else:
-		print "Someone hit BACK, this data is irrelevant..."
-	return ""
+	if (session.has_key('game_stage')):
+		if session['game_stage'] < 30:
+			#print request.is_json
+			result = request.get_json()
+			#print "Result: ", result
+			submit_event_to_db(result.get("event"), result.get("success"), result.get("time"), session['db_id'])
+			if session['game_stage'] < 25: #In case of BACK/FORWARD, ensure that this only executes once...
+				session['game_stage'] = 25 #Partway through this stage...
+				submit_game_to_db(session['ships'], session['game_mode'], session['game_number'], result.get('time'), session['db_id']) #Here, to collect data from abandoned-later games.
+		else:
+			print "Someone hit BACK, this data is irrelevant..."
+	return "" #This should never be navigated to.
 
 if __name__ == '__main__':
 	print(extra_files)
