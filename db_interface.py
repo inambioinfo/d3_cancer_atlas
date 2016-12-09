@@ -43,6 +43,8 @@ def summarize_ships_generated(ships):
 		summary['target'] = ship['target']
 		summary['max'] = ship['max']
 		summary['reward'] = ship['reward']
+		summaries.append(summary)
+	return summaries
 
 def summarize_ships_battles(ships):
 	summaries = []
@@ -51,3 +53,5 @@ def summarize_ships_battles(ships):
 		summary['player_roll'] = ship['player_roll']
 		summary['allocated'] = ship['allocated']
 		#summary[''] = ship['']
+		summaries.append(summary)
+	return summaries

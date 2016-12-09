@@ -44,9 +44,14 @@
 				<img src="{{ url_for('static', filename='images/artwork/captain_small.png') }}" alt="Picture of the Captain">
 				<section class="captain-dialogue">
 					<h4>Look lively there!</h4>
+				{% if session['game_number'] == 0 %} 
 					<p>There be three ships approaching Null Island, carrying treasure which me might be able to... liberate.</p>
 					<p>Each one carries a different amount of treasure, and a different level of risk</p>
 					<p>I'll give you 30 doubloons to pay for extra ammunition and supplies. Yer job is to decide which ship gets the extra attention.</p>
+				{% else %}
+					<p>Three more ships be approaching Null Island, and I be thinkin' of light'nin' ther loads, so to speak.</p>
+					<p>Ye've got 30 dubloons to but with, use 'em well.</p>
+				{% endif %}
 				</section>
 			</aside>
 		</article>
@@ -125,8 +130,13 @@
 				<section class="captain-dialogue">
 					<h4>Good job, Matey!</h4>
 					<p>We made a profit of <span class="victory-value-span">{{ (ships_data.total_reward - 30)|int }}</span> Doubloons</p>
+					{% if message > 0.5 %}
 					<p>Seems like you've made the right choices.</p>
 					<p>I've bought you a bottle of rum with yer share... now where did I put it?</p>
+					{% else %}
+					<p>Ye invested our dubloons so well, I invested your share...</p>
+					<p>By the way, ye ever heard of Davy Jones Banking?</p>
+					{% endif %}
 				{% else %}
 				<img src="{{ url_for('static', filename='images/artwork/captain-cranky-small.png') }}" alt="Captain congratulating you">
 				<section class="captain-dialogue">

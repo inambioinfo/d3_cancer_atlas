@@ -8,6 +8,7 @@
 <body>
 	<header></header>
 	<article class="welcome">
+	{% if session['game_number'] == 0 %}
 		<h1>Welcome, shipmate!</h1>
 		<aside class="captain-welcome">
 			<p>
@@ -20,6 +21,20 @@
 				I have some news from our spies. Cast your good eye over this here map...
 			</p>		
 		</aside>
+	{% else %}
+		<h1>Aye, quatermaster!</h1>
+		<aside class="captain-welcome">
+			<p>
+				Ye' be ready for another challenge?
+			</p>
+			<p>
+				Maybe <i>this</i> time we'll get ye yer share!
+			</p>
+			<p>
+				The scouts are back from Ye Olde Mappe Shoppe. Here's what's about...
+			</p>		
+		</aside>
+	{% endif %}
 		<aside id="captain-welcome-img"></aside>
 	</article>
 	<footer class="next-state-footer" id="welcome-footer"><a href="/map" class="next-state-button">Check out the map</footer>

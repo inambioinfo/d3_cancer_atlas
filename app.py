@@ -256,7 +256,7 @@ def map_battle():
 				submit_result_to_db(session['ships'], session['game_number'], request.args.get('time'), session['db_id'])
 
 			# print investments
-			return render_template('map.html', ships = session['ships'], ships_data = session['ships_data'])
+			return render_template('map.html', ships = session['ships'], ships_data = session['ships_data'], message = r.choice([0,1]))
 		else:
 			# print "remember to spend all your money"
 			return redirect(url_for('risk_reminder') + '?time=' + request.args.get('time'))
@@ -282,7 +282,7 @@ def try_again():
 @app.route('/log_submit', methods=['POST'])
 def recieve_event_data():
 	if (session.has_key('game_stage')):
-		if session['game_stage'] < 30:
+		if 20 <= session['game_stage'] < 30:
 			#print request.is_json
 			result = request.get_json()
 			#print "Result: ", result
@@ -294,8 +294,22 @@ def recieve_event_data():
 			print "Someone hit BACK, this data is irrelevant..."
 	return "" #This should never be navigated to.
 
+@app.route('/survey', methods=['GET','POST'])
+def survey_request_handler():
+	if session.has_key('game_stage'):
+		#Check that user is up to this point in the process.
+		if request.method == 'POST':
+			pass
+			#Get data...
+		else:
+			pass
+			#The survey generation page goes here...
+	else:
+		return redirect(url_for('index'))
+	
+	
 if __name__ == '__main__':
-	print(extra_files)
+	#print(extra_files)
 	app.run(extra_files=extra_files)
 
 
