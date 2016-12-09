@@ -248,6 +248,26 @@ def try_again():
 
 
 
+@app.route('/survey')
+def survey():
+	if session.has_key('ships'):
+		return render_template('survey.html', ships = session['ships'], ships_data = session['ships_data'], gameMode = session['game_mode'])
+	else:
+		redirect(url_for('index'))
+
+
+@app.route('/submit_survey', methods=['POST'])
+def submit_survey():
+	for arg in request.form:
+		print arg, ':', request.form[arg]
+	return redirect(url_for('thank_you'))
+
+@app.route('/thank_you' )
+def thank_you():
+	return render_template('thankyou.html')
+
+
+
 if __name__ == '__main__':
    app.run()
 

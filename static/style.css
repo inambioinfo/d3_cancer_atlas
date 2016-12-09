@@ -60,6 +60,20 @@ footer.next-state-footer {
 	z-index: 2;
 }
 
+footer a.survey-button {
+	line-height: 4em;
+	width: 100%;
+	height: 4em;
+	display: block;
+	text-align: center;
+	margin-top: 0.5em;
+	background-color: #ffcf00;
+	background-image: url(images/artwork/captain_small.png);
+	background-repeat: no-repeat;
+	background-position: 1em center;
+	background-size: 6em;
+}
+
 ul {
 	margin-top: 3vh;
 }
@@ -552,14 +566,14 @@ article.map-container li.result-icon {
 }
 
 article.map-container li.defeat {
-    background-image: url(images/artwork/cross.png);
-    /* background-color: white; */
-    background-position: center;
-    background-size: 32px;
-    border-radius: 128px;
-    z-index: 3;
-    top: -8px;
-    left: 42px;
+	background-image: url(images/artwork/cross.png);
+	/* background-color: white; */
+	background-position: center;
+	background-size: 32px;
+	border-radius: 128px;
+	z-index: 3;
+	top: -8px;
+	left: 42px;
 }
 
 article.map-container li.victory {
@@ -1052,3 +1066,57 @@ article.Frigate {
 
 
 
+/*
+
+	Survey page styling
+
+*/
+
+input {
+	color: black;
+	border: none;
+	border-bottom: #00447e 1px solid;
+	padding: 0.5em;
+	font-size: 1em;
+}
+
+select {
+	color:black;
+	background: white;
+	padding: .25em;
+	border: none;
+	border-bottom: #00447e 1px solid;
+	font-size: 1em;
+	line-height: 1.5em;
+}
+
+option:hover {
+	background-color: #4D90D7;
+}
+
+input.[checkbox] {
+	size: 2em;
+}
+
+aside.form-container {
+	color: black;
+}
+
+input.invisible {
+	visibility: hidden;
+}
+
+input.submit {
+	margin-top: 1em;
+	background-color: white;
+	border: #00447e 1px solid;
+}
+input.submit:hover {
+	background-color: #4D90D7;
+	color: white;
+}
+
+
+img.thankyou-captain{
+	float: left;
+}
