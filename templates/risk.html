@@ -23,9 +23,16 @@
             <span class="allocation-feedback " id="allocation-row-1">0</span> Doubloons
          </section>
          <section class="allocation-box add" id="add-1">
-            +
+            +1
          </section>
-         <section class="allocation-box reduce" id="reduce-1">-
+         <section class="allocation-box reduce" id="reduce-1">
+            -1
+         </section>
+         <section class="allocation-box-five add" id="add5-1">
+            +5
+         </section>
+         <section class="allocation-box-five reduce" id="reduce5-1">
+            -5
          </section>
       </article>
       <article class="allocation row-2">
@@ -33,9 +40,16 @@
             <span class="allocation-feedback" id="allocation-row-2">0</span> Doubloons
          </section>
          <section class="allocation-box add" id="add-2">
-            +
+            +1
          </section>
-         <section class="allocation-box reduce" id="reduce-2">-
+         <section class="allocation-box reduce" id="reduce-2">
+            -1
+         </section>
+         <section class="allocation-box-five add" id="add5-2">
+            +5
+         </section>
+         <section class="allocation-box-five reduce" id="reduce5-2">
+            -5
          </section>
       </article>
       <article class="allocation row-3">
@@ -43,9 +57,16 @@
             <span class="allocation-feedback " id="allocation-row-3">0</span> Doubloons
          </section>
          <section class="allocation-box add" id="add-3">
-            +
+            +1
          </section>
-         <section class="allocation-box reduce" id="reduce-3">-
+         <section class="allocation-box reduce" id="reduce-3">
+            -1
+         </section>
+         <section class="allocation-box-five add" id="add5-3">
+            +5
+         </section>
+         <section class="allocation-box-five reduce" id="reduce5-3">
+            -5
          </section>
       </article>
 
@@ -178,28 +199,31 @@
             {% for ship in ships %}
                if ({{ ship.number + 1 }} == d) {
                   // update value
-                  d3.select("article.row-{{ ship.number + 1}} span.lower-risk-span").text(function() {
+                  d3.select("article.row-{{ ship.number + 1}} span.lower-risk-span")
+                     .text(function() {
                      return Math.max(0, {{ (ship.min * 100)|int }}-invested[d-1]) +"% "
                   });
                   // change colour
-                  d3.select("article.row-{{ ship.number + 1 }} span.lower-risk-span")
-                     .style("color", function() {
-                     return colorScale(Math.max(0, {{ ship.min * 100 }} - invested[d-1]));
-                  })
-                  .style("background", function() {
-                     return backgroundScale(Math.max(0, {{ ship.min * 100 }} - invested[d-1]));
-                  });
+                  // d3.select("article.row-{{ ship.number + 1 }} span.lower-risk-span")
+                  //    .style("color", function() {
+                  //    return colorScale(Math.max(0, {{ ship.min * 100 }} - invested[d-1]));
+                  // })
+                  // .style("background", function() {
+                  //    return backgroundScale(Math.max(0, {{ ship.min * 100 }} - invested[d-1]));
+                  // });
                   
-                  d3.select("article.row-{{ ship.number + 1 }} span.upper-risk-span").text(function() {
+                  d3.select("article.row-{{ ship.number + 1 }} span.upper-risk-span")
+                     .text(function() {
                      return Math.max(0, {{ ship.max * 100 }} - invested[d-1]) + "% ";
                   });
                   // update color
-                  d3.select("article.row-{{ ship.number + 1 }} span.upper-risk-span").style("color", function() {
-                     return colorScale(Math.max(0, {{ ship.max * 100 }} - invested[d-1]));
-                  })
-                  .style("background", function() {
-                     return backgroundScale(Math.max(0, {{ ship.max * 100 }} - invested[d-1]));
-                  });
+                  // d3.select("article.row-{{ ship.number + 1 }} span.upper-risk-span")
+                  //    .style("color", function() {
+                  //    return colorScale(Math.max(0, {{ ship.max * 100 }} - invested[d-1]));
+                  // })
+                  // .style("background", function() {
+                  //    return backgroundScale(Math.max(0, {{ ship.max * 100 }} - invested[d-1]));
+                  // });
                }
 
             {% endfor %}
@@ -208,25 +232,26 @@
             {% for ship in ships %}
                if ({{ ship.number + 1}} == d) {
                   // update text
-                  d3.select("article.row-{{ ship.number + 1 }} span.median").text(function() {
+                  d3.select("article.row-{{ ship.number + 1 }} span.median")
+                     .text(function() {
                      return Math.max(0, {{ ship.median  * 100 }} - invested[d-1]) + "%";
                   });
                   // change colour
-                  d3.select("article.row-{{ ship.number + 1 }} span.median").style("color", function() {
-                     return colorScale(Math.max(0, {{ ship.median  * 100 }} - invested[d-1]));
-                  })
-                  .style("background", function() {
-                     return backgroundScale(Math.max(0, {{ ship.median  * 100 }} - invested[d-1]));
-                  });
+                  // d3.select("article.row-{{ ship.number + 1 }} span.median").style("color", function() {
+                  //    return colorScale(Math.max(0, {{ ship.median  * 100 }} - invested[d-1]));
+                  // })
+                  // .style("background", function() {
+                  //    return backgroundScale(Math.max(0, {{ ship.median  * 100 }} - invested[d-1]));
+                  // });
 
                   // update text is not necessary
                   // change colour
-                  d3.select("article.row-{{ ship.number + 1 }} span.give-take").style("color", function() {
-                     return colorScale({{ (ship.plus_minus / 0.5) * 100 }});
-                  })
-                  .style("background", function() {
-                     return backgroundScale({{ (ship.plus_minus / 0.5) * 100 }});
-                  });
+                  // d3.select("article.row-{{ ship.number + 1 }} span.give-take").style("color", function() {
+                  //    return colorScale({{ (ship.plus_minus / 0.5) * 100 }});
+                  // })
+                  // .style("background", function() {
+                  //    return backgroundScale({{ (ship.plus_minus / 0.5) * 100 }});
+                  // });
                }
             {% endfor %}
          }
@@ -238,24 +263,24 @@
                      return textScale({{ ship.max  * 100 }} - invested[d-1]);
                   });
                   // update colour
-                  d3.select("article.row-{{ ship.number + 1 }} span.semantic-risk-upper").style("color", function() {
-                     return colorScale({{ ship.max  * 100 }} - invested[d-1]);
-                  })
-                  .style("background", function() {
-                     return backgroundScale({{ ship.max  * 100 }} - invested[d-1]);
-                  });
+                  // d3.select("article.row-{{ ship.number + 1 }} span.semantic-risk-upper").style("color", function() {
+                  //    return colorScale({{ ship.max  * 100 }} - invested[d-1]);
+                  // })
+                  // .style("background", function() {
+                  //    return backgroundScale({{ ship.max  * 100 }} - invested[d-1]);
+                  // });
 
                   // update text
                   d3.select("article.row-{{ ship.number + 1 }} span.semantic-risk-lower").text(function() {
                      return textScale({{ ship.min  * 100 }} - invested[d-1]);
                   });
                   // update colour
-                  d3.select("article.row-{{ ship.number + 1 }} span.semantic-risk-lower").style("color", function() {
-                     return colorScale({{ ship.min  * 100 }} - invested[d-1]);
-                  })
-                  .style("background", function() {
-                     return backgroundScale({{ ship.min  * 100 }} - invested[d-1]);
-                  });
+                  // d3.select("article.row-{{ ship.number + 1 }} span.semantic-risk-lower").style("color", function() {
+                  //    return colorScale({{ ship.min  * 100 }} - invested[d-1]);
+                  // })
+                  // .style("background", function() {
+                  //    return backgroundScale({{ ship.min  * 100 }} - invested[d-1]);
+                  // });
                }
             {% endfor %}
          }

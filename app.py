@@ -191,6 +191,7 @@ def index():
 		session['db_id'] = int(time.time()) #Let us hoe that we don't need more than one session per second...
 		session['game_number'] = 0
 		session['game_stage'] = 0
+		session['surveyed'] = False
 	session['ships'] = build_ships()
 	session['game_mode'] = game_mode()
 	session['ships_data'] = {}
@@ -275,7 +276,6 @@ def try_again():
 		session['game_stage'] = 0
 	return redirect(url_for('index'))
 
-
 #
 #	Recieve data
 #
@@ -294,20 +294,25 @@ def recieve_event_data():
 			print "Someone hit BACK, this data is irrelevant..."
 	return "" #This should never be navigated to.
 
-@app.route('/survey', methods=['GET','POST'])
-def survey_request_handler():
-	if session.has_key('game_stage'):
-		#Check that user is up to this point in the process.
-		if request.method == 'POST':
-			pass
-			#Get data...
-		else:
-			pass
-			#The survey generation page goes here...
+@app.route('/survey')
+def survey():
+	if session.has_key('ships'):
+		return render_template('survey.html')
 	else:
 		return redirect(url_for('index'))
-	
-	
+
+
+@app.route('/submit_survey', methods=['POST'])
+def submit_survey():
+	session['surveyed'] = True
+	for arg in request.form:
+		print arg, ':', request.form[arg]
+	return redirect(url_for('thank_you'))
+
+@app.route('/thank_you' )
+def thank_you():
+	return render_template('thankyou.html')
+
 if __name__ == '__main__':
 	#print(extra_files)
 	app.run(extra_files=extra_files)
