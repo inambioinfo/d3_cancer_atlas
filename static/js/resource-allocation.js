@@ -8,9 +8,9 @@ var linkRows = [1, 1, 1, 2, 2, 2, 3, 3, 3];
 
 var makeTheAddReduceFiveRowsWork = [1, 1, 2, 2, 3, 3];
 
-recordEvent("LOAD", true);
-
 var dataDumpURL = "/log_submit";
+
+recordEvent("LOAD", true);
 
 function next() {
 		var str = "/map-battle?";
