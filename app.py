@@ -314,6 +314,9 @@ def submit_survey():
 @app.route('/thank_you' )
 def thank_you():
 	if session.has_key('surveyed') and session['surveyed']:
+		if session.has_key('game_stage') and session['game_stage'] == 30: #Don't let them reset their game too soon...
+			session['game_number'] += 1
+			session['game_stage'] = 0
 		return render_template('thankyou.html')
 	else:
 		return redirect(url_for('index'))
