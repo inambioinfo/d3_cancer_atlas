@@ -188,7 +188,7 @@ def calculate_victories(allocation):
 @app.route('/')
 def index():
 	if not session.has_key('db_id'):
-		session['db_id'] = int(time.time() * 1000) #Let us hope that we don't need more than one session per second... ...or that we operate in an environment where time.time has millisecond resolution.
+		session['db_id'] = str(int(time.time() * 1000)) + str(r.randint(100,999)) #Let us hope that we don't need more than a few sessions per second... ...or that we operate in an environment where time.time has millisecond resolution. Just in case, add a 3-digit random number to the end.
 		session['game_number'] = 0
 		session['game_stage'] = 0
 		session['surveyed'] = False
