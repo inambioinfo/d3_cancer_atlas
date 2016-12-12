@@ -161,6 +161,13 @@
 					<p>Ye invested our dubloons so well, I invested your share...</p>
 					<p>By the way, ye ever heard of Davy Jones Banking?</p>
 					{% endif %}
+				{% elif ships_data.total_reward == 30 %}
+				<img src="{{ url_for('static', filename='images/artwork/captain-happy-small.png') }}" alt="Captain congratulating you">
+				<section class="captain-dialogue">
+					<h4>Ahoy, quartermaster!</h4>
+					<p>We broke even on that, which is better that I can say of our last quartermaster.</p>
+					<p>However, the rum's gone, and ye'll have an equal share in that too.</p>
+					<p>Let's see if we can do any better, aye?</p>
 				{% else %}
 				<img src="{{ url_for('static', filename='images/artwork/captain-cranky-small.png') }}" alt="Captain lecturing you">
 				<section class="captain-dialogue">

@@ -37,10 +37,15 @@ def submit_result_to_db(ships, game_number, time, session_key):
 def submit_survey_to_db(form, session_key):
 	print "SURVEY"
 	db_record = {} #Need to add a key, so it's best to just write out the dict again.
-	for arg in form:
-		#print arg, ":", form[arg]
-		db_record[arg] = form[arg]
+	db_record['is-a-student'] = (True if form.get('is-a-student') else False)
+	db_record['training-math-stats'] = (True if form.get('training-math-stats') else False)
+	db_record['language-background'] = (True if form.get('language-background') else False)
+	db_record['age-group'] = form['ageGroup']
+	db_record['location'] = form['location']
+	db_record['occupation'] = form['occupation']
 	db_record['session'] = session_key
+	for arg in form:
+		print arg, ":", form[arg]
 	result = coll_surveys.insert_one(db_record)
 	
 def summarize_ships_generated(ships):	
