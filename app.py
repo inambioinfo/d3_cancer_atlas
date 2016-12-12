@@ -8,7 +8,7 @@ import json
 from os import path
 import os
 
-extra_dirs = ['static',]
+extra_dirs = ['static','templates']
 extra_files = extra_dirs[:]
 for extra_dir in extra_dirs:
     for dirname, dirs, files in os.walk(extra_dir):
@@ -188,7 +188,7 @@ def calculate_victories(allocation):
 @app.route('/')
 def index():
 	if not session.has_key('db_id'):
-		session['db_id'] = int(time.time()) #Let us hoe that we don't need more than one session per second...
+		session['db_id'] = int(time.time() * 1000) #Let us hope that we don't need more than one session per second... ...or that we operate in an environment where time.time has millisecond resolution.
 		session['game_number'] = 0
 		session['game_stage'] = 0
 		session['surveyed'] = False

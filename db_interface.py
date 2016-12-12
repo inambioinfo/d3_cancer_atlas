@@ -11,11 +11,11 @@ coll_results = db.results
 coll_surveys = db.surveys
 
 def submit_event_to_db(type, success, time, session_key):
-	print "EVENT:", type, success, time, session_key
+	print "EVENT:", type, success, str(time), session_key
 	result = coll_events.insert_one(
 			{"event":type, 
 			"success":success, 
-			"timestamp":time, 
+			"timestamp":str(time), 
 			"session":session_key})
 	
 def submit_game_to_db(ships, game_mode, game_number, time, session_key):
