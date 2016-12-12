@@ -8,7 +8,7 @@ db = client.dev_db #Change this later...
 coll_events = db.events
 coll_games = db.games
 coll_results = db.results
-#coll_sessions = db.sessions #NYI: Survey responses to be stored by session..
+coll_surveys = db.surveys
 
 def submit_event_to_db(type, success, time, session_key):
 	print "EVENT:", type, success, time, session_key
@@ -33,6 +33,15 @@ def submit_result_to_db(ships, game_number, time, session_key):
 			'game_number':game_number, 
 			'time':time,
 			'session':session_key})
+			
+def submit_survey_to_db(form, session_key):
+	print "SURVEY"
+	db_record = {} #Need to add a key, so it's best to just write out the dict again.
+	for arg in form:
+		#print arg, ":", form[arg]
+		db_record[arg] = form[arg]
+	db_record['session'] = session_key
+	result = coll_surveys.insert_one(db_record)
 	
 def summarize_ships_generated(ships):	
 	summaries = []

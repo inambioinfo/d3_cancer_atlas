@@ -20,7 +20,7 @@ for extra_dir in extra_dirs:
 #End copy-----------------------------------------------
 
 #import for database
-from db_interface import submit_event_to_db, submit_game_to_db, submit_result_to_db
+from db_interface import submit_event_to_db, submit_game_to_db, submit_result_to_db, submit_survey_to_db
 
 #  import for generating session key
 from os import urandom
@@ -296,7 +296,7 @@ def recieve_event_data():
 
 @app.route('/survey')
 def survey():
-	if session.has_key('ships'):
+	if session.has_key('game_stage') and session['game_stage'] >= 30 and not session['surveyed']:
 		return render_template('survey.html')
 	else:
 		return redirect(url_for('index'))
@@ -304,14 +304,19 @@ def survey():
 
 @app.route('/submit_survey', methods=['POST'])
 def submit_survey():
-	session['surveyed'] = True
-	for arg in request.form:
-		print arg, ':', request.form[arg]
-	return redirect(url_for('thank_you'))
+	if session.has_key('game_stage') and session['game_stage'] >= 30 and not session['surveyed']:
+		session['surveyed'] = True
+		submit_survey_to_db(request.form, session['db_id'])
+		return redirect(url_for('thank_you'))
+	else:
+		return redirect(url_for('index'))
 
 @app.route('/thank_you' )
 def thank_you():
-	return render_template('thankyou.html')
+	if session.has_key('surveyed') and session['surveyed']:
+		return render_template('thankyou.html')
+	else:
+		return redirect(url_for('index'))
 
 if __name__ == '__main__':
 	#print(extra_files)
