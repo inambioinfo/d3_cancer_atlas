@@ -24,6 +24,7 @@
 	{% else %}
 		<h1>Aye, quatermaster!</h1>
 		<aside class="captain-welcome">
+			{% if session['dial_log'] < 0.5 %}
 			<p>
 				Ye' be ready for another challenge?
 			</p>
@@ -32,7 +33,18 @@
 			</p>
 			<p>
 				The scouts are back from Ye Olde Mappe Shoppe. Here's what's about...
-			</p>		
+			</p>	
+			{% else %}
+			<p>
+				We be piratin' again. Ye ready to make our plan?
+			</p>
+			<p>
+				The rum store be nearly empty, be sure we get plenty o' dubloons.
+			</p>
+			<p>
+				I hear there be some ships arrivin' today, hereabouts...
+			</p>
+			{% endif %}
 		</aside>
 	{% endif %}
 		<aside id="captain-welcome-img"></aside>

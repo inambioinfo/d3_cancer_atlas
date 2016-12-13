@@ -179,6 +179,11 @@ def calculate_victories(allocation):
 			ship['victory'] = 0	
 			ship['outcome'] = 'defeat'
 
+#
+#	Function to help make the dialogue more interesting
+#
+def dial_log():
+	session['dial_log'] = r.random()
 
 # 
 # 
@@ -194,10 +199,11 @@ def calculate_victories(allocation):
 @app.route('/')
 def index():
 	if not session.has_key('db_id'):
-		session['db_id'] = int(time.time() * 1000) #Let us hope that we don't need more than one session per second... ...or that we operate in an environment where time.time has millisecond resolution.
+		session['db_id'] = str(int(time.time() * 1000)) + str(r.randint(100,999)) #Let us hope that we don't need more than a few sessions per second... ...or that we operate in an environment where time.time has millisecond resolution. Just in case, add a 3-digit random number to the end.
 		session['game_number'] = 0
 		session['game_stage'] = 0
 		session['surveyed'] = False
+		dial_log()
 	session['ships'] = build_ships()
 	session['game_mode'] = game_mode()
 	session['ships_data'] = {}
@@ -213,6 +219,7 @@ def index():
 @app.route('/map')
 def map():
 	if session.has_key('game_stage'):
+		dial_log()
 		session['game_stage'] = 10 #Increment in 10s, use intermediate values for reload resistance.
 		return render_template('map.html', ships = session['ships'], gameMode = session['game_mode'], ships_data = session['ships_data'])
 	else :
@@ -224,6 +231,7 @@ def map():
 @app.route('/risk')
 def risk():
 	if session.has_key('game_stage'):
+		dial_log()
 		session['game_stage'] = 20
 		return render_template('risk.html', ships = session['ships'], gameMode = session['game_mode'], ships_data = session['ships_data'], reminder = False)
 	else :
@@ -233,6 +241,7 @@ def risk():
 @app.route('/risk_reminder')
 def risk_reminder():
 	if session.has_key('game_stage'):
+		dial_log()
 		submit_event_to_db("REMINDER", True, request.args.get('time'), session['db_id'])
 		return render_template('risk.html', ships = session['ships'], gameMode = session['game_mode'], ships_data = session['ships_data'], reminder = True)
 	else :
@@ -261,9 +270,10 @@ def map_battle():
 				submit_event_to_db("FINALISE", True, request.args.get('time'), session['db_id'])
 				#Results are submitted away from generations, as the player may quit before getting a result.
 				submit_result_to_db(session['ships'], session['game_number'], request.args.get('time'), session['db_id'])
+				dial_log()
 
 			# print investments
-			return render_template('map.html', ships = session['ships'], ships_data = session['ships_data'], message = r.choice([0,1]))
+			return render_template('map.html', ships = session['ships'], ships_data = session['ships_data'])
 		else:
 			# print "remember to spend all your money"
 			return redirect(url_for('risk_reminder') + '?time=' + request.args.get('time'))
@@ -296,8 +306,8 @@ def recieve_event_data():
 			if session['game_stage'] < 25: #In case of BACK/FORWARD, ensure that this only executes once...
 				session['game_stage'] = 25 #Partway through this stage...
 				submit_game_to_db(session['ships'], session['game_mode'], session['game_number'], result.get('time'), session['db_id']) #Here, to collect data from abandoned-later games.
-		else:
-			print "Someone hit BACK, this data is irrelevant..."
+		#else:
+			#print "Someone hit BACK, this data is irrelevant..."
 	return "" #This should never be navigated to.
 
 @app.route('/survey')
@@ -323,6 +333,7 @@ def thank_you():
 		if session.has_key('game_stage') and session['game_stage'] == 30: #Don't let them reset their game too soon...
 			session['game_number'] += 1
 			session['game_stage'] = 0
+			dial_log()
 		return render_template('thankyou.html')
 	else:
 		return redirect(url_for('index'))

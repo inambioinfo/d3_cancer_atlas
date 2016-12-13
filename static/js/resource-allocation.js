@@ -45,7 +45,6 @@ for (var i = 0; i < investedDoubloons.length; i++) {
 
 	id = "#reduce-" + (i+1);
 	d3.select(id).on("click", function(d) {
-		setColours(d, investedDoubloons);
 		if (investedDoubloons[d-1] > 0) {
 			recordEvent("REDUCE_" + d, true);
 			investedDoubloons[d-1] -= 1;
@@ -56,11 +55,11 @@ for (var i = 0; i < investedDoubloons.length; i++) {
 		else {
 			recordEvent("REDUCE_" + d, false);
 		}
+		setColours(d, investedDoubloons);
 	});
 
 	id = "#reduce5-" + (i+1);
 	d3.select(id).on("click", function(d) {
-		setColours(d, investedDoubloons);
 		if (investedDoubloons[d-1] > 4) {
 			recordEvent("REDUCE_FIVE)" + d, true);
 			investedDoubloons[d-1] -= 5;
@@ -71,11 +70,11 @@ for (var i = 0; i < investedDoubloons.length; i++) {
 		else {
 			recordEvent("REDUCE_FIVE_" + d, false);
 		}
+		setColours(d, investedDoubloons);
 	});
 
 	id = "#add-" + (i+1);
 	d3.select(id).on("click", function(d) {
-		setColours(d, investedDoubloons);
 		if (totalDoubloons > 0) {
 			recordEvent("ADD_" + d, true);
 			investedDoubloons[d-1] += 1;
@@ -86,11 +85,11 @@ for (var i = 0; i < investedDoubloons.length; i++) {
 		else {
 			recordEvent("ADD_" + d, false);
 		}
+		setColours(d, investedDoubloons);
 	});
 
 	id = "#add5-" + (i+1);
 	d3.select(id).on("click", function(d) {
-		setColours(d, investedDoubloons);
 		if (totalDoubloons > 4) {
 			console.log(d-1, investedDoubloons, investedDoubloons[d-1]);
 			recordEvent("ADD_FIVE_" + d, true);
@@ -102,6 +101,7 @@ for (var i = 0; i < investedDoubloons.length; i++) {
 		else {
 			recordEvent("ADD_FIVE_" + d, false);
 		}
+		setColours(d, investedDoubloons);
 	});
 }
 
