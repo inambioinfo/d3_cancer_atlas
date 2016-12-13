@@ -63,7 +63,7 @@ def build_ships():
 	
 		# push min/max values of risk to the ship
 		ship['min'] = rands[0]
-		ship['max'] = rands[2]
+		ship['max'] = rands[1]
 
 		# push margin of error and median of min/max risk values to the ship
 		ship['plus_minus'] = round((ship['max'] - ship['min'])/2,2)
