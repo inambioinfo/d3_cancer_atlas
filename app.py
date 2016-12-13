@@ -165,7 +165,7 @@ def calculate_victories(allocation):
 		roll = round(r.random(),2)
 		ship['player_roll'] = roll
 		ship['allocated'] = int(allocation[i])
-		if roll >= ship['target'] - int(allocation[i]):
+		if roll >= (ship['target'] - (int(allocation[i])/100.0)):
 			ship['victory'] = 1
 			ship['outcome'] = 'victory'
 			session['ships_data']['total_reward'] += ship['reward']
