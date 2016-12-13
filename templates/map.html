@@ -31,9 +31,14 @@
 							<b>Risk</b>: {{ (ship.median * 100)|int }}%, give or take {{ (ship.plus_minus * 100)|int }}.<br>
 							<b>Reward</b>: {{ship.reward}} doubloons.
 						</li>
-					{% else %}
+					{% elif gameMode == 2.0 %}
 						<li class="map-risk">
 						 	<b>Risk</b>: from {{ ship.lower_semantic_risk }} to {{ ship.upper_semantic_risk }}.<br>
+							<b>Reward</b>: {{ship.reward}} doubloons.
+						</li>
+					{% else %}
+						<li class="map-risk">
+							<b>Risk</b>: {{ (ship.median * 100)|int }}%.<br>
 							<b>Reward</b>: {{ship.reward}} doubloons.
 						</li>
 					{% endif %}
@@ -120,7 +125,7 @@
 								Your vessel roll:</b> {{ (100*ship.player_roll)|int }}
 							</p>
 						</li>
-					{% else %}
+					{% elif gameMode == 2.0 %}
 						<li class="map-risk">
 						 	<p>
 						 		<b>Starting Risk</b>: from {{ship.lower_semantic_risk}} to {{ship.upper_semantic_risk}}.
@@ -137,6 +142,28 @@
 								{% else %}
 								<b>Enemy vessel roll:</b> 0
 								{% endif %}
+							</p>
+							<p>
+								<b>Your vessel roll:</b> {{ (100*ship.player_roll)|int }}
+							</p>
+						</li>
+					{% else %}
+						<li class="map-risk">
+							<p>
+								<b>Estimated Risk</b>: {{ (ship.median * 100)|int }}%
+							</p>
+							<p>
+								<b>Investment</b>: {{ ship.allocated }} Doubloons
+							</p>
+							<p>
+								<b>Reward</b>: {{ship.reward}} doubloons.
+							</p>
+							<p>
+								{% if  ((100*ship.target) - ship.allocated) > 0 %}
+								<b>Enemy vessel roll:</b> {{ ((100*ship.target) - ship.allocated)|int }} 
+								{% else %}
+								<b>Enemy vessel roll:</b> 0
+								{% endif %}							
 							</p>
 							<p>
 								<b>Your vessel roll:</b> {{ (100*ship.player_roll)|int }}

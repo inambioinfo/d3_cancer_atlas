@@ -104,13 +104,21 @@
                <p>
                   <b>Reward</b>: {{ship.reward}} doubloons.
                </p>
+               {% elif gameMode == 2.0 %}
+               <p>
+                  <b>Risk</b>: from <span class="semantic-risk-lower">{{ship.lower_semantic_risk}}</span> to <span class="semantic-risk-upper">{{ship.upper_semantic_risk}}</span>.
+               </p>
+               <p>
+                  <b>Reward</b>: {{ship.reward}} doubloons.
+               </p>
                {% else %}
-                  <p>
-                     <b>Risk</b>: from <span class="semantic-risk-lower">{{ship.lower_semantic_risk}}</span> to <span class="semantic-risk-upper">{{ship.upper_semantic_risk}}</span>.
-                  </p>
-                  <p>
-                     <b>Reward</b>: {{ship.reward}} doubloons.
-                  </p>
+               <p>
+                  <b>Risk is about</b>: <span class="median">{{ (ship.median * 100)|int }}%</span>
+               </p>
+               <p>
+                  <b>Reward</b>: {{ship.reward}} doubloons.
+               </p>
+               
             {% endif %}
          </article>
       {% endfor %}
