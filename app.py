@@ -290,8 +290,8 @@ def recieve_event_data():
 			if session['game_stage'] < 25: #In case of BACK/FORWARD, ensure that this only executes once...
 				session['game_stage'] = 25 #Partway through this stage...
 				submit_game_to_db(session['ships'], session['game_mode'], session['game_number'], result.get('time'), session['db_id']) #Here, to collect data from abandoned-later games.
-		else:
-			print "Someone hit BACK, this data is irrelevant..."
+		#else:
+			#print "Someone hit BACK, this data is irrelevant..."
 	return "" #This should never be navigated to.
 
 @app.route('/survey')

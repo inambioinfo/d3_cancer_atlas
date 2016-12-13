@@ -11,7 +11,7 @@ coll_results = db.results
 coll_surveys = db.surveys
 
 def submit_event_to_db(type, success, time, session_key):
-	print "EVENT:", type, success, str(time), session_key
+	#print "EVENT:", type, success, str(time), session_key
 	result = coll_events.insert_one(
 			{"event":type, 
 			"success":success, 
@@ -19,7 +19,7 @@ def submit_event_to_db(type, success, time, session_key):
 			"session":session_key})
 	
 def submit_game_to_db(ships, game_mode, game_number, time, session_key):
-	print "GAME"
+	#print "GAME"
 	result = coll_games.insert_one(
 			{'ships':summarize_ships_generated(ships),
 			'game_mode':game_mode,
@@ -27,7 +27,7 @@ def submit_game_to_db(ships, game_mode, game_number, time, session_key):
 			'session':session_key})
 
 def submit_result_to_db(ships, game_number, time, session_key):
-	print "RESULT"
+	#print "RESULT"
 	result = coll_results.insert_one(
 			{'results':summarize_ships_battles(ships),
 			'game_number':game_number, 
@@ -35,8 +35,9 @@ def submit_result_to_db(ships, game_number, time, session_key):
 			'session':session_key})
 			
 def submit_survey_to_db(form, session_key):
-	print "SURVEY"
+	#print "SURVEY"
 	db_record = {} #Need to add a key, so it's best to just write out the dict again.
+	db_record['not-first-survey'] = (True if form.get('not-first-survey') else False)
 	db_record['is-a-student'] = (True if form.get('is-a-student') else False)
 	db_record['training-math-stats'] = (True if form.get('training-math-stats') else False)
 	db_record['language-background'] = (True if form.get('language-background') else False)
@@ -44,8 +45,8 @@ def submit_survey_to_db(form, session_key):
 	db_record['location'] = form['location']
 	db_record['occupation'] = form['occupation']
 	db_record['session'] = session_key
-	for arg in form:
-		print arg, ":", form[arg]
+	#for arg in form:
+		#print arg, ":", form[arg]
 	result = coll_surveys.insert_one(db_record)
 	
 def summarize_ships_generated(ships):	
