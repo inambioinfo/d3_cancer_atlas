@@ -173,6 +173,11 @@ def calculate_victories(allocation):
 			ship['victory'] = 0	
 			ship['outcome'] = 'defeat'
 
+#
+#	Function to help make the dialogue more interesting
+#
+def dial_log():
+	session['dial_log'] = r.random()
 
 # 
 # 
@@ -192,6 +197,7 @@ def index():
 		session['game_number'] = 0
 		session['game_stage'] = 0
 		session['surveyed'] = False
+		dial_log()
 	session['ships'] = build_ships()
 	session['game_mode'] = game_mode()
 	session['ships_data'] = {}
@@ -207,6 +213,7 @@ def index():
 @app.route('/map')
 def map():
 	if session.has_key('game_stage'):
+		dial_log()
 		session['game_stage'] = 10 #Increment in 10s, use intermediate values for reload resistance.
 		return render_template('map.html', ships = session['ships'], gameMode = session['game_mode'], ships_data = session['ships_data'])
 	else :
@@ -218,6 +225,7 @@ def map():
 @app.route('/risk')
 def risk():
 	if session.has_key('game_stage'):
+		dial_log()
 		session['game_stage'] = 20
 		return render_template('risk.html', ships = session['ships'], gameMode = session['game_mode'], ships_data = session['ships_data'], reminder = False)
 	else :
@@ -227,6 +235,7 @@ def risk():
 @app.route('/risk_reminder')
 def risk_reminder():
 	if session.has_key('game_stage'):
+		dial_log()
 		submit_event_to_db("REMINDER", True, request.args.get('time'), session['db_id'])
 		return render_template('risk.html', ships = session['ships'], gameMode = session['game_mode'], ships_data = session['ships_data'], reminder = True)
 	else :
@@ -255,9 +264,10 @@ def map_battle():
 				submit_event_to_db("FINALISE", True, request.args.get('time'), session['db_id'])
 				#Results are submitted away from generations, as the player may quit before getting a result.
 				submit_result_to_db(session['ships'], session['game_number'], request.args.get('time'), session['db_id'])
+				dial_log()
 
 			# print investments
-			return render_template('map.html', ships = session['ships'], ships_data = session['ships_data'], message = r.choice([0,1]))
+			return render_template('map.html', ships = session['ships'], ships_data = session['ships_data'])
 		else:
 			# print "remember to spend all your money"
 			return redirect(url_for('risk_reminder') + '?time=' + request.args.get('time'))
@@ -317,6 +327,7 @@ def thank_you():
 		if session.has_key('game_stage') and session['game_stage'] == 30: #Don't let them reset their game too soon...
 			session['game_number'] += 1
 			session['game_stage'] = 0
+			dial_log()
 		return render_template('thankyou.html')
 	else:
 		return redirect(url_for('index'))
