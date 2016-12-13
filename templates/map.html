@@ -163,9 +163,10 @@
 								<b>Enemy vessel roll:</b> {{ ((100*ship.target) - ship.allocated)|int }} 
 								{% else %}
 								<b>Enemy vessel roll:</b> 0
-								{% endif %}							</p>
+								{% endif %}							
+							</p>
 							<p>
-								Your vessel roll:</b> {{ (100*ship.player_roll)|int }}
+								<b>Your vessel roll:</b> {{ (100*ship.player_roll)|int }}
 							</p>
 						</li>
 					{% endif %}
