@@ -31,6 +31,7 @@ app.secret_key = urandom(24)
 import random as r
 from math import floor
 
+
 #Session ID based on timing
 import time
 
@@ -53,8 +54,8 @@ def build_ships():
 		# Somewhere to store the ship information
 		ship = {}
 		ship['number'] = j
-		# we need a lower, target and max value for the risk, so grab 3 random numbers
-		for i in range(3):
+		# get random numbers for the max/min values of uncertainty
+		for i in range(2):
 			rands.append(round(r.random(),2))
 			#The range could stand to be a bit narrower.
 
@@ -62,12 +63,17 @@ def build_ships():
 	
 		# push min/max values of risk to the ship
 		ship['min'] = rands[0]
-		ship['target'] = rands[1]
 		ship['max'] = rands[2]
 
 		# push margin of error and median of min/max risk values to the ship
 		ship['plus_minus'] = round((ship['max'] - ship['min'])/2,2)
 		ship['median'] = round(ship['min'] + ship['plus_minus'], 2)
+
+		ship['target'] = r.gauss(ship['median'], ship['plus_minus']/2)
+		if ship['target'] > ship['max']:
+			ship['target'] = ship['max']
+		elif ship['target'] < ship['min']:
+			ship['target'] = ship['min']
 
 		# determine the type of ship based on the median value
 		if ship['median'] <= 0.25:
@@ -151,9 +157,9 @@ def build_ships():
 # 	Function to determine the game mode presented to the player
 # 
 def game_mode():
-	game_mode = floor(r.random() * 3)
-	if game_mode > 2:
-		game_mode = 2
+	game_mode = floor(r.random() * 4)
+	if game_mode > 3:
+		game_mode = 3
 	return game_mode
 
 # 
