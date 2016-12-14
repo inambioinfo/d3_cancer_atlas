@@ -1,6 +1,11 @@
 #  import for flask
 from flask import Flask, render_template, request, session, redirect, url_for
+from flask_pymongo import PyMongo
+
 app = Flask(__name__)
+app.config['MONGO_DBNAME'] = 'dev_db'
+app.config['MONGO_URI'] = 'mongodb://localhost:27017/dev_db'
+mongo = PyMongo(app)
 
 import json
 
@@ -20,7 +25,7 @@ for extra_dir in extra_dirs:
 #End copy-----------------------------------------------
 
 #import for database
-from db_interface import submit_event_to_db, submit_game_to_db, submit_result_to_db, submit_survey_to_db
+#from db_interface import submit_event_to_db, submit_game_to_db, submit_result_to_db, submit_survey_to_db
 
 #  import for generating session key
 from os import urandom
@@ -338,6 +343,93 @@ def thank_you():
 	else:
 		return redirect(url_for('index'))
 
+		
+
+#Copy/paste and modify from db_interface module -----------------------------------
+		
+
+def submit_event_to_db(type, success, time, session_key):
+	#print "EVENT:", type, success, str(time), session_key
+	coll_events = mongo.db.events
+	result = coll_events.insert_one(
+			{"event":type, 
+			"success":success, 
+			"timestamp":str(time), 
+			"session":session_key})
+	
+def submit_game_to_db(ships, game_mode, game_number, time, session_key):
+	#print "GAME"
+	coll_games = mongo.db.games
+	result = coll_games.insert_one(
+			{'ships':summarize_ships_generated(ships),
+			'game_mode':game_mode,
+			'game_number':game_number,
+			'session':session_key})
+
+def submit_result_to_db(ships, game_number, time, session_key):
+	#print "RESULT"
+	coll_results = mongo.db.results
+	result = coll_results.insert_one(
+			{'results':summarize_ships_battles(ships),
+			'game_number':game_number, 
+			'time':time,
+			'session':session_key})
+			
+def submit_survey_to_db(form, session_key):
+	#print "SURVEY"
+	coll_surveys = mongo.db.surveys
+	db_record = {} #Need to add a key, so it's best to just write out the dict again.
+	db_record['not-first-survey'] = (True if form.get('not-first-survey') else False)
+	db_record['is-a-student'] = (True if form.get('is-a-student') else False)
+	db_record['training-math-stats'] = (True if form.get('training-math-stats') else False)
+	db_record['language-background'] = (True if form.get('language-background') else False)
+	db_record['age-group'] = form['ageGroup']
+	db_record['location'] = form['location']
+	db_record['occupation'] = form['occupation']
+	db_record['session'] = session_key
+	#for arg in form:
+		#print arg, ":", form[arg]
+	result = coll_surveys.insert_one(db_record)
+	
+def summarize_ships_generated(ships):	
+	summaries = []
+	for i, ship in enumerate(ships):
+		summary = {}
+		summary['number'] = ship['number']
+		summary['min'] = ship['min']
+		summary['target'] = ship['target']
+		summary['max'] = ship['max']
+		summary['reward'] = ship['reward']
+		summaries.append(summary)
+	return summaries
+
+def summarize_ships_battles(ships):
+	summaries = []
+	for i, ship in enumerate(ships):
+		summary = {}
+		summary['player_roll'] = ship['player_roll']
+		summary['allocated'] = ship['allocated']
+		#summary[''] = ship['']
+		summaries.append(summary)
+	return summaries
+		
+#End C/P &M ---------------------------------------------------------------------
+		
+#
+#	Leaving DB connections open after flask shutdown is a bad idea. But there's no global hook, so this is the next-best thing.
+#
+@app.teardown_appcontext
+def teardown_db(exception):
+	mongo.cx.close()
+	
+		
+		
+		
+		
+		
+		
+		
+		
 if __name__ == '__main__':
 	#print(extra_files)
 	app.run(extra_files=extra_files)
