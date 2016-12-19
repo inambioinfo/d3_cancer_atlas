@@ -203,22 +203,36 @@ def dial_log():
 # 
 @app.route('/')
 def index():
-	if not session.has_key('db_id'):
-		session['db_id'] = str(int(time.time() * 1000)) + str(r.randint(100,999)) #Let us hope that we don't need more than a few sessions per second... ...or that we operate in an environment where time.time has millisecond resolution. Just in case, add a 3-digit random number to the end.
-		session['game_number'] = 0
-		session['game_stage'] = 0
-		session['surveyed'] = False
-		session['decision_conf'] = False
-		dial_log()
-	session['ships'] = build_ships()
-	session['game_mode'] = game_mode()
-	session['ships_data'] = {}
-	session['ships_data']['resources_allocated'] = 0
-	session['ships_data']['total_reward'] = 0
-	session['ships_data']['reminder'] = 0
+	if session.has_key('ethics_accept') and session['ethics_accept'] == True:
+		if not session.has_key('db_id'):
+			session['db_id'] = str(int(time.time() * 1000)) + str(r.randint(100,999)) #Let us hope that we don't need more than a few sessions per second... ...or that we operate in an environment where time.time has millisecond resolution. Just in case, add a 3-digit random number to the end.
+			session['game_number'] = 0
+			session['game_stage'] = 0
+			session['surveyed'] = False
+			session['decision_conf'] = False
+			dial_log()
+		session['ships'] = build_ships()
+		session['game_mode'] = game_mode()
+		session['ships_data'] = {}
+		session['ships_data']['resources_allocated'] = 0
+		session['ships_data']['total_reward'] = 0
+		session['ships_data']['reminder'] = 0
 
-	return render_template('index.html', ships = session['ships'], gameMode = session['game_mode'])
+		return render_template('index.html', ships = session['ships'], gameMode = session['game_mode'])
+	else:
+		return redirect(url_for('ethics') + "?accept=0")
 
+@app.route('/ethics')
+def ethics():
+	if session.has_key('ethics_accept') and session['ethics_accept'] == True:
+		return redirect(url_for('index'))
+	else:
+		if request.args.has_key('accept') and int(request.args['accept']) == 1:
+				session['ethics_accept'] = True
+				return redirect(url_for('index'))
+		else:
+			return render_template('ethics.html')
+		
 # 
 # 	Map page
 # 
