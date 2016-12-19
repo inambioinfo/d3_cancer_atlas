@@ -10,10 +10,12 @@ var makeTheAddReduceFiveRowsWork = [1, 1, 2, 2, 3, 3];
 
 var dataDumpURL = "/log_submit";
 
+console.log("ResAlloc");
+
 recordEvent("LOAD", true);
 
 function next() {
-		var str = "/map-battle?";
+		var str = "/decision_comfort?";
 		var sum = 0;
 		for (var i = 0; i < investedDoubloons.length; i++){
 			str += ship_names[i] + investedDoubloons[i] + "&";

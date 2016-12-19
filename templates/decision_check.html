@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Cancer Council Queensland - Pirate Game Home</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+	<link href="https://fonts.googleapis.com/css?family=Eczar|Pirata+One" rel="stylesheet">
+<body>
+	<header></header>
+	<article class="welcome">
+		<aside class="captain-welcome">
+			<h2>Ahoy there!</h2>
+			<p>
+				How likely do ye think it be that ye chose well?
+			</p>		
+			<section class="form-container">
+				<form action="/decision_conf_submit" method="post">
+					<p>Are ye: 
+						<select name="conf">
+							<option value="not">Not Confident</option>	
+							<option value="slight">Slightly Confident</option>	
+							<option value="less">Less Than Confident</option>	
+							<option value="avg">Confident</option>	
+							<option value="more">More Than Confident</option>
+							<option value="very">Very Confident</option>	
+							<option value="extreme">Extremely Confident</option>
+						</select>
+					</p>
+
+					<input type="submit" name="Submit" class="submit" value="I be done here!">
+				</form>
+			</section>
+		</aside>
+
+	</article>
+
+</body>
+</html>
