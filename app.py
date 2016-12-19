@@ -208,6 +208,7 @@ def index():
 		session['game_number'] = 0
 		session['game_stage'] = 0
 		session['surveyed'] = False
+		session['decision_conf'] = False
 		dial_log()
 	session['ships'] = build_ships()
 	session['game_mode'] = game_mode()
@@ -235,9 +236,12 @@ def map():
 # 
 @app.route('/risk')
 def risk():
+	#print session['game_stage']
 	if session.has_key('game_stage'):
-		dial_log()
-		session['game_stage'] = 20
+		if session['game_stage'] < 20:
+			dial_log()
+			session['game_stage'] = 20
+		#print session['game_stage']
 		return render_template('risk.html', ships = session['ships'], gameMode = session['game_mode'], ships_data = session['ships_data'], reminder = False)
 	else :
 		return redirect(url_for('index'))
@@ -252,21 +256,21 @@ def risk_reminder():
 	else :
 		return redirect(url_for('index'))
 
-
-# 
-# 	Map battle page
-# 
-@app.route('/map-battle', methods=['GET'])
-def map_battle():
+@app.route('/decision_comfort')
+def decision_comfort():
 	if session.has_key('game_stage'):
 		# check and see if they've spent all their money
 		has_spent_all_money = request.args.get('sum') == '30'
+		#print session['game_stage']
+		#print request.args
 		# print has_spent_all_money
 		if has_spent_all_money:
+			#print "SPENT"
+			#print session['game_stage']
 			#  if we don't do this next bit, they can mash refresh until they win!
-			if (session['game_stage'] < 30):
-				session['game_stage'] = 30
-				
+			if session['game_stage'] < 27:
+				#print "RESULT_TIME"
+				session['game_stage'] = 27
 				session['ships_data']['resources_allocated'] = 1
 				
 				allocation = [request.args.get('ship_1'), request.args.get('ship_2'), request.args.get('ship_3')]
@@ -276,16 +280,34 @@ def map_battle():
 				#Results are submitted away from generations, as the player may quit before getting a result.
 				submit_result_to_db(session['ships'], session['game_number'], request.args.get('time'), session['db_id'])
 				dial_log()
-
-			# print investments
-			return render_template('map.html', ships = session['ships'], ships_data = session['ships_data'])
+			return render_template('decision_check.html',ships = session['ships'], gameMode = session['game_mode'], ships_data = session['ships_data'])
 		else:
 			# print "remember to spend all your money"
 			return redirect(url_for('risk_reminder') + '?time=' + request.args.get('time'))
 	else:
 		return redirect(url_for('index'))
 
-
+@app.route('/decision_conf_submit', methods=['POST'])
+def desc_conf_sub():
+	if session.has_key('game_stage') and session['game_stage'] == 27:
+		session['decision_conf'] = True
+		submit_confidence_to_db(request.form, session['game_number'], session['db_id'])
+		return redirect(url_for('map_battle'))
+	else:
+		return redirect(url_for('risk'))
+# 
+# 	Map battle page
+# 
+@app.route('/map-battle', methods=['GET'])
+def map_battle():
+	if session.has_key('game_stage'):
+		if (session['game_stage'] < 30):
+			session['game_stage'] = 30
+		#print session['ships_data']
+		# print investments
+		return render_template('map.html', ships = session['ships'], ships_data = session['ships_data'])
+	else:
+		return redirect(url_for('index'))
 
 # 
 # 	Play another round
@@ -295,6 +317,7 @@ def try_again():
 	if session.has_key('game_stage') and session['game_stage'] == 30: #Don't let them reset their game too soon...
 		session['game_number'] += 1
 		session['game_stage'] = 0
+		session['decision_conf'] = False
 	return redirect(url_for('index'))
 
 #
@@ -338,6 +361,7 @@ def thank_you():
 		if session.has_key('game_stage') and session['game_stage'] == 30: #Don't let them reset their game too soon...
 			session['game_number'] += 1
 			session['game_stage'] = 0
+			session['decision_conf'] = False
 			dial_log()
 		return render_template('thankyou.html')
 	else:
@@ -386,10 +410,19 @@ def submit_survey_to_db(form, session_key):
 	db_record['age-group'] = form['ageGroup']
 	db_record['location'] = form['location']
 	db_record['occupation'] = form['occupation']
+	db_record['postcode'] = form['postcode']
 	db_record['session'] = session_key
 	#for arg in form:
 		#print arg, ":", form[arg]
 	result = coll_surveys.insert_one(db_record)
+	
+def submit_confidence_to_db(form, game_number, session_key):
+	coll_confs = mongo.db.confs
+	db_record = {}
+	db_record['conf'] = form['conf']
+	db_record['session'] = session_key
+	db_record['game_number'] = game_number
+	result = coll_confs.insert_one(db_record)
 	
 def summarize_ships_generated(ships):	
 	summaries = []
