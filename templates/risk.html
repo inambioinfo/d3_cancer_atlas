@@ -263,7 +263,7 @@
                }
             {% endfor %}
          }
-         else {
+		 else if ({{gameMode}} == 2.0) {
             {% for ship in ships %}            
                if ({{ ship.number + 1}} == d) {
                   // update text
@@ -288,6 +288,33 @@
                   // })
                   // .style("background", function() {
                   //    return backgroundScale({{ ship.min  * 100 }} - invested[d-1]);
+                  // });
+               }
+            {% endfor %}
+         }
+         else {
+            {% for ship in ships %}
+               if ({{ ship.number + 1}} == d) {
+                  // update text
+                  d3.select("article.row-{{ ship.number + 1 }} span.median")
+                     .text(function() {
+                     return Math.max(0, {{ ship.median  * 100 }} - invested[d-1]) + "%";
+                  });
+                  // change colour
+                  // d3.select("article.row-{{ ship.number + 1 }} span.median").style("color", function() {
+                  //    return colorScale(Math.max(0, {{ ship.median  * 100 }} - invested[d-1]));
+                  // })
+                  // .style("background", function() {
+                  //    return backgroundScale(Math.max(0, {{ ship.median  * 100 }} - invested[d-1]));
+                  // });
+
+                  // update text is not necessary
+                  // change colour
+                  // d3.select("article.row-{{ ship.number + 1 }} span.give-take").style("color", function() {
+                  //    return colorScale({{ (ship.plus_minus / 0.5) * 100 }});
+                  // })
+                  // .style("background", function() {
+                  //    return backgroundScale({{ (ship.plus_minus / 0.5) * 100 }});
                   // });
                }
             {% endfor %}

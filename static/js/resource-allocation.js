@@ -10,7 +10,7 @@ var makeTheAddReduceFiveRowsWork = [1, 1, 2, 2, 3, 3];
 
 var dataDumpURL = "/log_submit";
 
-console.log("ResAlloc");
+//console.log("ResAlloc");
 
 recordEvent("LOAD", true);
 
