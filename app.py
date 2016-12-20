@@ -262,7 +262,7 @@ def risk():
 			dial_log()
 			session['game_stage'] = 20
 			print "Submitted game to db."
-			submit_game_to_db(session['ships'], session['game_mode'], session['game_number'], result.get('time'), session['db_id']) #Here, to collect data from abandoned-later games.
+			submit_game_to_db(session['ships'], session['game_mode'], session['game_number'], session['db_id']) #Here, to collect data from abandoned-later games.
 		#print session['game_stage']
 		return render_template('risk.html', ships = session['ships'], gameMode = session['game_mode'], ships_data = session['ships_data'], reminder = False)
 	else :
@@ -353,7 +353,7 @@ def recieve_event_data():
 			result = request.get_json()
 			#print "Result: ", result
 			submit_event_to_db(result.get("event"), result.get("success"), result.get("time"), session['db_id'])
-			print "Logged event", result.get("event"), "; Game stage", session['game_stage']
+			#print "Logged event", result.get("event"), "; Game stage", session['game_stage']
 		#else:
 			#print "Someone hit BACK, this data is irrelevant..."
 	return "" #This should never be navigated to.
@@ -401,7 +401,7 @@ def submit_event_to_db(type, success, time, session_key):
 			"timestamp":str(time), 
 			"session":session_key})
 	
-def submit_game_to_db(ships, game_mode, game_number, time, session_key):
+def submit_game_to_db(ships, game_mode, game_number, session_key):
 	#print "GAME"
 	coll_games = mongo.db.games
 	result = coll_games.insert_one(
