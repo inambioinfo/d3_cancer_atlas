@@ -3,8 +3,14 @@ from flask import Flask, render_template, request, session, redirect, url_for
 from flask_pymongo import PyMongo
 
 app = Flask(__name__)
-app.config['MONGO_DBNAME'] = 'dev_db'
-app.config['MONGO_URI'] = 'mongodb://localhost:27017/dev_db'
+
+database_file = open('db.txt', 'U')
+dbname = database_file.readline().strip()
+user = database_file.readline().strip()
+password = database_file.readline().strip()
+database_file.close()
+app.config['MONGO_DBNAME'] = dbname
+app.config['MONGO_URI'] = 'mongodb://' + user + ':' + password + '@ds139198.mlab.com:39198/' + dbname
 mongo = PyMongo(app)
 
 import json
@@ -255,6 +261,8 @@ def risk():
 		if session['game_stage'] < 20:
 			dial_log()
 			session['game_stage'] = 20
+			print "Submitted game to db."
+			submit_game_to_db(session['ships'], session['game_mode'], session['game_number'], result.get('time'), session['db_id']) #Here, to collect data from abandoned-later games.
 		#print session['game_stage']
 		return render_template('risk.html', ships = session['ships'], gameMode = session['game_mode'], ships_data = session['ships_data'], reminder = False)
 	else :
@@ -282,9 +290,9 @@ def decision_comfort():
 			#print "SPENT"
 			#print session['game_stage']
 			#  if we don't do this next bit, they can mash refresh until they win!
-			if session['game_stage'] < 27:
+			if session['game_stage'] < 25:
 				#print "RESULT_TIME"
-				session['game_stage'] = 27
+				session['game_stage'] = 25
 				session['ships_data']['resources_allocated'] = 1
 				
 				allocation = [request.args.get('ship_1'), request.args.get('ship_2'), request.args.get('ship_3')]
@@ -303,7 +311,7 @@ def decision_comfort():
 
 @app.route('/decision_conf_submit', methods=['POST'])
 def desc_conf_sub():
-	if session.has_key('game_stage') and session['game_stage'] == 27:
+	if session.has_key('game_stage') and session['game_stage'] == 25:
 		session['decision_conf'] = True
 		submit_confidence_to_db(request.form, session['game_number'], session['db_id'])
 		return redirect(url_for('map_battle'))
@@ -345,9 +353,7 @@ def recieve_event_data():
 			result = request.get_json()
 			#print "Result: ", result
 			submit_event_to_db(result.get("event"), result.get("success"), result.get("time"), session['db_id'])
-			if session['game_stage'] < 25: #In case of BACK/FORWARD, ensure that this only executes once...
-				session['game_stage'] = 25 #Partway through this stage...
-				submit_game_to_db(session['ships'], session['game_mode'], session['game_number'], result.get('time'), session['db_id']) #Here, to collect data from abandoned-later games.
+			print "Logged event", result.get("event"), "; Game stage", session['game_stage']
 		#else:
 			#print "Someone hit BACK, this data is irrelevant..."
 	return "" #This should never be navigated to.
