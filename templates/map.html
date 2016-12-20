@@ -215,10 +215,10 @@
 			</aside>
 		</article>
 		<footer class="next-state-footer" id="battle-footer">
-			<a href="/try_again" class="next-state-button">Try again?</a>
 			{% if not session['surveyed'] %}
 			<a href="/survey" class="survey-button">{% if session['game_number'] < 1 %}Would ye like ta take our survey?{% else %}Take ye the survey now?{% endif %}</a>
 			{% endif %}
+			<a href="/try_again" class="next-state-button">Try again?</a>
 		</footer>
 		
 	{% endif %}
