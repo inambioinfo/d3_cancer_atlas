@@ -5,12 +5,13 @@ from flask_pymongo import PyMongo
 app = Flask(__name__)
 
 database_file = open('db.txt', 'U')
+db_host = database_file.readline().strip() #URL and port
 dbname = database_file.readline().strip()
 user = database_file.readline().strip()
 password = database_file.readline().strip()
 database_file.close()
 app.config['MONGO_DBNAME'] = dbname
-app.config['MONGO_URI'] = 'mongodb://' + user + ':' + password + '@ds139198.mlab.com:39198/' + dbname
+app.config['MONGO_URI'] = 'mongodb://' + user + ':' + password + '@' + db_host + '/' + dbname
 mongo = PyMongo(app)
 
 import json
