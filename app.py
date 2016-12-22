@@ -31,9 +31,6 @@ for extra_dir in extra_dirs:
 #app.run(extra_files=extra_files)
 #End copy-----------------------------------------------
 
-#import for database
-#from db_interface import submit_event_to_db, submit_game_to_db, submit_result_to_db, submit_survey_to_db
-
 #  import for generating session key
 from os import urandom
 app.secret_key = urandom(24)

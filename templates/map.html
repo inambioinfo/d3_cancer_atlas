@@ -183,7 +183,7 @@
 					<p>We made a profit of <span class="victory-value-span">{{ (ships_data.total_reward - 30)|int }}</span> Doubloons</p>
 					{% if session['dial_log'] <= 0.33 %}
 					<p>Seems like you've made the right choices.</p>
-					<p>I've bought you a bottle of rum with yer share... now where did I put it?</p>
+					<p>I've bought ye a bottle of rum with yer share... now where did I put it?</p>
 					{% elif session['dial_log'] <= 0.66 %}
 					<p>A fine return fer a good day's piratin', matey.</p>
 					<p>A shark ate the chest with yer share, but there be rum tonight!</p>
@@ -195,7 +195,7 @@
 				<img src="{{ url_for('static', filename='images/artwork/captain-happy-small.png') }}" alt="Captain congratulating you">
 				<section class="captain-dialogue">
 					<h4>Ahoy, quartermaster!</h4>
-					<p>We broke even on that, which is better that I can say of our last quartermaster.</p>
+					<p>We broke even on that, which is better than I can say of our last quartermaster.</p>
 					<p>However, the rum's gone, and ye'll have an equal share in that too.</p>
 					<p>Let's see if we can do any better, aye?</p>
 				{% else %}
