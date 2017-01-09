@@ -1112,6 +1112,8 @@ input.submit {
 	margin-top: 1em;
 	background-color: white;
 	border: #00447e 1px solid;
+	color: white;
+	background-color: #00447e;
 }
 input.submit:hover {
 	background-color: #4D90D7;
@@ -1121,4 +1123,11 @@ input.submit:hover {
 
 img.thankyou-captain{
 	float: left;
+}
+
+div.PlainBox {
+	background-color: white;
+	border: #00447e 3px solid;
+	border-top: none;
+	border-bottom: none;
 }
