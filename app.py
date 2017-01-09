@@ -429,10 +429,10 @@ def submit_survey_to_db(form, session_key):
 	db_record['location'] = form['location']
 	db_record['postcode'] = form['postcode']
 	db_record['education'] = form['education']
-	db_record['training-math-stats'] = form['training']
 	db_record['not-first-survey'] = (True if form.get('not-first-survey') else False)
 	db_record['is-a-student'] = (True if form.get('is-a-student') else False)
 	db_record['language-background'] = (True if form.get('language-background') else False)
+	db_record['stats-training'] = (True if form.get('stats-training') else False)
 	#for arg in form:
 		#print arg, ":", form[arg]
 	result = coll_surveys.insert_one(db_record)
