@@ -12,7 +12,10 @@ password = database_file.readline().strip()
 database_file.close()
 app.config['MONGO_DBNAME'] = dbname
 app.config['MONGO_URI'] = 'mongodb://' + user + ':' + password + '@' + db_host + '/' + dbname
-mongo = PyMongo(app)
+app.config['MONGO_CONNECT'] = False
+
+mongo = PyMongo()
+mongo.init_app(app)
 
 import json
 
