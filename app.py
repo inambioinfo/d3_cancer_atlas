@@ -15,7 +15,8 @@ app.config['MONGO_URI'] = 'mongodb://' + user + ':' + password + '@' + db_host +
 app.config['MONGO_CONNECT'] = False
 
 mongo = PyMongo()
-mongo.init_app(app)
+with app.app_context():
+	mongo.init_app(app)
 
 import json
 
@@ -46,6 +47,8 @@ from math import floor
 
 #Session ID based on timing
 import time
+
+#Look into how to prevent caching of game pages - we're using GET for most of this, it would look OK to cache to the client end.
 
 # 
 # 
@@ -343,6 +346,24 @@ def try_again():
 		session['decision_conf'] = False
 	return redirect(url_for('index'))
 
+	
+#Most people won't be BACK/FORWARD -ing past this, shouldn't be an issue.
+@app.route('/trained')
+def route_trained():
+	if session.has_key('ethics_accept') and session['ethics_accept'] == True and session.has_key('db_id'):
+		submit_training_to_db(True, session['db_id'])
+		return redirect(url_for('map'))
+	else:
+		return redirect(url_for('index'))
+		
+@app.route('/untrained')
+def route_untrained():
+	if session.has_key('ethics_accept') and session['ethics_accept'] == True and session.has_key('db_id'):
+		submit_training_to_db(False, session['db_id'])
+		return redirect(url_for('map'))
+	else:
+		return redirect(url_for('index'))
+	
 #
 #	Recieve data
 #
@@ -409,6 +430,13 @@ def submit_game_to_db(ships, game_mode, game_number, session_key):
 			{'ships':summarize_ships_generated(ships),
 			'game_mode':game_mode,
 			'game_number':game_number,
+			'session':session_key})
+			
+def submit_training_to_db(trained, session_key):
+	#print "TRAIN"
+	coll_train = mongo.db.training
+	result = coll_train.insert_one(
+			{'trained':trained,
 			'session':session_key})
 
 def submit_result_to_db(ships, game_number, time, session_key):
