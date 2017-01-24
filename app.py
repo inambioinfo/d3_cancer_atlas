@@ -350,16 +350,18 @@ def try_again():
 #Most people won't be BACK/FORWARD -ing past this, shouldn't be an issue.
 @app.route('/trained')
 def route_trained():
-	if session.has_key('ethics_accept') and session['ethics_accept'] == True and session.has_key('db_id'):
-		submit_training_to_db(True, session['db_id'])
+	if session.has_key('ethics_accept') and session['ethics_accept'] == True and session.has_key('training_query'):
+		if session['training_query'] == False:
+			submit_training_to_db(True, session['db_id'])
 		return redirect(url_for('map'))
 	else:
 		return redirect(url_for('index'))
 		
 @app.route('/untrained')
 def route_untrained():
-	if session.has_key('ethics_accept') and session['ethics_accept'] == True and session.has_key('db_id'):
-		submit_training_to_db(False, session['db_id'])
+	if session.has_key('ethics_accept') and session['ethics_accept'] == True and session.has_key('training_query'):
+		if session['training_query'] == False:
+			submit_training_to_db(True, session['db_id'])
 		return redirect(url_for('map'))
 	else:
 		return redirect(url_for('index'))
