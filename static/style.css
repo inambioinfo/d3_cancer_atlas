@@ -50,6 +50,13 @@ a.next-state-button {
 	background-color: #00447e;
 }
 
+a.next-state-button-choice {
+	color: white;
+	display: inline;
+	width: 50%;
+	background-color: #00447e;
+}
+
 
 footer.next-state-footer {
 	width: 50%;

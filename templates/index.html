@@ -40,6 +40,15 @@
 	{% endif %}
 		<aside id="captain-welcome-img"></aside>
 	</article>
-	<footer class="next-state-footer" id="welcome-footer"><a href="/map" class="next-state-button">Check out the map</footer>
+	<footer class="next-state-footer" id="welcome-footer">
+	{% if session['training_query'] %}
+		<a href="/map" class="next-state-button">Check out the map</a>
+	{% else %}
+		<div width="100%">
+			<div width="20%" padding="2px" display="inline" border="#FFFFFF 2px solid"><a href="/untrained" class="next-state-button-choice">I am ready!</a></div>
+			<div width="20%" padding="2px" display="inline" border="#FFFFFF 2px solid"><a href="/trained" class="next-state-button-choice">I have statistical training.</a></div>
+		</div>
+	{% endif %}
+	</footer>
 </body>
 </html>

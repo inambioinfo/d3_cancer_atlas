@@ -220,6 +220,7 @@ def index():
 			session['game_stage'] = 0
 			session['surveyed'] = False
 			session['decision_conf'] = False
+			session['training_query'] = False
 			dial_log()
 		session['ships'] = build_ships()
 		session['game_mode'] = game_mode()
