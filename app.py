@@ -518,13 +518,13 @@ def teardown_db(exception):
 		
 		
 		
+import os
 if __name__ == '__main__':
 	#print(extra_files)
-	app.run(extra_files=extra_files)
+	app.run(extra_files=extra_files, host="0.0.0.0", port=int(os.environ.get('PORT',80)))
 
 
 
-# import os
 # from project import main
 
 # if __name__ == '__main__':
