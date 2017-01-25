@@ -354,6 +354,7 @@ def route_trained():
 	if session.has_key('ethics_accept') and session['ethics_accept'] == True and session.has_key('training_query'):
 		if session['training_query'] == False:
 			submit_training_to_db(True, session['db_id'])
+			session['training_query'] = True
 		return redirect(url_for('map'))
 	else:
 		return redirect(url_for('index'))
@@ -363,6 +364,7 @@ def route_untrained():
 	if session.has_key('ethics_accept') and session['ethics_accept'] == True and session.has_key('training_query'):
 		if session['training_query'] == False:
 			submit_training_to_db(True, session['db_id'])
+			session['training_query'] = True
 		return redirect(url_for('map'))
 	else:
 		return redirect(url_for('index'))
@@ -466,7 +468,7 @@ def submit_survey_to_db(form, session_key):
 	db_record['not-first-survey'] = (True if form.get('not-first-survey') else False)
 	db_record['is-a-student'] = (True if form.get('is-a-student') else False)
 	db_record['language-background'] = (True if form.get('language-background') else False)
-	db_record['stats-training'] = (True if form.get('stats-training') else False)
+	#db_record['stats-training'] = (True if form.get('stats-training') else False)
 	#for arg in form:
 		#print arg, ":", form[arg]
 	result = coll_surveys.insert_one(db_record)
