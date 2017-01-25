@@ -363,7 +363,7 @@ def route_trained():
 def route_untrained():
 	if session.has_key('ethics_accept') and session['ethics_accept'] == True and session.has_key('training_query'):
 		if session['training_query'] == False:
-			submit_training_to_db(True, session['db_id'])
+			submit_training_to_db(False, session['db_id'])
 			session['training_query'] = True
 		return redirect(url_for('map'))
 	else:
