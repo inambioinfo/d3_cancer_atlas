@@ -41,7 +41,7 @@
 		<aside id="captain-welcome-img"></aside>
 	</article>
 	<footer class="next-state-footer" id="welcome-footer">
-	{% if session['training_query'] %}
+	{% if session['training_query'] == True %}
 		<a href="/map" class="next-state-button">Check out the map</a>
 	{% else %}
 		<div width="100%">
