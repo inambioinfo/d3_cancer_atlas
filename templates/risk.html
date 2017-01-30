@@ -9,6 +9,7 @@
 </head>
 <body>
    <header></header>
+   <p>The time has come to spend the dubloons. We'll be more likely to suceed when we attack a ship ye've spent on, and more is better.</p>
    <article id="resource-container">
       {% for ship in ships %}
       <article class="flag row-{{ ship.number + 1 }} {{ ship.nationality }}">
@@ -72,13 +73,13 @@
 
       <article class="allocation row-4">
       {% if reminder %}
-         <section class="allocation-info reminder">
+         <section id="remaining" class="allocation-info reminder">
             <p>
                You have <span id="allocation-info-span">30</span> Doubloons remaining!
             </p>
          </section>
       {% else %}
-         <section class="allocation-info no-reminder">
+         <section id="remaining" class="allocation-info no-reminder">
             <p>
                You have <span id="allocation-info-span">30</span> Doubloons remaining.
             </p>

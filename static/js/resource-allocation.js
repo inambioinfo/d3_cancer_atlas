@@ -10,6 +10,8 @@ var makeTheAddReduceFiveRowsWork = [1, 1, 2, 2, 3, 3];
 
 var dataDumpURL = "/log_submit";
 
+var reminderArea = document.getElementById('remaining');
+
 //console.log("ResAlloc");
 
 recordEvent("LOAD", true);
@@ -24,8 +26,14 @@ function next() {
 		str += "sum=" + sum;
 		str += "&time=" + Date.now();
 		
-		document.location.assign(str);//Hopefully this will work...
-		return false;
+		if (sum < 30) {
+			recordEvent("REMINDER", true);
+			reminderArea.className = "allocation-info reminder"; //Turns Red.
+		}
+		else {
+			document.location.assign(str);//Hopefully this will work...
+		}
+		return undefined;
 	}
 	
 function recordEvent(event, success) {
