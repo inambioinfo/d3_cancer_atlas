@@ -15,7 +15,8 @@ app.config['MONGO_URI'] = 'mongodb://' + user + ':' + password + '@' + db_host +
 app.config['MONGO_CONNECT'] = False
 
 mongo = PyMongo()
-mongo.init_app(app)
+with app.app_context():
+	mongo.init_app(app)
 
 import json
 
@@ -46,6 +47,8 @@ from math import floor
 
 #Session ID based on timing
 import time
+
+#Look into how to prevent caching of game pages - we're using GET for most of this, it would look OK to cache to the client end.
 
 # 
 # 
