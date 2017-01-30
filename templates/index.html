@@ -8,38 +8,54 @@
 <body>
 	<header></header>
 	<article class="welcome">
-	{% if session['game_number'] == 0 %}
-		<h1>Welcome, shipmate!</h1>
-		<aside class="captain-welcome">
-			<p>
-				I'm Captain MathBeard. I've got some good news for you, especially since my last quartermaster decided to run off with a mermaid. 
-			</p>
-			<h3>
-				Congratulations on your promotion to quartermaster! 
-			</h3>
-			<p>
-				I have some news from our spies. Cast your good eye over this here map...
-			</p>		
-		</aside>
+	{% if session['surveyed'] == True %}
+		{% if session['game_number'] == 0 %}
+			<h1>Welcome, shipmate!</h1>
+			<aside class="captain-welcome">
+				<p>
+					I'm Captain MathBeard. I've got some good news for you, especially since my last quartermaster decided to run off with a mermaid. 
+				</p>
+				<h3>
+					Congratulations on your promotion to quartermaster! 
+				</h3>
+				<p>
+					I have some news from our spies. Cast your good eye over this here map...
+				</p>		
+			</aside>
+		{% else %}
+			<h1>Aye, quatermaster!</h1>
+			<aside class="captain-welcome">
+				{% if session['dial_log'] < 0.5 %}
+				<p>
+					Ye' be ready for another challenge?
+				</p>
+				<p>
+					The scouts are back from Ye Olde Mappe Shoppe. Here's what's about...
+				</p>	
+				{% else %}
+				<p>
+					We be piratin' again. Ye ready to make our plan?
+				</p>
+				{% endif %}
+			</aside>
+		{% endif %}
 	{% else %}
-		<h1>Aye, quatermaster!</h1>
+		<h1>Hello, landlubber!<h1>
 		<aside class="captain-welcome">
-			{% if session['dial_log'] < 0.5 %}
 			<p>
-				Ye' be ready for another challenge?
+				A small matter, before ye join the crew...
 			</p>
 			<p>
-				The scouts are back from Ye Olde Mappe Shoppe. Here's what's about...
-			</p>	
-			{% else %}
-			<p>
-				We be piratin' again. Ye ready to make our plan?
+				Fer tax reasons, we need ye to fill out this form.
 			</p>
-			{% endif %}
 		</aside>
 	{% endif %}
 		<aside id="captain-welcome-img"></aside>
 	</article>
-	<footer class="next-state-footer" id="welcome-footer"><a href="/map" class="next-state-button">Check out the map</footer>
+	{% if session['surveyed'] == True %}
+		<footer class="next-state-footer" id="welcome-footer"><a href="/map" class="next-state-button">Check out the map</footer>
+	{% else %}
+		<footer class="next-state-footer" id="welcome-footer"><a href="/survey" class="next-state-button">Do the paperwork</footer>
+	{% endif %}
 </body>
 </html>

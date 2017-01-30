@@ -211,7 +211,9 @@ def dial_log():
 @app.route('/')
 def index():
 	if session.has_key('ethics_accept') and session['ethics_accept'] == True:
+		#print "ETHICS TRUE"
 		if not session.has_key('db_id'):
+			#print "KEY FALSE"
 			session['db_id'] = str(int(time.time() * 1000)) + str(r.randint(100,999)) #Let us hope that we don't need more than a few sessions per second... ...or that we operate in an environment where time.time has millisecond resolution. Just in case, add a 3-digit random number to the end.
 			session['game_number'] = 0
 			session['game_stage'] = 0
@@ -262,7 +264,7 @@ def risk():
 		if session['game_stage'] < 20:
 			dial_log()
 			session['game_stage'] = 20
-			print "Submitted game to db."
+			#print "Submitted game to db."
 			submit_game_to_db(session['ships'], session['game_mode'], session['game_number'], session['db_id']) #Here, to collect data from abandoned-later games.
 		#print session['game_stage']
 		return render_template('risk.html', ships = session['ships'], gameMode = session['game_mode'], ships_data = session['ships_data'], reminder = False)
@@ -312,6 +314,7 @@ def decision_comfort():
 
 @app.route('/decision_conf_submit', methods=['POST'])
 def desc_conf_sub():
+	#print "DESC CONF", session['game_stage']
 	if session.has_key('game_stage') and session['game_stage'] == 25:
 		session['decision_conf'] = True
 		submit_confidence_to_db(request.form, session['game_number'], session['db_id'])
@@ -361,7 +364,7 @@ def recieve_event_data():
 
 @app.route('/survey')
 def survey():
-	if session.has_key('game_stage') and session['game_stage'] >= 30 and not session['surveyed']:
+	if session.has_key('ethics_accept') and session['ethics_accept'] == True and not session['surveyed']:
 		return render_template('survey.html')
 	else:
 		return redirect(url_for('index'))
@@ -369,7 +372,7 @@ def survey():
 
 @app.route('/submit_survey', methods=['POST'])
 def submit_survey():
-	if session.has_key('game_stage') and session['game_stage'] >= 30 and not session['surveyed']:
+	if session.has_key('ethics_accept') and session['ethics_accept'] == True and not session['surveyed']:
 		session['surveyed'] = True
 		submit_survey_to_db(request.form, session['db_id'])
 		return redirect(url_for('thank_you'))
@@ -379,11 +382,9 @@ def submit_survey():
 @app.route('/thank_you' )
 def thank_you():
 	if session.has_key('surveyed') and session['surveyed']:
-		if session.has_key('game_stage') and session['game_stage'] == 30: #Don't let them reset their game too soon...
-			session['game_number'] += 1
-			session['game_stage'] = 0
-			session['decision_conf'] = False
-			dial_log()
+		session['game_stage'] = 0
+		session['decision_conf'] = False
+		dial_log()
 		return render_template('thankyou.html')
 	else:
 		return redirect(url_for('index'))
