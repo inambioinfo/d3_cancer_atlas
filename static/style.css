@@ -202,9 +202,27 @@ article.map-container li {
 	z-index: 2
 }
 
-article.map-container li.ship-icon {
+article.map-container li.ship-icon.Sloop {
 	width: 120px;
 	height: 75px;
+	margin-top: -20px;
+}
+
+article.map-container li.ship-icon.Cutter {
+	width: 152px;
+	height: 95px;
+	margin-top: -20px;
+}
+
+article.map-container li.ship-icon.Schooner {
+	width: 184px;
+	height: 115px;
+	margin-top: -20px;
+}
+
+article.map-container li.ship-icon.Frigate {
+	width: 216px;
+	height: 135px;
 	margin-top: -20px;
 }
 
