@@ -60,7 +60,16 @@ def build_ships():
 	
 	ships = []
 
-
+	#ship_masses = []
+	
+	#for i in range(3):
+	#	ship_masses.append(round(r.random(),2))
+	#ship_masses.sort()
+	
+	#mid_mass = round(r.random(),2)
+	#top_mass = round(r.random() * (1 - mid_mass),2) + mid_mass
+	#lower_mass = round(r.random() * mid_mass,2)
+	
 	for j in range(3):
 
 		# Somewhere to store the random numbers
@@ -433,13 +442,8 @@ def submit_survey_to_db(form, session_key):
 	db_record['sex'] = form['sex']
 	db_record['occupation'] = form['occupation']
 	db_record['responsibility'] = form['responsibility']
-	db_record['location'] = form['location']
-	db_record['postcode'] = form['postcode']
 	db_record['education'] = form['education']
-	db_record['not-first-survey'] = (True if form.get('not-first-survey') else False)
-	db_record['is-a-student'] = (True if form.get('is-a-student') else False)
-	db_record['language-background'] = (True if form.get('language-background') else False)
-	db_record['stats-training'] = (True if form.get('stats-training') else False)
+	db_record['in-aus'] = (True if form.get('in-aus') else False)
 	#for arg in form:
 		#print arg, ":", form[arg]
 	result = coll_surveys.insert_one(db_record)
