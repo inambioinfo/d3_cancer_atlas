@@ -9,7 +9,7 @@
 </head>
 <body>
    <header></header>
-   <p>The time has come to spend the dubloons. We'll be more likely to suceed when we attack a ship ye've spent on, and more is better.</p>
+   <p>The time has come to spend the doubloons. We'll be more likely to suceed when we attack a ship ye've spent on, and more is better.</p>
    <article id="resource-container">
       {% for ship in ships %}
       <article class="flag row-{{ ship.number + 1 }} {{ ship.nationality }}">
@@ -93,28 +93,28 @@
 
             {% if gameMode == 0.0 %}
                <p>
-                  <b>Risk</b>: Between <span class="lower-risk-span">{{ (ship.min * 100)|int }}% </span> and <span class="upper-risk-span">{{ (ship.max * 100)|int }}%</span>.
+                  <b>Risk of Defeat</b>: Between <span class="lower-risk-span">{{ (ship.min * 100)|int }}% </span> and <span class="upper-risk-span">{{ (ship.max * 100)|int }}%</span>.
                </p>
                <p>
                   <b>Reward</b>: {{ ship.reward }} doubloons.
                </p>
                 {% elif gameMode == 1.0 %}
                <p>
-                  <b>Risk</b>: <span class="median">{{ (ship.median * 100)|int }}%</span>, give or take <span class="give-take">{{ (ship.plus_minus * 100)|int }}%.
+                  <b>Risk of Defeat</b>: <span class="median">{{ (ship.median * 100)|int }}%</span>, give or take <span class="give-take">{{ (ship.plus_minus * 100)|int }}%.
                </p>
                <p>
                   <b>Reward</b>: {{ship.reward}} doubloons.
                </p>
                {% elif gameMode == 2.0 %}
                <p>
-                  <b>Risk</b>: from <span class="semantic-risk-lower">{{ship.lower_semantic_risk}}</span> to <span class="semantic-risk-upper">{{ship.upper_semantic_risk}}</span>.
+                  <b>Risk of Defeat</b>: from <span class="semantic-risk-lower">{{ship.lower_semantic_risk}}</span> to <span class="semantic-risk-upper">{{ship.upper_semantic_risk}}</span>.
                </p>
                <p>
                   <b>Reward</b>: {{ship.reward}} doubloons.
                </p>
                {% else %}
                <p>
-                  <b>Risk is about</b>: <span class="median">{{ (ship.median * 100)|int }}%</span>
+                  <b>Risk of Defeat is about</b>: <span class="median">{{ (ship.median * 100)|int }}%</span>
                </p>
                <p>
                   <b>Reward</b>: {{ship.reward}} doubloons.

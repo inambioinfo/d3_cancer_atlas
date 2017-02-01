@@ -60,15 +60,33 @@ def build_ships():
 	
 	ships = []
 
+	#Central clustering uniform
 	#ship_masses = []
-	
 	#for i in range(3):
 	#	ship_masses.append(round(r.random(),2))
-	#ship_masses.sort()
+	#r.shuffle(ship_masses)
 	
+	#Outward-tending spaced dist.
+	#ship_masses = []
 	#mid_mass = round(r.random(),2)
-	#top_mass = round(r.random() * (1 - mid_mass),2) + mid_mass
-	#lower_mass = round(r.random() * mid_mass,2)
+	#ship_masses.append(round(r.random() * (1 - mid_mass),2) + mid_mass)
+	#ship_masses.append(round(r.random() * mid_mass,2))
+	#ship_masses.append(mid_mass)
+	#r.shuffle(ship_masses)
+	
+	#Common to both options
+	#loot = 10 + 30 * max(0,min(1,r.gauss(ship_mass, 0.1)))
+	#targets = []
+	#for i in range(3):
+	#	targets.append(max(0,min(1,r.gauss(ship_mass, 0.1))))
+	#targets.sort()
+	#min_risk = targets[0]
+	#target = targets[1]
+	#max_risk = targets[2]
+	
+	SMALL_CI = 0.1
+	MED_CI = 0.3
+	LG_CI = 0.6
 	
 	for j in range(3):
 
@@ -78,26 +96,48 @@ def build_ships():
 		# Somewhere to store the ship information
 		ship = {}
 		ship['number'] = j
-		# get random numbers for the max/min values of uncertainty
-		for i in range(2):
-			rands.append(round(r.random(),2))
-			#The range could stand to be a bit narrower.
+		# # get random numbers for the max/min values of uncertainty
+		# for i in range(2):
+			# rands.append(round(r.random(),2))
+			# #The range could stand to be a bit narrower.
 
-		rands.sort()
+		# rands.sort()
 	
-		# push min/max values of risk to the ship
-		ship['min'] = rands[0]
-		ship['max'] = rands[1]
+		# # push min/max values of risk to the ship
+		# ship['min'] = rands[0]
+		# ship['max'] = rands[1]
 
-		# push margin of error and median of min/max risk values to the ship
+		# # push margin of error and median of min/max risk values to the ship
+		# ship['plus_minus'] = round((ship['max'] - ship['min'])/2,2)
+		# ship['median'] = round(ship['min'] + ship['plus_minus'], 2)
+
+		# ship['target'] = r.gauss(ship['median'], ship['plus_minus']/2)
+		# if ship['target'] > ship['max']:
+			# ship['target'] = ship['max']
+		# elif ship['target'] < ship['min']:
+			# ship['target'] = ship['min']
+		
+		target = round(r.random(),2)
+		ship['target'] = target
+		
+		range_size = r.choice([SMALL_CI,MED_CI,LG_CI])
+		
+		shift = r.random()
+		
+		range_min = target - range_size * shift
+		range_max = target + range_size * (1 - shift)
+		if range_min < 0:
+			range_max = range_max - range_min
+			range_min = 0
+		if range_max > 1:
+			range_min = range_min - (range_max - 1)
+			range_max = 1
+		
+		ship['min'] = range_min
+		ship['max'] = range_max
+		
 		ship['plus_minus'] = round((ship['max'] - ship['min'])/2,2)
 		ship['median'] = round(ship['min'] + ship['plus_minus'], 2)
-
-		ship['target'] = r.gauss(ship['median'], ship['plus_minus']/2)
-		if ship['target'] > ship['max']:
-			ship['target'] = ship['max']
-		elif ship['target'] < ship['min']:
-			ship['target'] = ship['min']
 
 		# determine the type of ship based on the median value
 		if ship['median'] <= 0.25:
@@ -300,7 +340,7 @@ def decision_comfort():
 		has_spent_all_money = request.args.get('sum') == '30'
 		#print session['game_stage']
 		#print request.args
-		# print has_spent_all_money
+		#print has_spent_all_money
 		if has_spent_all_money:
 			#print "SPENT"
 			#print session['game_stage']
@@ -319,7 +359,7 @@ def decision_comfort():
 				dial_log()
 			return render_template('decision_check.html',ships = session['ships'], gameMode = session['game_mode'], ships_data = session['ships_data'])
 		else:
-			# print "remember to spend all your money"
+			#print "remember to spend all your money"
 			return redirect(url_for('risk_reminder') + '?time=' + request.args.get('time'))
 	else:
 		return redirect(url_for('index'))
@@ -342,7 +382,7 @@ def map_battle():
 		if (session['game_stage'] < 30):
 			session['game_stage'] = 30
 		#print session['ships_data']
-		# print investments
+		#print investments
 		return render_template('map.html', ships = session['ships'], ships_data = session['ships_data'])
 	else:
 		return redirect(url_for('index'))
@@ -384,12 +424,14 @@ def survey():
 
 @app.route('/submit_survey', methods=['POST'])
 def submit_survey():
-	if session.has_key('ethics_accept') and session['ethics_accept'] == True and not session['surveyed']:
+	if session.has_key('ethics_accept') and session['ethics_accept'] == True and (not session['surveyed']):
+		#print "\nA\n"
 		session['surveyed'] = True
 		submit_survey_to_db(request.form, session['db_id'])
 		return redirect(url_for('thank_you'))
 	else:
 		return redirect(url_for('index'))
+		#print "B\n"
 
 @app.route('/thank_you' )
 def thank_you():
@@ -415,6 +457,8 @@ def submit_event_to_db(type, success, time, session_key):
 			"timestamp":str(time), 
 			"session":session_key})
 	
+#Merge with survey submission? There will now be a 1:1 correspondence. May require some shifting, but if we can drop the number of log events...
+#Also, instead of logging events individually, could we pile them up and submit in bulk? We may be throwing out incomplete games in any case.
 def submit_game_to_db(ships, game_mode, game_number, session_key):
 	#print "GAME"
 	coll_games = mongo.db.games
@@ -440,10 +484,10 @@ def submit_survey_to_db(form, session_key):
 	db_record['session'] = session_key
 	db_record['age-group'] = form['ageGroup']
 	db_record['sex'] = form['sex']
-	db_record['occupation'] = form['occupation']
 	db_record['responsibility'] = form['responsibility']
 	db_record['education'] = form['education']
 	db_record['in-aus'] = (True if form.get('in-aus') else False)
+	db_record['stats-training'] = (True if form.get('in-aus') else False)
 	#for arg in form:
 		#print arg, ":", form[arg]
 	result = coll_surveys.insert_one(db_record)
@@ -451,7 +495,7 @@ def submit_survey_to_db(form, session_key):
 def submit_confidence_to_db(form, game_number, session_key):
 	coll_confs = mongo.db.confs
 	db_record = {}
-	db_record['conf'] = form['conf']
+	db_record['conf'] = form['conf'] if form.get('conf') else 'NOCHOICE'
 	db_record['session'] = session_key
 	db_record['game_number'] = game_number
 	result = coll_confs.insert_one(db_record)

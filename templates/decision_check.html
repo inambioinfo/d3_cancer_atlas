@@ -15,12 +15,10 @@
 			</p>		
 			<section class="form-container">
 				<form action="/decision_conf_submit" method="post">
-					<p>Are ye: 
-						<select name="conf">
-							<option value="not">Not Confident</option>
-							<option value="avg">Confident</option>
-							<option value="very">Very Confident</option>
-						</select>
+					<p>Are ye: <br>
+						<input type="radio" name=conf value="not">   Not Confident<br>
+						<input type="radio" name=conf value="avg">   Confident<br>
+						<input type="radio" name=conf value="very">   Very Confident
 					</p>
 
 					<input type="submit" name="Submit" class="submit" value="Continue">

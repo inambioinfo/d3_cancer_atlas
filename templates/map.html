@@ -28,7 +28,7 @@
 						</li>
 					{% elif gameMode == 1.0 %}
 						<li class="map-risk">
-							<b>Risk</b>: {{ (ship.median * 100)|int }}%, give or take {{ (ship.plus_minus * 100)|int }}.<br>
+							<b>Risk</b>: {{ (ship.median * 100)|int }}%, give or take {{ (ship.plus_minus * 100)|int }}%.<br>
 							<b>Reward</b>: {{ship.reward}} doubloons.
 						</li>
 					{% elif gameMode == 2.0 %}
@@ -55,7 +55,7 @@
 					<p>I'll give you 30 doubloons to pay for extra ammunition and supplies. Yer job is to decide which ship gets the extra attention.</p>
 				{% else %}
 					<p>Three more ships be approaching Null Island, and I be thinkin' of light'nin' ther loads, so to speak.</p>
-					<p>Ye've got 30 o' my dubloons to play with, use 'em well.</p>
+					<p>Ye've got 30 o' my doubloons to play with, use 'em well.</p>
 				{% endif %}
 				</section>
 			</aside>
@@ -92,7 +92,7 @@
 					<p>A fine return fer a good day's piratin', matey.</p>
 					<p>A shark ate the chest with yer share, but there be rum tonight!</p>
 					{% else %}
-					<p>Ye invested our dubloons so well, I invested yer share...</p>
+					<p>Ye invested our doubloons so well, I invested yer share...</p>
 					<p>By the way, ye ever heard of Davy Jones Banking?</p>
 					{% endif %}
 				{% elif ships_data.total_reward == 30 %}
