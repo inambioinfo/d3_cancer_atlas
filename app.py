@@ -123,9 +123,11 @@ def build_ships():
 		range_size = r.choice([SMALL_CI,MED_CI,LG_CI])
 		
 		shift = r.random()
+		range_shift = - (range_size * shift)
 		
-		range_min = target - range_size * shift
-		range_max = target + range_size * (1 - shift)
+		range_min = target + range_shift
+		range_max = target + range_size + range_shift
+		
 		if range_min < 0:
 			range_max = range_max - range_min
 			range_min = 0
