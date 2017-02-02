@@ -133,8 +133,8 @@ def build_ships():
 			range_min = range_min - (range_max - 1)
 			range_max = 1
 		
-		ship['min'] = range_min
-		ship['max'] = range_max
+		ship['min'] = round(range_min,2)
+		ship['max'] = round(range_max,2)
 		
 		ship['plus_minus'] = round((ship['max'] - ship['min'])/2,2)
 		ship['median'] = round(ship['min'] + ship['plus_minus'], 2)
