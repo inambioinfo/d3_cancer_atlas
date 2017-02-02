@@ -120,7 +120,7 @@ def build_ships():
 		target = round(r.random(),2)
 		ship['target'] = target
 		
-		range_size = r.choice([SMALL_CI,MED_CI,LG_CI])
+		range_size = r.choice([SMALL_CI,MED_CI,LG_CI]) + r.choice([-0.03,-0.02,-0.02,-0.01,-0.01,-0.01,0,0.01,0.01,0.01,0.02,0.02,0.03])
 		
 		shift = r.random()
 		range_shift = - (range_size * shift)
