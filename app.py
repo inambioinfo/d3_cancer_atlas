@@ -410,11 +410,15 @@ def recieve_event_data():
 			#print request.is_json
 			result = request.get_json()
 			#print "Result: ", result
-			submit_event_to_db(result.get("event"), result.get("success"), result.get("time"), session['db_id'])
+			#for evt in result:
+				#print
+				#print "Event: ", type(evt), evt
+				#print
+			submit_events_to_db(result, session['db_id'])
 			#print "Logged event", result.get("event"), "; Game stage", session['game_stage']
 		#else:
 			#print "Someone hit BACK, this data is irrelevant..."
-	return "" #This should never be navigated to.
+	return "4" #This should never be navigated to.
 
 @app.route('/survey')
 def survey():
@@ -453,11 +457,21 @@ def thank_you():
 def submit_event_to_db(type, success, time, session_key):
 	#print "EVENT:", type, success, str(time), session_key
 	coll_events = mongo.db.events
-	result = coll_events.insert_one(
-			{"event":type, 
+	result = coll_events.insert_one(encode_event(type, success, time, session_key))
+
+def encode_event(type, success, time, session_key):
+	return {"event":type, 
 			"success":success, 
 			"timestamp":str(time), 
-			"session":session_key})
+			"session":session_key}
+
+def submit_events_to_db(events, session_key):
+	encoded = []
+	for evt in events:
+		print evt
+		encoded.append(encode_event(evt['event'], evt['success'], evt['time'], session_key))
+	coll_events = mongo.db.events
+	result = coll_events.insert_many(encoded)
 	
 #Merge with survey submission? There will now be a 1:1 correspondence. May require some shifting, but if we can drop the number of log events...
 #Also, instead of logging events individually, could we pile them up and submit in bulk? We may be throwing out incomplete games in any case.

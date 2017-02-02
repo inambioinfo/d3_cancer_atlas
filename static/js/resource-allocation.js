@@ -12,11 +12,14 @@ var dataDumpURL = "/log_submit";
 
 var reminderArea = document.getElementById('remaining');
 
-//console.log("ResAlloc");
+console.log("ResAlloc");
+
+var events = []
 
 recordEvent("LOAD", true);
 
 function next() {
+		
 		var str = "/decision_comfort?";
 		var sum = 0;
 		for (var i = 0; i < investedDoubloons.length; i++){
@@ -31,7 +34,15 @@ function next() {
 			reminderArea.className = "allocation-info reminder"; //Turns Red.
 		}
 		else {
-			document.location.assign(str);//Hopefully this will work...
+			var req = new XMLHttpRequest();
+			req.open("POST", dataDumpURL, true);
+			req.setRequestHeader("Content-type", "application/json"); //This should be easily parsed.
+			req.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					document.location.assign(str);//Hopefully this will work...
+				}
+			};
+			req.send(JSON.stringify(events));//JSON-friendly
 		}
 		return undefined;
 	}
@@ -39,10 +50,7 @@ function next() {
 function recordEvent(event, success) {
 	obj = {event: event, time: Date.now(), success: success}
 	console.log(JSON.stringify(obj));
-	var req = new XMLHttpRequest();
-	req.open("POST", dataDumpURL, true);
-	req.setRequestHeader("Content-type", "application/json"); //This should be easily parsed.
-	req.send(JSON.stringify(obj));//JSON-friendly
+	events.push(obj);
 }
 
 d3.selectAll(".allocation-feedback").data(investedDoubloons);
