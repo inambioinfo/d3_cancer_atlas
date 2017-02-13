@@ -280,10 +280,13 @@ def index():
 		session['ships_data']['resources_allocated'] = 0
 		session['ships_data']['total_reward'] = 0
 		session['ships_data']['reminder'] = 0
-
 		return render_template('index.html', ships = session['ships'], gameMode = session['game_mode'])
 	else:
-		return redirect(url_for('ethics') + "?accept=0")
+		session['ethics_accept'] = False
+		return render_template('index.html')
+
+	#else:
+	#	return redirect(url_for('ethics') + "?accept=0")
 
 @app.route('/ethics')
 def ethics():
