@@ -13,7 +13,7 @@
 
 		<aside class="map-img"></aside>
 		{% if ships_data.resources_allocated < 1	 %}
-		<!-- If there's no resources allocated, we must be on the first map page -->
+		<!-- If there are no resources allocated, we must be on the first map page -->
 			{% for ship in ships %}
 				<aside class="map-ship ship-position-{{ ship.number }}">
 					<ul>
@@ -23,22 +23,22 @@
 						</li>
 					{% if gameMode == 0.0 %}
 						<li class="map-risk">
-							<b>Risk</b>: Between {{ (ship.min * 100)|int }}% and {{ (ship.max * 100)|int }}%.<br>
+							<b>Risk of my defeat</b>: Between {{ (ship.min * 100)|int }}% and {{ (ship.max * 100)|int }}%.<br>
 							<b>Reward</b>: {{ ship.reward }} doubloons.
 						</li>
 					{% elif gameMode == 1.0 %}
 						<li class="map-risk">
-							<b>Risk</b>: {{ (ship.median * 100)|int }}%, give or take {{ (ship.plus_minus * 100)|int }}%.<br>
+							<b>Risk of my defeat</b>: {{ (ship.median * 100)|int }}%, give or take {{ (ship.plus_minus * 100)|int }}%.<br>
 							<b>Reward</b>: {{ship.reward}} doubloons.
 						</li>
 					{% elif gameMode == 2.0 %}
 						<li class="map-risk">
-						 	<b>Risk</b>: from {{ ship.lower_semantic_risk }} to {{ ship.upper_semantic_risk }}.<br>
+						 	<b>Risk of my defeat</b>: from {{ ship.lower_semantic_risk }} to {{ ship.upper_semantic_risk }}.<br>
 							<b>Reward</b>: {{ship.reward}} doubloons.
 						</li>
 					{% else %}
 						<li class="map-risk">
-							<b>Risk</b>: {{ (ship.median * 100)|int }}%.<br>
+							<b>Risk of my defeat</b>: {{ (ship.median * 100)|int }}%.<br>
 							<b>Reward</b>: {{ship.reward}} doubloons.
 						</li>
 					{% endif %}
@@ -61,7 +61,11 @@
 			</aside>
 		</article>
 		<footer class="next-state-footer">
-			<a href="/risk" class="next-state-button">Aye, Captain!</a>
+			<a href="/risk" class="next-state-button">Aye, Captain!</a><a
+  href="https://cancerqld.org.au/"><span style='text-decoration:none;text-underline:none'><img style="border-style: solid;
+    border-width: 12px; border-color: #FFFFFF; height: 100%;"
+  src="{{ url_for('static', filename='images/ccq/CCQ_RGB.jpg') }}"
+  alt="Cancer Council Queensland, Brisbane Australia"></span></a>
 		</footer>
 
 
@@ -119,7 +123,11 @@
 			</aside>
 		</article>
 		<footer class="next-state-footer" id="battle-footer">
-			<a href="/try_again" class="next-state-button">Try again?</a>
+			<a href="/try_again" class="next-state-button">Try again?</a><a
+  href="https://cancerqld.org.au/"><span style='text-decoration:none;text-underline:none'><img style="border-style: solid;
+    border-width: 12px; border-color: #FFFFFF; height: 100%;"
+  src="{{ url_for('static', filename='images/ccq/CCQ_RGB.jpg') }}"
+  alt="Cancer Council Queensland, Brisbane Australia"></span></a>
 		</footer>
 		
 	{% endif %}
